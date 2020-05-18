@@ -77,6 +77,10 @@ target 'CimeeTest' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+  # 自己加的
+  pod 'RNGestureHandler', :path => "../node_modules/react-native-gesture-handler"
+
+
   target 'CimeeTestTests' do
     inherit! :complete
     # Pods for testing
