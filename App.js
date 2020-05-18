@@ -24,7 +24,62 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
+import {
+  accelerometer,
+  gyroscope,
+  setUpdateIntervalForType,
+  SensorTypes
+} from "react-native-sensors";
+import { map, filter } from "rxjs/operators";
+
+function RNsensortesting() {
+  // setUpdateIntervalForType(SensorTypes.Accelerometer, 400); // defaults to 100ms
+
+  const subscription = accelerometer
+  .pipe(map(({ x, y, z }) => x + y + z), filter(speed => speed > 20))
+  .subscribe(
+    speed => console.log(`You moved your phone with ${speed}`),
+    error => {
+      console.log("The sensor is not available");
+    }
+  );
+
+  setTimeout(() => {
+  // If it's the last subscription to accelerometer it will stop polling in the native API
+  subscription.unsubscribe();
+  }, 1000);
+}
+
+
+
 const App: () => React$Node = () => {
+
+  console.log('I am here!!!');
+
+  var data;
+
+  // const subscription = accelerometer.subscribe(({ x, y, z, timestamp }) =>
+  //   console.log({ x, y, z, timestamp })
+  // );
+
+  const subscription = accelerometer
+  .pipe(map(({ x, y, z }) => x + y + z), filter(speed => speed > 0))
+  .subscribe(
+    speed => console.log(`You moved your phone with ${speed}`),
+    error => {
+      console.log("The sensor is not available");
+    }
+  );
+
+  // console.log(subscription);
+
+  // setTimeout(() => {
+  //   // If it's the last subscription to accelerometer it will stop polling in the native API
+  //   subscription.unsubscribe();
+  //   }, 1000);
+
+
+
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -40,10 +95,11 @@ const App: () => React$Node = () => {
           )}
           <View style={styles.body}>
             <View style={styles.sectionContainer}>
+              <Text>123</Text>
               <Text style={styles.sectionTitle}>Step One</Text>
               <Text style={styles.sectionDescription}>
                 Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
+                screen and then come back to see your edits.!!
               </Text>
             </View>
             <View style={styles.sectionContainer}>

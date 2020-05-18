@@ -79,6 +79,7 @@ target 'CimeeTest' do
 
   # 自己加的
   pod 'RNGestureHandler', :path => "../node_modules/react-native-gesture-handler"
+  pod 'RNSensors', :path => '../node_modules/react-native-sensors'
 
 
   target 'CimeeTestTests' do
