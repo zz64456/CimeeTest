@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as Sensors from "react-native-sensors";
+import Geolocation from '@react-native-community/geolocation'
+
+Geolocation.getCurrentPosition(info => console.log(info));
 
 const Value = ({ name, value }) => (
   <View style={styles.valueContainer}>
@@ -23,7 +26,7 @@ export default function(sensorName, values) {
       this.state = initialValue;
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       const subscription = sensor$.subscribe(values => {
         this.setState({ ...values });
       });

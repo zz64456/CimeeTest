@@ -82,6 +82,8 @@ target 'CimeeTest' do
   pod 'RNSensors', :path => '../node_modules/react-native-sensors'
 
 
+  pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
+
   target 'CimeeTestTests' do
     inherit! :complete
     # Pods for testing
