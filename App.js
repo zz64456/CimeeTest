@@ -69,6 +69,30 @@ const App: () => React$Node = () => {
     setAge('')
   }
 
+  // require the module
+  var RNFS = require('react-native-fs');
+
+  // create a path you want to write to
+  // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
+  // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
+  var path = RNFS.DocumentDirectoryPath + '/test.txt';
+
+  console.log('主要bundle目錄-'+RNFS.MainBundlePath);//安卓undefined或報錯
+  console.log('快取目錄-'+RNFS.CachesDirectoryPath);
+  console.log('文件目錄-'+RNFS.DocumentDirectoryPath);
+  console.log('臨時目錄ios-'+RNFS.TemporaryDirectoryPath);//null
+  console.log('外部儲存目錄android-'+RNFS.ExternalDirectoryPath);
+  console.log('圖片目錄-',RNFS.PicturesDirectoryPath);
+
+  // write the file
+  RNFS.writeFile(path, 'Lorem ipsum dolor sit amet WTF!!!', 'utf8')
+    .then((success) => {
+      console.log('FILE WRITTEN!');
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+
 
   return (
     // <SafeAreaView>
@@ -105,11 +129,13 @@ const styles = StyleSheet.create({
     flex: 1
   },
   header: {
+    height: 100,
     width: '100%',
     backgroundColor: '#dcdcdc',
     padding: 20,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'flex-end'
   },
   title: {
     fontSize: 22,
