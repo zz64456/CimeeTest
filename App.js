@@ -5,7 +5,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  Button
 } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 
@@ -54,11 +55,18 @@ const App: () => React$Node = () => {
   const onChangeText = userAge => setAge(userAge)
 
   const onSubmitEditing = () => {
+    alert('clicked')
     if (!age) return 
     
     saveData(age)
     setAge('')
     
+  }
+
+  const btnOnPress = () => {
+    alert('onpressing')
+    saveData(age)
+    setAge('')
   }
 
 
@@ -78,10 +86,12 @@ const App: () => React$Node = () => {
             onChangeText={onChangeText}
             onSubmitEditing={onSubmitEditing}
           />
-          <Text style={styles.text}>Your age is {age}</Text>
+          <Text style={styles.text}>Your age is ***{age}</Text>
           <TouchableOpacity onPress={clearStorage} style={styles.button}>
             <Text style={styles.buttonText}>Clear Storage</Text>
           </TouchableOpacity>
+
+          <Button onPress={btnOnPress} title='save it'></Button>
         </View>
       </View>
     // </SafeAreaView>
