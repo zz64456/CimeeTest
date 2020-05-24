@@ -1,12 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import * as Sensors from "react-native-sensors";
-import Geolocation from '@react-native-community/geolocation'
 
-var data;
-Geolocation.getCurrentPosition(info => {data = info});
-console.log('here');
-console.log(data);
 
 const Value = ({ name, value }) => (
   <View style={styles.valueContainer}>

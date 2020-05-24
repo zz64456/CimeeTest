@@ -1,173 +1,98 @@
-import React, { useState, useEffect } from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  SafeAreaView,
-  Button
-} from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+import React, { Component } from "react";
+import { ScrollView, Text, SafeAreaView, View } from "react-native";
+import SensorView from "./SensorView";
 
-const STORAGE_KEY = '@save_age'
+import Geolocation from "@react-native-community/geolocation"
 
 
-const App: () => React$Node = () => {
+// let position
+// var v = 10
+// var altitude
 
-  useEffect(() => {
-    readData()
-  }, [])
+// Geolocation.getCurrentPosition(info => showinfo(info));
 
-  const [age, setAge] = useState('')
+// function showinfo(info) {
+//   console.log(info.coords.latitude)
+//   altitude = info.coords.latitude
+//   console.log(altitude)
+//   alert(altitude)
+// }
 
-  const saveData = async () => {
-    try {
-      await AsyncStorage.setItem(STORAGE_KEY, age)
-      alert('Data successfully saved')
-    } catch (e) {
-      alert('Failed to save the data to the storage')
+
+
+// class Animal { 
+//   constructor(name) {
+//     this.name = name;
+//   }
+
+//   speak() {
+//     console.log(this.name + ' makes a noise.');
+//   }
+// }
+// var a = new Animal('Dog')
+// a.speak()
+
+// class Dog extends Animal {
+//   speak() {
+//       console.log(this.name + ' barks.');
+//   }
+// }
+
+// var d = new Dog('Mitzie');
+
+// // 顯示 Mitzie barks.
+// d.speak();
+
+
+
+
+
+const axis = ["x", "y", "z"];
+
+const availableSensors = {
+  accelerometer: axis,
+  gyroscope: axis,
+  magnetometer: axis,
+  barometer: ["pressure"]
+};
+const viewComponents = Object.entries(availableSensors).map(([name, values]) =>
+  SensorView(name, values)
+);
+
+export default class App extends Component {
+  render() {
+
+    var altitude
+    var position
+
+    function showinfo(info) {
+      // console.log('*****Hello*****')
+      // console.log(typeof info)
+      console.log(info.coords.latitude)
+      altitude = info.coords.latitude
+      console.log(altitude)
+      // alert(altitude)
+      position = info
     }
-  }
-
-  const readData = async () => {
-    try {
-      const userAge = await AsyncStorage.getItem(STORAGE_KEY)
-
-      if (userAge !== null) {
-        setAge(userAge)
-
-      }
-    } catch (e) {
-      alert('Failed to fetch the data from storage')
-    }
-  }
-
-  const clearStorage = async () => {
-    try {
-      await AsyncStorage.clear()
-      alert('Storage successfully cleared!')
-    } catch (e) {
-      alert('Failed to clear the async storage.')
-    }
-  }
-
-  const onChangeText = userAge => setAge(userAge)
-
-  const onSubmitEditing = () => {
-    alert('clicked')
-    if (!age) return 
     
-    saveData(age)
-    setAge('')
+    Geolocation.getCurrentPosition(showinfo);
     
+    alert(position)
+
+    return (
+      <SafeAreaView>
+        <ScrollView>
+          <View style={{ height:30, justifyContent:'center', backgroundColor:'gray' }}>
+            {/* <Text style={{ fontSize:30 }}>Hi</Text> */}
+            <Text>{position}</Text>
+            {/* <Text>{position.coords.latitude}</Text>
+            <Text>{position.coords.longitude}</Text>
+            <Text>{position.timestamp}</Text> */}
+          </View>
+          {viewComponents.map((Comp, index) => <Comp key={index} />)}
+        </ScrollView>
+      </SafeAreaView>
+      
+    );
   }
-
-  const btnOnPress = () => {
-    alert('onpressing')
-    saveData(age)
-    setAge('')
-  }
-
-  // require the module
-  var RNFS = require('react-native-fs');
-
-  // create a path you want to write to
-  // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
-  // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
-  var path = RNFS.DocumentDirectoryPath + '/test.txt';
-
-  console.log('主要bundle目錄-'+RNFS.MainBundlePath);//安卓undefined或報錯
-  console.log('快取目錄-'+RNFS.CachesDirectoryPath);
-  console.log('文件目錄-'+RNFS.DocumentDirectoryPath);
-  console.log('臨時目錄ios-'+RNFS.TemporaryDirectoryPath);//null
-  console.log('外部儲存目錄android-'+RNFS.ExternalDirectoryPath);
-  console.log('圖片目錄-',RNFS.PicturesDirectoryPath);
-
-  // write the file
-  RNFS.writeFile(path, 'Lorem ipsum dolor sit amet WTF!!!', 'utf8')
-    .then((success) => {
-      console.log('FILE WRITTEN!');
-    })
-    .catch((err) => {
-      console.log(err.message);
-    });
-
-
-  return (
-    // <SafeAreaView>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.title}>iOS App</Text>
-        </View>
-        <View style={styles.panel}>
-          <Text>Enter your age here:</Text>
-          <TextInput
-            style={styles.input}
-            value={age}
-            placeholder="Age is just a number"
-            placeholderTextColor='grey'
-            onChangeText={onChangeText}
-            onSubmitEditing={onSubmitEditing}
-          />
-          <Text style={styles.text}>Your age is ***{age}</Text>
-          <TouchableOpacity onPress={clearStorage} style={styles.button}>
-            <Text style={styles.buttonText}>Clear Storage</Text>
-          </TouchableOpacity>
-
-          <Button onPress={btnOnPress} title='save it'></Button>
-        </View>
-      </View>
-    // </SafeAreaView>
-    
-  )
-
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  header: {
-    height: 100,
-    width: '100%',
-    backgroundColor: '#dcdcdc',
-    padding: 20,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    alignItems: 'center',
-    justifyContent: 'flex-end'
-  },
-  title: {
-    fontSize: 22,
-    color: '#333',
-    fontWeight: 'bold'
-  },
-  panel: {
-    paddingTop: 40,
-    alignItems: 'center'
-  },
-  text: {
-    fontSize: 24,
-    padding: 10,
-    backgroundColor: '#dcdcdc'
-  },
-  input: {
-    padding: 15,
-    height: 50,
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
-    margin: 10,
-    color: 'black'
-  },
-  button: {
-    margin: 10,
-    padding: 10,
-    backgroundColor: 'yellow'
-  },
-  buttonText: {
-    fontSize: 18,
-    color: '#444'
-  }
-})
-
-export default App
