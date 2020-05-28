@@ -39,7 +39,7 @@ export default function(sensorName, values) {
     render() {
       return (
         <View style={styles.container}>
-          <Text style={styles.headline}>{sensorName} values</Text>
+          <Text style={styles.headline}>{sensorName} valuessss</Text>
           {values.map(valueName => (
             <Value
               key={sensorName + valueName}
