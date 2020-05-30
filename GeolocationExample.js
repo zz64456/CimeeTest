@@ -21,6 +21,7 @@ export default class GeolocationExample extends React.Component<
 
   
   state = {
+    a: 'unknown',
     initialPosition: 'unknown',
     lastPosition: 'unknown',
   };
@@ -39,13 +40,17 @@ export default class GeolocationExample extends React.Component<
     );
     this.watchID = Geolocation.watchPosition(position => {
       const lastPosition = JSON.stringify(position);
+      const a = JSON.stringify(position.coords.altitude);
       console.log(position.coords.altitude+'    YEAH!!!');
-      this.setState({lastPosition})},
+      this.setState({lastPosition})
+      this.setState({a})
+      },
       error => Alert.alert('Error', JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 0, distanceFilter: 0},
     );
     
   }
+
 
 
 
@@ -65,6 +70,7 @@ export default class GeolocationExample extends React.Component<
             <Text style={styles.title}>Current position: </Text>
             {this.state.lastPosition}
           </Text>
+          <Text>!@#$%^{this.state.a}</Text>
         </View>
       </SafeAreaView>
       
