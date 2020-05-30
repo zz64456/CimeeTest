@@ -18,12 +18,15 @@ export default class GeolocationExample extends React.Component<
   {},
   $FlowFixMeState,
 > {
+
+  
   state = {
     initialPosition: 'unknown',
     lastPosition: 'unknown',
   };
 
   watchID: ? number = null;
+
 
   componentDidMount() {
     Geolocation.getCurrentPosition(
@@ -36,11 +39,15 @@ export default class GeolocationExample extends React.Component<
     );
     this.watchID = Geolocation.watchPosition(position => {
       const lastPosition = JSON.stringify(position);
+      console.log(position.coords.altitude+'    YEAH!!!');
       this.setState({lastPosition})},
       error => Alert.alert('Error', JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 0, distanceFilter: 0},
     );
+    
   }
+
+
 
   componentWillUnmount() {
     this.watchID != null && Geolocation.clearWatch(this.watchID);
@@ -51,7 +58,7 @@ export default class GeolocationExample extends React.Component<
       <SafeAreaView>
         <View style={styles.v1}>
           <Text style={styles.t1}>
-            <Text style={styles.title}>Initial position: </Text>
+            <Text style={styles.title}>Initial positionNNN: </Text>
             {this.state.initialPosition}
           </Text>
           <Text style={styles.t1}>

@@ -3,6 +3,8 @@ import { ScrollView, Text, SafeAreaView, View, StyleSheet } from "react-native";
 import SensorView from "./SensorView";
 import Geolocation from "@react-native-community/geolocation"
 
+import GeolocationExample from "./GeolocationExample"
+
 const axis = ["x", "y", "z"];
 
 const availableSensors = {
@@ -27,14 +29,14 @@ export default class App extends Component {
 
   render() {
 
-    Geolocation.getCurrentPosition(info => console.log(info));
+    // Geolocation.getCurrentPosition(info => console.log(info));
 
 
     return (
       <SafeAreaView>
         <ScrollView>
           <View style={styles.v1}>
-            <Text>Hello, world!</Text>
+            <GeolocationExample />
           </View>
           <View style={styles.v2}>
             {viewComponents.map((Comp, index) => <Comp key={index} />)}
