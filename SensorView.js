@@ -58,8 +58,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
-    marginTop: 50
+    backgroundColor: "#cafcde",
+    marginTop: 50,
+    marginBottom: 10
   },
   headline: {
     fontSize: 30,

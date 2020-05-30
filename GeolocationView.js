@@ -14,7 +14,7 @@ import React from 'react';
 import {StyleSheet, Text, View, Alert, SafeAreaView} from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
 
-export default class GeolocationExample extends React.Component<
+export default class GeolocationView extends React.Component<
   {},
   $FlowFixMeState,
 > {
@@ -51,19 +51,15 @@ export default class GeolocationExample extends React.Component<
     
   }
 
-
-
-
   componentWillUnmount() {
     this.watchID != null && Geolocation.clearWatch(this.watchID);
   }
 
   render() {
     return (
-      <SafeAreaView>
         <View style={styles.v1}>
           <Text style={styles.t1}>
-            <Text style={styles.title}>Initial positionNNN: </Text>
+            <Text style={styles.title}>Initial position: </Text>
             {this.state.initialPosition}
           </Text>
           <Text style={styles.t1}>
@@ -72,7 +68,6 @@ export default class GeolocationExample extends React.Component<
           </Text>
           <Text>!@#$%^{this.state.a}</Text>
         </View>
-      </SafeAreaView>
       
     );
   }
@@ -84,7 +79,7 @@ const styles = StyleSheet.create({
   },
   v1: {
     padding: 25,
-    
+    backgroundColor: '#f5f4df'
   },
   t1: {
     fontSize: 20
