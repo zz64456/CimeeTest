@@ -115,7 +115,7 @@ const Async: () => React$Node = (props) => {
                     onChangeText={onChangeText}
                     onSubmitEditing={onSubmitEditing}
                 /> */}
-                <Text style={styles.text}>Your age is ***{alt}</Text>
+                <Text style={styles.text}>Your altitude is {props.alt}</Text>
                 {/* <TouchableOpacity onPress={clearStorage} style={styles.button}>
                     <Text style={styles.buttonText}>Clear Storage</Text>
                 </TouchableOpacity> */}
