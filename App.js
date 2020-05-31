@@ -84,7 +84,7 @@ const App: () => React$Node = () => {
             placeholder="Age is just a number"
             placeholderTextColor='grey'
             onChangeText={onChangeText}
-            onSubmitEditing={onSubmitEditing}
+            // onSubmitEditing={onSubmitEditing}
           />
           <Text style={styles.text}>Your age is ***{age}</Text>
           <TouchableOpacity onPress={clearStorage} style={styles.button}>
