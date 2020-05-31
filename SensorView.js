@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#cafcde",
-    marginTop: 50,
+    marginTop: 10,
     marginBottom: 10
   },
   headline: {

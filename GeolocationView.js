@@ -57,7 +57,7 @@ export default class GeolocationView extends React.Component<
 
   render() {
     return (
-        <View style={styles.v1}>
+        <View style={styles.v2}>
           <Text style={styles.t1}>
             <Text style={styles.title}>Initial position: </Text>
             {this.state.initialPosition}
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: '600',
   },
-  v1: {
+  v2: {
     padding: 25,
     backgroundColor: '#f5f4df'
   },

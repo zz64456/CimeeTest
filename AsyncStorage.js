@@ -23,8 +23,34 @@ const Async: () => React$Node = (props) => {
 
     const [age, setAge] = useState('')
 
+    const [alt, setAlt] = useState('')
+
+    const saveAlt = async () => {
+        try {
+            setAlt(props.alt)
+        await AsyncStorage.setItem(STORAGE_KEY, alt)
+        alert('Data successfully saved')
+        } catch (e) {
+        alert('Failed to save the data to the storage')
+        }
+    }
+
+    const readAlt = async () => {
+        try {
+        const userAlt = await AsyncStorage.getItem(STORAGE_KEY)
+
+        if (userAlt !== null) {
+            setAlt(userAlt)
+
+        }
+        } catch (e) {
+        alert('Failed to fetch the data from storage')
+        }
+    }
+
     const saveData = async () => {
         try {
+            setAge(props.age)
         await AsyncStorage.setItem(STORAGE_KEY, age)
         alert('Data successfully saved')
         } catch (e) {
@@ -67,7 +93,7 @@ const Async: () => React$Node = (props) => {
 
     const btnOnPress = () => {
         alert('onpressing')
-        saveData(age)
+        saveData(alt)
         setAge('')
     }
 
@@ -79,8 +105,8 @@ const Async: () => React$Node = (props) => {
                 {/* <Text style={styles.title}>iOS App</Text> */}
             {/* </View> */}
             <View style={styles.panel}>
-                <Text>Your age is here:</Text>
-                <Text>{props.name}</Text>
+                {/* <Text>Your age is here:</Text> */}
+                <Text>{props.alt}</Text>
                 {/* <TextInput
                     style={styles.input}
                     value={age}
@@ -89,10 +115,10 @@ const Async: () => React$Node = (props) => {
                     onChangeText={onChangeText}
                     onSubmitEditing={onSubmitEditing}
                 /> */}
-                <Text style={styles.text}>Your age is ***{age}</Text>
-                <TouchableOpacity onPress={clearStorage} style={styles.button}>
+                <Text style={styles.text}>Your age is ***{alt}</Text>
+                {/* <TouchableOpacity onPress={clearStorage} style={styles.button}>
                     <Text style={styles.buttonText}>Clear Storage</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <Button onPress={btnOnPress} title='save it'></Button>
             </View>
