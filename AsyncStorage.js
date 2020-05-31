@@ -13,10 +13,9 @@ import AsyncStorage from '@react-native-community/async-storage'
 const STORAGE_KEY = '@save_age'
 
 
-const App: (i) => React$Node = () => {
+const Async: () => React$Node = (props) => {
 
-    console.log(i)
-    alert(i)
+    // console.log(props.name)
 
     useEffect(() => {
         readData()
@@ -76,25 +75,26 @@ const App: (i) => React$Node = () => {
     return (
         // <SafeAreaView>
         <View style={styles.container}>
-            <View style={styles.header}>
-            <Text style={styles.title}>iOS App</Text>
-            </View>
+            {/* <View style={styles.header}> */}
+                {/* <Text style={styles.title}>iOS App</Text> */}
+            {/* </View> */}
             <View style={styles.panel}>
-            <Text>Enter your age here:</Text>
-            <TextInput
-                style={styles.input}
-                value={age}
-                placeholder="Age is just a number"
-                placeholderTextColor='grey'
-                onChangeText={onChangeText}
-                onSubmitEditing={onSubmitEditing}
-            />
-            <Text style={styles.text}>Your age is ***{age}</Text>
-            <TouchableOpacity onPress={clearStorage} style={styles.button}>
-                <Text style={styles.buttonText}>Clear Storage</Text>
-            </TouchableOpacity>
+                <Text>Your age is here:</Text>
+                <Text>{props.name}</Text>
+                {/* <TextInput
+                    style={styles.input}
+                    value={age}
+                    placeholder="Age is just a number"
+                    placeholderTextColor='grey'
+                    onChangeText={onChangeText}
+                    onSubmitEditing={onSubmitEditing}
+                /> */}
+                <Text style={styles.text}>Your age is ***{age}</Text>
+                <TouchableOpacity onPress={clearStorage} style={styles.button}>
+                    <Text style={styles.buttonText}>Clear Storage</Text>
+                </TouchableOpacity>
 
-            <Button onPress={btnOnPress} title='save it'></Button>
+                <Button onPress={btnOnPress} title='save it'></Button>
             </View>
         </View>
         // </SafeAreaView>
@@ -147,4 +147,4 @@ const App: (i) => React$Node = () => {
     }
 })
 
-export default App
+export default Async

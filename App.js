@@ -3,18 +3,13 @@ import { ScrollView, Text, SafeAreaView, View, StyleSheet } from "react-native";
 
 import RNSensorView from "./RNSensorView";
 import GeolocationView from "./GeolocationView"
-import {AsyncStorage} from "./AsyncStorage"
+import Async from "./AsyncStorage"
 import Test from "./Test"
 
 
 
 export default class App extends Component {
 
-  ttt() {
-    return (
-      <Text>1234567890</Text>
-    )
-  }
 
   render() {
 
@@ -23,7 +18,8 @@ export default class App extends Component {
       <SafeAreaView>
         <ScrollView>
           <View style={styles.main}>
-            <Test num="10000" /> 
+            <Test num="10000" />
+            <Async name="25" />
             <GeolocationView />
             <RNSensorView />
             
