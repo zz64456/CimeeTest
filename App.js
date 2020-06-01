@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, SafeAreaView, View, StyleSheet } from "react-native";
+import { ScrollView, Text, SafeAreaView, View, StyleSheet, Button } from "react-native";
 
 // import RNSensorView from "./RNSensorView";
 // import GeolocationView from "./GeolocationView"
@@ -11,7 +11,7 @@ import SensorView from "./SensorView";
 import Geolocation from '@react-native-community/geolocation';
 import * as Sensors from "react-native-sensors";
 
-// SensorView
+// ************************ SensorView
 
 const Value = ({ name, value }) => (
   <View style={styles.valueContainer}>
@@ -51,9 +51,46 @@ export default class App extends Component {
     };
   }
 
-  // Geolocation
-  watchID: ? number = null;
+  // ************************ Async
 
+  writeFile(p) {
+    var RNFS = require('react-native-fs');
+
+    // create a path you want to write to
+    // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
+    // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
+    var path = RNFS.DocumentDirectoryPath + '/testing.txt';
+
+    console.log('主要bundle目錄-'+RNFS.MainBundlePath);//安卓undefined或報錯
+    console.log('快取目錄-'+RNFS.CachesDirectoryPath);
+    console.log('文件目錄-'+RNFS.DocumentDirectoryPath);
+    console.log('臨時目錄ios-'+RNFS.TemporaryDirectoryPath);//null
+    console.log('外部儲存目錄android-'+RNFS.ExternalDirectoryPath);
+    console.log('圖片目錄-',RNFS.PicturesDirectoryPath);
+
+    var t = [{
+      id: 2,
+      value: 999,
+      Alt: 123456
+    }]
+
+    // write the file
+    RNFS.writeFile(path, JSON.stringify(p), 'utf8')
+      .then((success) => {
+        console.log('FILE WRITTEN!~~~~');
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }
+  // require the module
+
+  
+
+
+
+  // ************************ Geolocation
+  watchID: ? number = null;
 
   componentDidMount() {
     Geolocation.getCurrentPosition(
@@ -65,6 +102,7 @@ export default class App extends Component {
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
     this.watchID = Geolocation.watchPosition(position => {
+      this.writeFile(position);
       const lastPosition = JSON.stringify(position);
       const alt = JSON.stringify(position.coords.altitude);
       const altAccu = JSON.stringify(position.coords.altitudeAccuracy);
@@ -107,6 +145,7 @@ export default class App extends Component {
                 <Text style={styles.title}>Current position: </Text>
                 {this.state.lastPosition}
               </Text> */}
+              <Button onPress={() => this.writeFile(this.state.lastPosition)} title='給我寫檔!!!'></Button>
               <Text>!@#$%^{this.state.alt}-----</Text>
               <Text>!@#$%^{this.state.altAccu}-----</Text>
               <Text>!@#$%^{this.state.lat}-----</Text>
