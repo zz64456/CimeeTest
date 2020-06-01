@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, SafeAreaView, View, StyleSheet, Button } from "react-native";
+import { ScrollView, Text, SafeAreaView, View, StyleSheet, } from "react-native";
 
 // import RNSensorView from "./RNSensorView";
 // import GeolocationView from "./GeolocationView"
@@ -7,20 +7,14 @@ import Async from "./AsyncStorage"
 // import Test from "./Test"
 
 
-// import SensorView from "./SensorView";
+import SensorView from "./SensorView";
 import Geolocation from '@react-native-community/geolocation';
 import * as Sensors from "react-native-sensors";
-
+import { map, filter } from "rxjs/operators";
 
 
 // ************************ SensorView
 
-const Value = ({ name, value }) => (
-  <View style={styles.valueContainer}>
-    <Text style={styles.valueName}>{name}:</Text>
-    <Text style={styles.valueValue}>{new String(value).substr(0, 8)}</Text>
-  </View>
-);
 
 const axis = ["x", "y", "z"];
 
@@ -31,57 +25,8 @@ const availableSensors = {
   barometer: ["pressure"]
 };
 const viewComponents = Object.entries(availableSensors).map(([name, values]) =>
-  SV(name, values)
+  SensorView(name, values)
 );
-
-function SV (sensorName, values) {
-  const sensor$ = Sensors[sensorName];
-
-  return class SensorView extends Component {
-    constructor(props) {
-      super(props);
-
-      const initialValue = values.reduce(
-        (carry, val) => ({ ...carry, [val]: 0 }),
-        {}
-      );
-      this.state = initialValue;
-    }
-
-    UNSAFE_componentWillMount() {
-      const subscription = sensor$.subscribe(values => {
-        this.setState({ ...values });
-      });
-      this.setState({ subscription });
-    }
-
-    componentWillUnmount() {
-      this.state.subscription.unsubscribe();
-      this.setState({ subscription: null });
-    }
-
-    render() {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.headline}>{sensorName} valuessss</Text>
-          {values.map(valueName => (
-            <Value
-              key={sensorName + valueName}
-              name={valueName}
-              value={this.state[valueName]}
-            />
-          ))}
-        </View>
-      );
-    }
-  };
-}
-
-
-
-
-
-
 
 
 export default class App extends Component {
@@ -93,13 +38,6 @@ export default class App extends Component {
       initialPosition: 'unknown',
       lastPosition: 'unknown',
       // alt: '',
-      // altAccu: '',
-      // lat: '',
-      // acc: '',
-      // long: '',
-      // heading: '',
-      // speed: '',
-      // timestamp: ''
     };
   }
 
@@ -111,7 +49,7 @@ export default class App extends Component {
     // create a path you want to write to
     // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
     // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
-    var path = RNFS.DocumentDirectoryPath + '/t1.txt';
+    var path = RNFS.DocumentDirectoryPath + '/t2.txt';
 
     // console.log('主要bundle目錄-'+RNFS.MainBundlePath);//安卓undefined或報錯
     // console.log('快取目錄-'+RNFS.CachesDirectoryPath);
@@ -147,38 +85,28 @@ export default class App extends Component {
 
 
   // ************************ Geolocation
-  watchID: ? number = null;
+
+  // watchID: ? number = null;
 
   componentDidMount() {
-    Geolocation.getCurrentPosition(
-      position => {
-        const initialPosition = JSON.stringify(position);
-        this.setState({initialPosition});
-      },
-      error => Alert.alert('Error', JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-    );
-    this.watchID = Geolocation.watchPosition(position => {
-      //寫入
-      // this.writeFile(position);
 
-      const lastPosition = JSON.stringify(position);
-      // const alt = JSON.stringify(position.coords.altitude);
-      // const altAccu = JSON.stringify(position.coords.altitudeAccuracy);
-      // const lat = JSON.stringify(position.coords.latitude);
-      // const acc = JSON.stringify(position.coords.accuracy);
-      // const long = JSON.stringify(position.coords.longitude);
-      // const heading = JSON.stringify(position.coords.heading);
-      // const speed = JSON.stringify(position.coords.speed);
-      // const timestamp = JSON.stringify(position.timestamp);
-      console.log(position.timestamp+'    YEAH!!!');
-      this.setState({lastPosition})
-      // this.setState({alt, altAccu, lat, acc, long, heading, speed, timestamp})
-      },
-      error => Alert.alert('Error', JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 0, distanceFilter: 0},
-    );
+
     
+
+
+    // this.watchID = Geolocation.watchPosition(position => {
+
+    //   const lastPosition = JSON.stringify(position);
+    //   // const alt = JSON.stringify(position.coords.altitude);
+    //   console.log(position.timestamp+'    YEAH!!!');
+    //   this.setState({lastPosition})
+    //   // this.setState({alt, altAccu, lat, acc, long, heading, speed, timestamp})
+    //   },
+    //   error => Alert.alert('Error', JSON.stringify(error)),
+    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 0, distanceFilter: 0},
+    // );
+
+    setInterval( this.toAsync, 1000)
   }
 
   componentWillUnmount() {
@@ -188,10 +116,54 @@ export default class App extends Component {
   
 
   // 整理 SensorView & Geolocation 後輸出至AsyncStorage
-  toAsync(item) {
-    if(item.name == 'SensorView') {
-      console.log('export Sensor data')
-    }
+  toAsync() {
+
+    Geolocation.getCurrentPosition(
+      position => {
+        // 寫入
+        // this.writeFile(position);
+        const initialPosition = JSON.stringify(position);
+        console.log("I'm here"+initialPosition)
+        this.setState({initialPosition});
+      },
+      error => Alert.alert('Error', JSON.stringify(error)),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
+    );
+
+    
+    // Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 200);
+    // Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 200);
+    // Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 200);
+    // Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 10000000);
+
+    // const subscriptionAcc = Sensors.accelerometer.subscribe(({ x, y, z, timestamp }) =>
+    // console.log({ x, y, z, timestamp }));
+    // const subscriptionGyro = Sensors.gyroscope.subscribe(({ x, y, z, timestamp }) =>
+    // console.log({ x, y, z, timestamp }));
+    // const subscriptionMag = Sensors.magnetometer.subscribe(({ x, y, z, timestamp }) =>
+    // console.log({ x, y, z, timestamp }));
+
+    // Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 400);
+
+
+    // const subscriptionBar = Sensors.barometer.subscribe(({ pressure}) =>
+    // console.log({ pressure }));
+
+
+    // const subscription = Sensors.accelerometer
+    //   .pipe(map(({ x, y, z }) => x + y + z), filter(speed => speed > 0))
+    //   .subscribe(
+    //     speed => console.log(`You moved your phone with ${speed}`),
+    //     error => {
+    //       console.log("The sensor is not available");
+    //     }
+    //   );
+
+    // setTimeout(() => {
+    //   console.log('Stopped')
+    //   // If it's the last subscription to accelerometer it will stop polling in the native API
+    //   subscriptionBar.unsubscribe();
+    // }, 10000);
   }
 
 
@@ -218,14 +190,7 @@ export default class App extends Component {
                 {this.state.lastPosition}
               </Text>
               {/* <Button onPress={() => this.writeFile(this.state.lastPosition)} title='給我寫檔!!!'></Button> */}
-              {/* <Text>!@#$%^{this.state.alt}-----</Text>
-              <Text>!@#$%^{this.state.altAccu}-----</Text>
-              <Text>!@#$%^{this.state.lat}-----</Text>
-              <Text>!@#$%^{this.state.acc}-----</Text>
-              <Text>!@#$%^{this.state.long}-----</Text>
-              <Text>!@#$%^{this.state.heading}-----</Text>
-              <Text>!@#$%^{this.state.speed}-----</Text>
-              <Text>!@#$%^{this.state.timestamp}-----</Text> */}
+              {/* <Text>!@#$%^{this.state.alt}-----</Text> */}
             </View>
             {/* <RNSensorView /> */}
             <View style={styles.v1}>
