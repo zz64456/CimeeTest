@@ -7,9 +7,11 @@ import Async from "./AsyncStorage"
 // import Test from "./Test"
 
 
-import SensorView from "./SensorView";
+// import SensorView from "./SensorView";
 import Geolocation from '@react-native-community/geolocation';
 import * as Sensors from "react-native-sensors";
+
+
 
 // ************************ SensorView
 
@@ -29,25 +31,75 @@ const availableSensors = {
   barometer: ["pressure"]
 };
 const viewComponents = Object.entries(availableSensors).map(([name, values]) =>
-  SensorView(name, values)
+  SV(name, values)
 );
+
+function SV (sensorName, values) {
+  const sensor$ = Sensors[sensorName];
+
+  return class SensorView extends Component {
+    constructor(props) {
+      super(props);
+
+      const initialValue = values.reduce(
+        (carry, val) => ({ ...carry, [val]: 0 }),
+        {}
+      );
+      this.state = initialValue;
+    }
+
+    UNSAFE_componentWillMount() {
+      const subscription = sensor$.subscribe(values => {
+        this.setState({ ...values });
+      });
+      this.setState({ subscription });
+    }
+
+    componentWillUnmount() {
+      this.state.subscription.unsubscribe();
+      this.setState({ subscription: null });
+    }
+
+    render() {
+      return (
+        <View style={styles.container}>
+          <Text style={styles.headline}>{sensorName} valuessss</Text>
+          {values.map(valueName => (
+            <Value
+              key={sensorName + valueName}
+              name={valueName}
+              value={this.state[valueName]}
+            />
+          ))}
+        </View>
+      );
+    }
+  };
+}
+
+
+
+
+
+
 
 
 export default class App extends Component {
+
 
   constructor() {
     super()
     this.state = {
       initialPosition: 'unknown',
       lastPosition: 'unknown',
-      alt: '',
-      altAccu: '',
-      lat: '',
-      acc: '',
-      long: '',
-      heading: '',
-      speed: '',
-      timestamp: ''
+      // alt: '',
+      // altAccu: '',
+      // lat: '',
+      // acc: '',
+      // long: '',
+      // heading: '',
+      // speed: '',
+      // timestamp: ''
     };
   }
 
@@ -91,10 +143,7 @@ export default class App extends Component {
 
     
   }
-  // require the module
-
   
-
 
 
   // ************************ Geolocation
@@ -110,7 +159,9 @@ export default class App extends Component {
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
     this.watchID = Geolocation.watchPosition(position => {
-      this.writeFile(position);
+      //寫入
+      // this.writeFile(position);
+
       const lastPosition = JSON.stringify(position);
       // const alt = JSON.stringify(position.coords.altitude);
       // const altAccu = JSON.stringify(position.coords.altitudeAccuracy);
@@ -136,13 +187,26 @@ export default class App extends Component {
 
   
 
+  // 整理 SensorView & Geolocation 後輸出至AsyncStorage
+  toAsync(item) {
+    if(item.name == 'SensorView') {
+      console.log('export Sensor data')
+    }
+  }
+
+
+
+
+
+
+
   render() {
     return (
       <SafeAreaView>
         <ScrollView>
           <View style={styles.main}>
             {/* <Test num="10000" /> */}
-            <Async alt={this.state.alt} />
+            {/* <Async alt={this.state.alt} /> */}
             {/* <GeolocationView /> */}
             <View style={styles.v1}>
               {/* <Text style={styles.t1}>
@@ -197,5 +261,37 @@ const styles = StyleSheet.create({
   },
   t1: {
     fontSize: 20
+  },
+  // SensorView
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#cafcde",
+    marginTop: 10,
+    marginBottom: 10
+  },
+  headline: {
+    fontSize: 30,
+    textAlign: "left",
+    margin: 10
+  },
+  valueContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap"
+  },
+  valueValue: {
+    width: 200,
+    fontSize: 20
+  },
+  valueName: {
+    width: 50,
+    fontSize: 20,
+    fontWeight: "bold"
+  },
+  instructions: {
+    textAlign: "center",
+    color: "#333333",
+    marginBottom: 5
   }
 })
