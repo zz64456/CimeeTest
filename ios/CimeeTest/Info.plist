@@ -22,6 +22,13 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+
+	<!-- 讓檔案可以在資料夾或iFunBox中開啟 -->
+	<key>UIFileSharingEnabled</key>
+	<string>YES</string>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<string>YES</string>
+
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
