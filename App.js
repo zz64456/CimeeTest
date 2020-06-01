@@ -59,29 +59,37 @@ export default class App extends Component {
     // create a path you want to write to
     // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
     // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
-    var path = RNFS.DocumentDirectoryPath + '/testing.txt';
+    var path = RNFS.DocumentDirectoryPath + '/t1.txt';
 
-    console.log('主要bundle目錄-'+RNFS.MainBundlePath);//安卓undefined或報錯
-    console.log('快取目錄-'+RNFS.CachesDirectoryPath);
+    // console.log('主要bundle目錄-'+RNFS.MainBundlePath);//安卓undefined或報錯
+    // console.log('快取目錄-'+RNFS.CachesDirectoryPath);
     console.log('文件目錄-'+RNFS.DocumentDirectoryPath);
-    console.log('臨時目錄ios-'+RNFS.TemporaryDirectoryPath);//null
-    console.log('外部儲存目錄android-'+RNFS.ExternalDirectoryPath);
-    console.log('圖片目錄-',RNFS.PicturesDirectoryPath);
+    // console.log('臨時目錄ios-'+RNFS.TemporaryDirectoryPath);//null
+    // console.log('外部儲存目錄android-'+RNFS.ExternalDirectoryPath);
+    // console.log('圖片目錄-',RNFS.PicturesDirectoryPath);
 
-    var t = [{
-      id: 2,
-      value: 999,
-      Alt: 123456
-    }]
 
-    // write the file
-    RNFS.writeFile(path, JSON.stringify(p), 'utf8')
+    if(!RNFS.exists(path)) {
+      // write the file
+      RNFS.writeFile(path, JSON.stringify(p), 'utf8')
       .then((success) => {
         console.log('FILE WRITTEN!~~~~');
       })
       .catch((err) => {
         console.log(err.message);
       });
+    }
+
+    // append the content to the file
+    RNFS.appendFile(path, JSON.stringify(p), 'utf8')
+    .then((success) => {
+      console.log('appended....');
+    })
+    .catch((err) => {
+      console.log(err.message);
+    })
+
+    
   }
   // require the module
 
@@ -104,17 +112,17 @@ export default class App extends Component {
     this.watchID = Geolocation.watchPosition(position => {
       this.writeFile(position);
       const lastPosition = JSON.stringify(position);
-      const alt = JSON.stringify(position.coords.altitude);
-      const altAccu = JSON.stringify(position.coords.altitudeAccuracy);
-      const lat = JSON.stringify(position.coords.latitude);
-      const acc = JSON.stringify(position.coords.accuracy);
-      const long = JSON.stringify(position.coords.longitude);
-      const heading = JSON.stringify(position.coords.heading);
-      const speed = JSON.stringify(position.coords.speed);
-      const timestamp = JSON.stringify(position.timestamp);
+      // const alt = JSON.stringify(position.coords.altitude);
+      // const altAccu = JSON.stringify(position.coords.altitudeAccuracy);
+      // const lat = JSON.stringify(position.coords.latitude);
+      // const acc = JSON.stringify(position.coords.accuracy);
+      // const long = JSON.stringify(position.coords.longitude);
+      // const heading = JSON.stringify(position.coords.heading);
+      // const speed = JSON.stringify(position.coords.speed);
+      // const timestamp = JSON.stringify(position.timestamp);
       console.log(position.timestamp+'    YEAH!!!');
       this.setState({lastPosition})
-      this.setState({alt, altAccu, lat, acc, long, heading, speed, timestamp})
+      // this.setState({alt, altAccu, lat, acc, long, heading, speed, timestamp})
       },
       error => Alert.alert('Error', JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 0, distanceFilter: 0},
@@ -141,19 +149,19 @@ export default class App extends Component {
                 <Text style={styles.title}>Initial position: </Text>
                 {this.state.initialPosition}
               </Text> */}
-              {/* <Text style={styles.t1}>
+              <Text style={styles.t1}>
                 <Text style={styles.title}>Current position: </Text>
                 {this.state.lastPosition}
-              </Text> */}
-              <Button onPress={() => this.writeFile(this.state.lastPosition)} title='給我寫檔!!!'></Button>
-              <Text>!@#$%^{this.state.alt}-----</Text>
+              </Text>
+              {/* <Button onPress={() => this.writeFile(this.state.lastPosition)} title='給我寫檔!!!'></Button> */}
+              {/* <Text>!@#$%^{this.state.alt}-----</Text>
               <Text>!@#$%^{this.state.altAccu}-----</Text>
               <Text>!@#$%^{this.state.lat}-----</Text>
               <Text>!@#$%^{this.state.acc}-----</Text>
               <Text>!@#$%^{this.state.long}-----</Text>
               <Text>!@#$%^{this.state.heading}-----</Text>
               <Text>!@#$%^{this.state.speed}-----</Text>
-              <Text>!@#$%^{this.state.timestamp}-----</Text>
+              <Text>!@#$%^{this.state.timestamp}-----</Text> */}
             </View>
             {/* <RNSensorView /> */}
             <View style={styles.v1}>
