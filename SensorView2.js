@@ -11,46 +11,63 @@ const Value = ({ name, value }) => (
 );
 
 export default function(sensorName, values) {
-  const sensor$ = Sensors[sensorName];
 
-  return class SensorView extends Component {
-    constructor(props) {
-      super(props);
+    console.log("sensorName在這喔～～～～"+sensorName)
+    // accelerometer
+    console.log("values在這喔～～～～"+values)
+    // x,y,z
 
-      const initialValue = values.reduce(
-        (carry, val) => ({ ...carry, [val]: 0 }),
-        {}
-      );
-      this.state = initialValue;
-    }
 
-    UNSAFE_componentWillMount() {
-      const subscription = sensor$.subscribe(values => {
-        this.setState({ ...values });
-      });
-      this.setState({ subscription });
-    }
+    const sensor$ = Sensors[sensorName];
+    // sensor$ = 類別為Sensors的東西 裡面值為 accelerometer
 
-    componentWillUnmount() {
-      this.state.subscription.unsubscribe();
-      this.setState({ subscription: null });
-    }
 
-    render() {
-      return (
-        <View style={styles.container}>
-          <Text style={styles.headline}>{sensorName} valuessss</Text>
-          {values.map(valueName => (
-            <Value
-              key={sensorName + valueName}
-              name={valueName}
-              value={this.state[valueName]}
-            />
-          ))}
-        </View>
-      );
-    }
-  };
+    return class SensorView extends Component {
+        constructor(props) {
+        super(props);
+
+        const initialValue = values.reduce(
+            (carry, val) => ({ ...carry, [val]: 0 }),
+            {}
+        );
+        this.state = initialValue;
+        // console.log('initial....' + this.state)
+        }
+
+        UNSAFE_componentWillMount() {
+        const subscription = sensor$.subscribe(values => {
+            this.setState({ ...values });
+        });
+        
+        this.setState({ subscription });
+        
+        }
+
+        // componentDidMount() {
+        //     console.log('value:...'+this.state.x)
+        //     console.log('subscription:...'+this.state.subscription)
+        // }
+
+        componentWillUnmount() {
+        this.state.subscription.unsubscribe();
+        this.setState({ subscription: null });
+        }
+
+        render() {
+            return (
+                <View style={styles.container}>
+                <Text style={styles.headline}>{sensorName} valuessss</Text>
+                {values.map(valueName => (
+                    <Value
+                    key={sensorName + valueName}
+                    name={valueName}
+                    value={this.state[valueName]}
+                    />
+                ))}
+                </View>
+            );
+        }
+    };
 }
 
 const styles = StyleSheet.create({

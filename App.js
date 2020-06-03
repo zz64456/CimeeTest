@@ -3,30 +3,34 @@ import { ScrollView, Text, SafeAreaView, View, StyleSheet, } from "react-native"
 
 // import RNSensorView from "./RNSensorView";
 // import GeolocationView from "./GeolocationView"
-import Async from "./AsyncStorage"
+// import Async from "./AsyncStorage"
 // import Test from "./Test"
 
 
-import SensorView from "./SensorView";
+// import SensorView from "./SensorView";
+// import SensorView2 from "./SensorView2";
 import Geolocation from '@react-native-community/geolocation';
 import * as Sensors from "react-native-sensors";
 import { map, filter } from "rxjs/operators";
+
+// Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
+
 
 
 // ************************ SensorView
 
 
-const axis = ["x", "y", "z"];
+// const axis = ["x", "y", "z"];
 
-const availableSensors = {
-  accelerometer: axis,
-  gyroscope: axis,
-  magnetometer: axis,
-  barometer: ["pressure"]
-};
-const viewComponents = Object.entries(availableSensors).map(([name, values]) =>
-  SensorView(name, values)
-);
+// const availableSensors = {
+//   accelerometer: axis,
+//   gyroscope: axis,
+//   magnetometer: axis,
+//   barometer: ["pressure"]
+// };
+// const viewComponents = Object.entries(availableSensors).map(([name, values]) =>
+//   SensorView(name, values)
+// );
 
 
 export default class App extends Component {
@@ -35,16 +39,8 @@ export default class App extends Component {
   constructor() {
     super()
     this.state = {
-      initialPosition: 'unknown',
-      sensorData: {
-        accelerometer: { x: 'x', y: 'y', z: 'z'},
-        gyroscope: { x: 'x', y: 'y', z: 'z'},
-        magnetometer: { x: 'x', y: 'y', z: 'z'},
-        barometer: 'unknown'
-      },
-      // lastPosition: 'unknown',
-      // alt: '',
-    };
+      behavior: 'null'
+    }
   }
 
   // ************************ Async
@@ -55,11 +51,11 @@ export default class App extends Component {
     // create a path you want to write to
     // :warning: on iOS, you cannot write into `RNFS.MainBundlePath`,
     // but `RNFS.DocumentDirectoryPath` exists on both platforms and is writable
-    var path = RNFS.DocumentDirectoryPath + '/t4.txt';
+    var path = RNFS.DocumentDirectoryPath + '/v1.txt';
 
     // console.log('主要bundle目錄-'+RNFS.MainBundlePath);//安卓undefined或報錯
     // console.log('快取目錄-'+RNFS.CachesDirectoryPath);
-    console.log('文件目錄-'+RNFS.DocumentDirectoryPath);
+    // console.log('文件目錄-'+RNFS.DocumentDirectoryPath);
     // console.log('臨時目錄ios-'+RNFS.TemporaryDirectoryPath);//null
     // console.log('外部儲存目錄android-'+RNFS.ExternalDirectoryPath);
     // console.log('圖片目錄-',RNFS.PicturesDirectoryPath);
@@ -92,93 +88,97 @@ export default class App extends Component {
 
   // ************************ Geolocation
 
-  // watchID: ? number = null;
 
   componentDidMount() {
 
-    // this.watchID = Geolocation.watchPosition(position => {
+    // const o = copy(this.state)
+    // o.acc = 42
+    // this.setState(o)
 
-    //   const lastPosition = JSON.stringify(position);
-    //   // const alt = JSON.stringify(position.coords.altitude);
-    //   console.log(position.timestamp+'    YEAH!!!');
-    //   this.setState({lastPosition})
-    //   // this.setState({alt, altAccu, lat, acc, long, heading, speed, timestamp})
-    //   },
-    //   error => Alert.alert('Error', JSON.stringify(error)),
-    //   {enableHighAccuracy: true, timeout: 20000, maximumAge: 0, distanceFilter: 0},
-    // );
+    // this.setState({
+    //   ...this.state,
+    //   acc : 42
+    // })
+    Sensors.accelerometer.subscribe(({ x, y, z, timestamp }) => {
+      this.setState({
+          acc: {
+            x, y, z, timestamp
+          }
+      })
+    })
+    Sensors.gyroscope.subscribe(({ x, y, z, timestamp }) => {
+      this.setState({
+          gyro: {
+            x, y, z, timestamp
+          }
+      })
+    })
+    Sensors.magnetometer.subscribe(({ x, y, z, timestamp }) => {
+      this.setState({
+          mag: {
+            x, y, z, timestamp
+          }
+      })
+    })
+    Sensors.barometer.subscribe(({ pressure, timestamp }) => {
+      this.setState({
+          baro: {
+            pressure, timestamp
+          },
+      })
+    })
     
-    setInterval( () => this.updateGeolocation(), 1000)
-    setInterval( () => this.updateSensorView(), 1000)
-    
-    // setInterval( () => this.toAsync(), 1000)
+    setInterval( () => this.updateGeolocation(), 2000)
+
+    // setInterval( () => this.printingStar(), 1000 )
+
+
+    setInterval( () => this.toAsync(), 1000)
     
   }
+
 
   // componentWillUnmount() {
   //   this.watchID != null && Geolocation.clearWatch(this.watchID);
   // }
 
   updateGeolocation() {
+    // console.log('Now In Geolocation')
     Geolocation.getCurrentPosition(
       position => {
-        const initialPosition = JSON.stringify(position);
-        // console.log("I'm here"+initialPosition)
-        this.setState({initialPosition});
+        // console.log("I'm here..   "+position)
+        this.setState({
+          position
+        });
+        // console.log('success?', JSON.stringify(this.state.position))
       },
       error => Alert.alert('Error', JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   }
 
-  updateSensorView() {
-    // Object.entries(viewComponents).map(([name, values]) => console.log(name, values))
-    // const viewComponents = Object.entries(availableSensors).map(([name, values]) =>
-    //   SensorView2(name, values)
-    // );
-  }
   
 
   // 整理 SensorView & Geolocation 後輸出至AsyncStorage
   toAsync() {
+    // console.log('Now In toAsync')
+    var data = {}
 
-    if(this.state.initialPosition != "unknown") {
-      this.writeFile(this.state.initialPosition)
+    data.acc = this.state.acc
+    data.gyro = this.state.gyro
+    data.mag = this.state.mag
+    data.baro = this.state.baro
+
+    // console.log(".........."+this.state.initialPosition)
+    // console.log(`position: ${this.state.position}`)
+    if(this.state.position) {
+      data.pos = this.state.position.coords
+      // console.log(JSON.stringify(data))
+      data.behavior = this.state.behavior
+      this.writeFile(data)
     }
-    
 
-    
-    // Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 200);
-
-    // const subscriptionAcc = Sensors.accelerometer.subscribe(({ x, y, z, timestamp }) =>
-    // console.log({ x, y, z, timestamp }));
-
-    // Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 400);
-
-
-    // const subscriptionBar = Sensors.barometer.subscribe(({ pressure}) =>
-    // console.log({ pressure }));
-
-
-    // const subscription = Sensors.accelerometer
-    //   .pipe(map(({ x, y, z }) => x + y + z), filter(speed => speed > 0))
-    //   .subscribe(
-    //     speed => console.log(`You moved your phone with ${speed}`),
-    //     error => {
-    //       console.log("The sensor is not available");
-    //     }
-    //   );
-
-    // setTimeout(() => {
-    //   console.log('Stopped')
-    //   // If it's the last subscription to accelerometer it will stop polling in the native API
-    //   subscriptionBar.unsubscribe();
-    // }, 10000);
   }
-
-
-
-
 
 
 
@@ -203,9 +203,9 @@ export default class App extends Component {
               {/* <Text>!@#$%^{this.state.alt}-----</Text> */}
             </View>
             {/* <RNSensorView /> */}
-            <View style={styles.v1}>
+            {/* <View style={styles.v1}>
               {viewComponents.map((Comp, index) => <Comp key={index} />)}
-            </View>
+            </View> */}
             
           </View>
           {/* { () => AsyncStorage(123)} */}
