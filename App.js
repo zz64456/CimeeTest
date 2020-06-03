@@ -13,7 +13,10 @@ import Geolocation from '@react-native-community/geolocation';
 import * as Sensors from "react-native-sensors";
 import { map, filter } from "rxjs/operators";
 
-// Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
+Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
+Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
+Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
+Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 
 
 
