@@ -12,13 +12,16 @@ import { ScrollView, Text, SafeAreaView, View, StyleSheet, } from "react-native"
 import Geolocation from '@react-native-community/geolocation';
 import * as Sensors from "react-native-sensors";
 import { map, filter } from "rxjs/operators";
+import moment from 'moment'
+
+
 
 Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
 Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
 Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
 Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 
-
+console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
 
 // ************************ SensorView
 
@@ -42,7 +45,8 @@ export default class App extends Component {
   constructor() {
     super()
     this.state = {
-      behavior: 'null'
+      behavior: 'null',
+      lastWriteTime: '0'
     }
   }
 
@@ -84,7 +88,9 @@ export default class App extends Component {
         console.log(err.message);
     })
 
-    
+    this.setState({
+      lastWriteTime: time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+    })
   }
   
 
@@ -102,28 +108,32 @@ export default class App extends Component {
     //   ...this.state,
     //   acc : 42
     // })
-    Sensors.accelerometer.subscribe(({ x, y, z, timestamp }) => {
+    Sensors.accelerometer.subscribe(({ x, y, z }) => {
+      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
       this.setState({
           acc: {
             x, y, z, timestamp
           }
       })
     })
-    Sensors.gyroscope.subscribe(({ x, y, z, timestamp }) => {
+    Sensors.gyroscope.subscribe(({ x, y, z }) => {
+      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
       this.setState({
           gyro: {
             x, y, z, timestamp
           }
       })
     })
-    Sensors.magnetometer.subscribe(({ x, y, z, timestamp }) => {
+    Sensors.magnetometer.subscribe(({ x, y, z }) => {
+      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
       this.setState({
           mag: {
             x, y, z, timestamp
           }
       })
     })
-    Sensors.barometer.subscribe(({ pressure, timestamp }) => {
+    Sensors.barometer.subscribe(({ pressure }) => {
+      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
       this.setState({
           baro: {
             pressure, timestamp
@@ -150,6 +160,8 @@ export default class App extends Component {
     Geolocation.getCurrentPosition(
       position => {
         // console.log("I'm here..   "+position)
+        console.log(moment().unix())
+        position.timestamp = moment().unix();
         this.setState({
           position
         });
@@ -179,6 +191,7 @@ export default class App extends Component {
       // console.log(JSON.stringify(data))
       data.behavior = this.state.behavior
       this.writeFile(data)
+
     }
 
   }
@@ -187,31 +200,15 @@ export default class App extends Component {
 
   render() {
     return (
-      <SafeAreaView>
+      <SafeAreaView style={styles.sav}>
         <ScrollView>
           <View style={styles.main}>
-            {/* <Test num="10000" /> */}
-            {/* <Async alt={this.state.alt} /> */}
-            {/* <GeolocationView /> */}
             <View style={styles.v1}>
-              {/* <Text style={styles.t1}>
-                <Text style={styles.title}>Initial position: </Text>
-                {this.state.initialPosition}
-              </Text> */}
-              {/* <Text style={styles.t1}>
-                <Text style={styles.title}>Current position: </Text>
-                {this.state.lastPosition}
-              </Text> */}
-              {/* <Button onPress={() => this.writeFile(this.state.lastPosition)} title='給我寫檔!!!'></Button> */}
-              {/* <Text>!@#$%^{this.state.alt}-----</Text> */}
+              <Text style={styles.t1}>
+                最近儲存時間...{this.state.lastWriteTime}
+              </Text>
             </View>
-            {/* <RNSensorView /> */}
-            {/* <View style={styles.v1}>
-              {viewComponents.map((Comp, index) => <Comp key={index} />)}
-            </View> */}
-            
           </View>
-          {/* { () => AsyncStorage(123)} */}
           
 
         </ScrollView>
@@ -222,12 +219,20 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
+  sav: {
+    // flex: 1
+    // backgroundColor: ''
+  },
   main: {
-    flex: 1,
+    // flex: 1,
+    // alignItems: 'center',
+    
     backgroundColor: "#f8e3fc",
   },
   v1: {
-    flex: 1,
+    // justifyContent: 'flex-end',
+    // flex: 1,
+    alignSelf: 'center',
     paddingTop: 10
   },
   title: {

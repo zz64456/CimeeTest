@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "^1.10.3",
     "@react-native-community/geolocation": "^2.0.2",
+    "moment": "^2.26.0",
     "react": "16.11.0",
     "react-native": "0.62.2",
     "react-native-fs": "^2.16.6",
