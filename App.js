@@ -1,165 +1,130 @@
 import React, { Component } from "react";
-import { ScrollView, Text, SafeAreaView, View, StyleSheet, } from "react-native";
+import { ScrollView, Text, SafeAreaView, View, StyleSheet, Button, TextInput } from "react-native";
 
-import Geolocation from '@react-native-community/geolocation';
-import * as Sensors from "react-native-sensors";
-import moment from 'moment'
+// import App from './src';
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
+function HomeScreen({ navigation, route }) {
+  React.useEffect(() => {
+    if (route.params?.post) {
+      // Post updated, do something with `route.params.post`
+      // For example, send the post to the server
+    }
+  }, [route.params?.post]);
+
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Button
+        title="Create post"
+        onPress={() => navigation.navigate('CreatePost')}
+      />
+      <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
+    </View>
+  );
+}
+
+function CreatePostScreen({ navigation, route }) {
+  const [postText, setPostText] = React.useState('');
+
+  return (
+    <>
+      <TextInput
+        multiline placeholder="What's on your mind?"
+        style={{ height: 200, padding: 10, backgroundColor: 'white' }}
+        value={postText}
+        onChangeText={setPostText}
+      />
+      <Button
+        title="Done to Home"
+        onPress={() => {
+          // Pass params back to home screen
+          navigation.navigate('Home', { post: postText });
+        }}
+      />
+      <Button
+        title="Done to Details"
+        onPress={() => {
+          // Pass params back to home screen
+          navigation.navigate('Details', { post: postText });
+        }}
+      />
+    </>
+  );
+}
+
+function DetailsScreen({ route, navigation }) {
+  React.useEffect(() => {
+    if (route.params?.post) {
+      // Post updated, do something with `route.params.post`
+      // For example, send the post to the server
+    }
+  }, [route.params?.post]);
+  const { itemId } = route.params;
+  const { otherParam } = route.params;
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Details Screen</Text>
+      <Text>itemId: {JSON.stringify(itemId)}</Text>
+      <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+      <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
+      <Button
+        title="Go to Details... again"
+        onPress={() =>
+          navigation.push('Details', {
+            itemId: Math.floor(Math.random() * 100),
+          })
+        }
+      />
+      <Button title="Go back" onPress={() => navigation.goBack()} />
+      <Button
+        title="Go back to first screen in stack"
+        onPress={() => navigation.popToTop()}
+      />
+    </View>
+  );
+}
+
+var someData = 'I am the Data !'
 
 
-
-Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
-Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
-Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
-Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
-
-// console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
-
-
+const Stack = createStackNavigator();
 
 export default class App extends Component {
 
-  constructor() {
-    super()
-    this.state = {
-      behavior: 'null',
-      lastWriteTime: '0'
-    }
-  }
-
-  // ************************ Async
-
-  writeFile(p) {
-    var RNFS = require('react-native-fs');
-    var path = RNFS.DocumentDirectoryPath + '/v1.txt';
-    if(!RNFS.exists(path)) {
-    // Write the file
-    RNFS.writeFile(path, JSON.stringify(p), 'utf8')
-      .then((success) => {
-        console.log('FILE WRITTEN!~~~~');
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-    }
-
-      // Append the content to the file
-    RNFS.appendFile(path, JSON.stringify(p), 'utf8')
-      .then((success) => {
-        console.log('appended....');
-      })
-      .catch((err) => {
-        console.log(err.message);
-    })
-
-    this.setState({
-      lastWriteTime: time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-    })
-  }
-  
-
-
-  // ************************ Geolocation
-  componentDidMount() {
-
-    Sensors.accelerometer.subscribe(({ x, y, z }) => {
-      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-      this.setState({
-          acc: {
-            x, y, z, timestamp
-          }
-      })
-    })
-    Sensors.gyroscope.subscribe(({ x, y, z }) => {
-      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-      this.setState({
-          gyro: {
-            x, y, z, timestamp
-          }
-      })
-    })
-    Sensors.magnetometer.subscribe(({ x, y, z }) => {
-      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-      this.setState({
-          mag: {
-            x, y, z, timestamp
-          }
-      })
-    })
-    Sensors.barometer.subscribe(({ pressure }) => {
-      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-      this.setState({
-          baro: {
-            pressure, timestamp
-          },
-      })
-    })
-    
-    setInterval( () => this.updateGeolocation(), 2000)
-    setInterval( () => this.toAsync(), 1000)
-    
-  }
-
-  // componentWillUnmount() {
-  //   this.watchID != null && Geolocation.clearWatch(this.watchID);
-  // }
-
-  updateGeolocation() {
-    Geolocation.getCurrentPosition(
-      position => {
-        console.log(moment().unix())
-        position.timestamp = moment().unix();
-        this.setState({
-          position
-        });
-      },
-      error => Alert.alert('Error', JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
-    );
-  }
-
-  
-
-  // 整理 SensorView & Geolocation 後輸出至AsyncStorage
-  toAsync() {
-
-    var data = {}
-
-    data.acc = this.state.acc
-    data.gyro = this.state.gyro
-    data.mag = this.state.mag
-    data.baro = this.state.baro
-
-    if(this.state.position) {
-      data.pos = this.state.position.coords
-      data.behavior = this.state.behavior
-      // this.writeFile(data)
-
-    }
-
-  }
-
   render() {
     return (
-      <SafeAreaView style={styles.sav}>
-        <ScrollView>
-          <View style={styles.main}>
-            <View style={styles.v1}>
-              <Text style={styles.t1}>
-                最近儲存時間...{this.state.lastWriteTime}
-              </Text>
-            </View>
-          </View>
-          
-
-        </ScrollView>
-      </SafeAreaView>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home">
+            {props => <HomeScreen {...props} extraData={someData} />}
+          </Stack.Screen>
+          <Stack.Screen name="Details" component={DetailsScreen} initialParams={{ itemId: 42 }}/>
+          <Stack.Screen name="CreatePost" component={CreatePostScreen} />
+          {/* <Stack.Screen name="SavingInfo" component={SavingInfoScreen} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+      
       
     );
   }
 }
 
 const styles = StyleSheet.create({
-  main: {
+  savingtime: {
     
   }
 })
+
+// const Main = () => (
+//   <App/>
+//   // <SafeAreaView>
+//   //   <View>
+//   //     <Text>123</Text>
+//   //   </View>
+//   // </SafeAreaView>
+  
+// );
+
+// export default Main;
