@@ -16,7 +16,7 @@ Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 // console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
 
 
-export default class Fetching extends Component {
+export default class FetchingScreen extends Component {
 
   constructor() {
     super()
@@ -131,7 +131,7 @@ export default class Fetching extends Component {
     if(this.state.position) {
       data.pos = this.state.position.coords
       data.behavior = this.state.behavior
-      // this.writeFile(data)
+      this.writeFile(data)
 
     }
 
