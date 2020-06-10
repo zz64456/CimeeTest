@@ -4,8 +4,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React, { Component } from "react";
 import { ScrollView, Text, SafeAreaView, View, StyleSheet, Button, TextInput } from "react-native";
 import {
-  SavingInfoScreen,
-} from './screens/SavingInfoScreen';
+  SavingInfoScreen1,
+  S2,
+} from './screens/SavingInfoScreen'
+import Fetching from './components/Fetching'
 
 
 function HomeScreen({ navigation }) {
@@ -29,6 +31,8 @@ function HomeScreen({ navigation }) {
           });
         }}
       />
+      <Button title="Go to SavingInfo" onPress = { () => {navigation.navigate('SavingInfo')} } />
+      <Button title="Go to Fetching" onPress = { () => {navigation.navigate('Fetching')} } />
     </View>
   );
 }
@@ -55,6 +59,23 @@ function DetailsScreen({ navigation, route }) {
   );
 }
 
+// function SavingInfoScreen1({ navigation }) {
+//   return (
+//     <View>
+//       <Text>I am SAVINGGGGG !!!!</Text>
+//     </View>
+//   )
+// }
+
+// const f1  = ({ navigation }) => (
+//   <View>
+//       <Text>
+//           I AM SAVING Sth....!!
+//       </Text>
+//   </View>
+// );
+
+
 var someData = 23
 
 const Stack = createStackNavigator();
@@ -68,7 +89,8 @@ export default class App extends Component {
           <Stack.Screen name="Home"component={HomeScreen} />
           <Stack.Screen name="Details" component={DetailsScreen} />
           {/* <Stack.Screen name="CreatePost" component={CreatePostScreen} /> */}
-          {/* <Stack.Screen name="SavingInfo" component={SavingInfoScreen} /> */}
+          <Stack.Screen name="SavingInfo" component={SavingInfoScreen1} />
+          <Stack.Screen name="Fetching" component={Fetching} />
         </Stack.Navigator>
       </NavigationContainer>
       

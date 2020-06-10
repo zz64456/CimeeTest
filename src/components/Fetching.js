@@ -16,7 +16,7 @@ Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 // console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
 
 
-export default class App extends Component {
+export default class Fetching extends Component {
 
   constructor() {
     super()
@@ -30,7 +30,7 @@ export default class App extends Component {
 
   writeFile(p) {
     var RNFS = require('react-native-fs');
-    var path = RNFS.DocumentDirectoryPath + '/v1.txt';
+    var path = RNFS.DocumentDirectoryPath + '/v2.txt';
     if(!RNFS.exists(path)) {
     // Write the file
     RNFS.writeFile(path, JSON.stringify(p), 'utf8')
