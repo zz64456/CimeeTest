@@ -10,7 +10,7 @@ import { Text, View, Button } from "react-native";
 import FetchingScreen from './screens/FetchingScreen'
 import HomeScreen from './screens/HomeScreen'
 import RegisterScreen from './screens/RegisterScreen'
-// import LoginScreen from './screens/LoginScreen'
+import LoginScreen from "./screens/LoginScreen";
 
 
 
@@ -46,10 +46,12 @@ export default class App extends Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Home">
+        <Stack.Navigator initialRouteName="Home" screenOptions={{
+    headerShown: false
+  }}>
           <Stack.Screen name="Home" component={HomeScreen} />
           {/* <Stack.Screen name="Details" component={DetailsScreen} /> */}
-          {/* <Stack.Screen name="Login"component={LoginScreen} /> */}
+          <Stack.Screen name="Login" component={LoginScreen} />
           {/* <Stack.Screen name="Register"component={RegisterScreen} /> */}
           <Stack.Screen name="Fetching" component={FetchingScreen} />
 

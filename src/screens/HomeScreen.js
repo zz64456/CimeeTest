@@ -13,17 +13,17 @@ export default function HomeScreen({ navigation }) {
     // }, [route.params?.post]);
   
     return (
-        // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        //     <Text style={styles.text}>Welcome to Cimee!</Text>
-        //     <Logo />
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={styles.text}>Welcome to Cimee!</Text>
+            <Logo />
             
-        //     <Button title="Login" onPress={() => navigation.navigate('LoginScreen')} />
-        //     <Button title="Sign up"
-        //         onPress={() => navigation.navigate('RegisterScreen')} />
-        //     {/* <Button title="Go to SavingInfo" onPress = { () => {navigation.navigate('SavingInfo')} } /> */}
-        //     {/* <Button title="Go to Fetching" onPress = { () => {navigation.navigate('Fetching')} } /> */}
-        // </View>
-        <LoginScreen />
+            <Button title="Login" onPress={() => navigation.navigate('Login')} />
+            <Button title="Sign up"
+                onPress={() => navigation.navigate('RegisterScreen')} />
+            {/* <Button title="Go to SavingInfo" onPress = { () => {navigation.navigate('SavingInfo')} } /> */}
+            {/* <Button title="Go to Fetching" onPress = { () => {navigation.navigate('Fetching')} } /> */}
+        </View>
+        // <LoginScreen />
     );
 }
 
