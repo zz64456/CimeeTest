@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Text, View, Button, StyleSheet } from "react-native";
 
 import Logo from '../components/Logo';
-import LoginScreen from "react-native-login-screen";
 
 export default function HomeScreen({ navigation }) {
     // React.useEffect(() => {
@@ -23,7 +22,6 @@ export default function HomeScreen({ navigation }) {
             {/* <Button title="Go to SavingInfo" onPress = { () => {navigation.navigate('SavingInfo')} } /> */}
             {/* <Button title="Go to Fetching" onPress = { () => {navigation.navigate('Fetching')} } /> */}
         </View>
-        // <LoginScreen />
     );
 }
 

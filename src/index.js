@@ -12,9 +12,6 @@ import HomeScreen from './screens/HomeScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import LoginScreen from "./screens/LoginScreen";
 
-
-
-
 function DetailsScreen({ navigation, route }) {
   const { itemId } = route.params;
   // const { otherParam } = route.params;
@@ -37,9 +34,7 @@ function DetailsScreen({ navigation, route }) {
   );
 }
 
-
 const Stack = createStackNavigator();
-const RootStack = createStackNavigator();
 
 export default class App extends Component {
 
