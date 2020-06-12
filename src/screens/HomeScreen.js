@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, StyleSheet } from "react-native";
 
 import Logo from '../components/Logo';
+import LoginScreen from "react-native-login-screen";
 
 export default function HomeScreen({ navigation }) {
     // React.useEffect(() => {
@@ -12,24 +13,26 @@ export default function HomeScreen({ navigation }) {
     // }, [route.params?.post]);
   
     return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Logo />
-            <Text>Welcome to Cimee!</Text>
-            {/* <Button icon="camera" mode="contained" onPress={() => console.log('Pressed')}>
-                Press me
-            </Button> */}
-            <Button
-            title="Go to Details"
-            onPress={() => {
-                /* 1. Navigate to the Details route with params */
-                navigation.navigate('Details', {
-                itemId: 86,
-                otherParam: 'anything you want here',
-                });
-            }}
-            />
-            {/* <Button title="Go to SavingInfo" onPress = { () => {navigation.navigate('SavingInfo')} } /> */}
-            <Button title="Go to Fetching" onPress = { () => {navigation.navigate('Fetching')} } />
-        </View>
+        // <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        //     <Text style={styles.text}>Welcome to Cimee!</Text>
+        //     <Logo />
+            
+        //     <Button title="Login" onPress={() => navigation.navigate('LoginScreen')} />
+        //     <Button title="Sign up"
+        //         onPress={() => navigation.navigate('RegisterScreen')} />
+        //     {/* <Button title="Go to SavingInfo" onPress = { () => {navigation.navigate('SavingInfo')} } /> */}
+        //     {/* <Button title="Go to Fetching" onPress = { () => {navigation.navigate('Fetching')} } /> */}
+        // </View>
+        <LoginScreen />
     );
 }
+
+const styles = StyleSheet.create({
+    text: {
+    //   position: 'absolute',
+    //   top: 10,
+    //   left: 10,
+        padding: 10,
+        fontSize: 20
+    },
+  });

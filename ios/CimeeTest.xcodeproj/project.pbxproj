@@ -18,6 +18,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* CimeeTestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CimeeTestTests.m */; };
+		363E7E5024933EDD0015DAC8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 363E7E4F24933EDD0015DAC8 /* Default-568h@2x.png */; };
 		5F3EFDE3FFA0DE19D0A02863 /* libPods-CimeeTest-CimeeTestTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BFAE53D45914AD90A81A402 /* libPods-CimeeTest-CimeeTestTests.a */; };
 		F72CD39F18FFC6B3752C7C31 /* libPods-CimeeTest-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 44444BF854172E26AE1A7C3A /* libPods-CimeeTest-tvOSTests.a */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = CimeeTest/main.m; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* CimeeTest-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CimeeTest-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* CimeeTest-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "CimeeTest-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		363E7E4F24933EDD0015DAC8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		3BFAE53D45914AD90A81A402 /* libPods-CimeeTest-CimeeTestTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CimeeTest-CimeeTestTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E09E861B22D3A34BB9CE5DF /* Pods-CimeeTest-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CimeeTest-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-CimeeTest-tvOSTests/Pods-CimeeTest-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3FA4227F3517AC11A1796E31 /* Pods-CimeeTest-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CimeeTest-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-CimeeTest-tvOS/Pods-CimeeTest-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				363E7E4F24933EDD0015DAC8 /* Default-568h@2x.png */,
 				13B07FAE1A68108700A75B9A /* CimeeTest */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* CimeeTestTests */,
@@ -342,6 +345,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				363E7E5024933EDD0015DAC8 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
