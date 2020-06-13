@@ -139,11 +139,14 @@ export default class FetchingScreen extends Component {
 
   render() {
     return (
-      <View>
-        <Text>
-          最近儲存時間...{this.state.lastWriteTime}
-        </Text>
-      </View>
+      <SafeAreaView>
+        <View>
+          <Text>
+            最近儲存時間...{this.state.lastWriteTime}
+          </Text>
+        </View>
+      </SafeAreaView>
+      
     );
   }
 }

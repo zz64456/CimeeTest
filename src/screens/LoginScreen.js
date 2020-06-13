@@ -1,5 +1,5 @@
 import React from 'react'
-import LoginScreen from "react-native-login-screen";
+import {LoginScreen as PackageLoginScreen} from "react-native-login-screen";
 
 // function login(text) {
 //     alert(text)
@@ -8,11 +8,11 @@ import LoginScreen from "react-native-login-screen";
 const Login = ( {navigation} ) => {
     // const greeting = 'Hello'
     return (
-        <LoginScreen
+        <PackageLoginScreen
             onPressSettings={() => alert("Settings Button is pressed")}
             loginText="loginText"
             onPressLogin={() => {
-                alert('hey')
+                navigation.navigate('Fetching')
             }}
         />
     );
