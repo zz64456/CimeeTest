@@ -12,7 +12,7 @@ import HomeScreen from './screens/HomeScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import LoginScreen from "./screens/LoginScreen";
 
-import showMap from './components/showMap';
+import ShowMap from './components/showMap';
 
 function DetailsScreen({ navigation, route }) {
   const { itemId } = route.params;
@@ -53,7 +53,7 @@ export default class App extends Component {
           {/* <Stack.Screen name="Register"component={RegisterScreen} /> */}
           <Stack.Screen name="Fetching" component={FetchingScreen} />
 
-          <Stack.Screen name="ShowMap" component={showMap} />
+          <Stack.Screen name="ShowMap" component={ShowMap} />
 
         </Stack.Navigator>
       </NavigationContainer>

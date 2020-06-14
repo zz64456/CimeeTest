@@ -1,34 +1,79 @@
-import React, { Component } from 'react'
-import { Text, View, SafeAreaView, StyleSheet } from 'react-native'
+import React from 'react';
+import {Alert, StyleSheet} from 'react-native';
+import MapboxGL from '@react-native-mapbox-gl/maps';
 
-import MapboxGl from '@react-native-mapbox-gl/maps'
+// import sheet from '../styles/sheet';
+import {onSortOptions} from '../utils';
 
-MapboxGl.setAccessToken(
-	'pk.eyJ1IjoiejUyMDJkYmMiLCJhIjoiY2tiZGlsNDZjMGMwNzJ0cWVhY202NDMzMSJ9.tjMX8-zkh0OSxfs6mKtvMQ'
-);
+import BaseExamplePropTypes from '../common/BaseExamplePropTypes';
+import TabBarPage from '../common/TabBarPage';
 
-// const pointInView = await this._map.getPointInView([-37.817070, 144.949901]);
+class ShowMap extends React.Component {
+  static propTypes = {
+    ...BaseExamplePropTypes,
+  };
 
-export default class showMap extends Component {
-    
+  constructor(props) {
+    super(props);
 
-    onUserMarkerPress() {
-        Alert.alert('You pressed on the user location annotation');
-    }
+    this._mapOptions = Object.keys(MapboxGL.StyleURL)
+      .map((key) => {
+        return {
+          label: key,
+          data: MapboxGL.StyleURL[key],
+        };
+      })
+      .sort(onSortOptions);
 
-    render() {
-        return (
-            <SafeAreaView>
-                <MapboxGl.MapView
-                styleURL="mapbox://styles/mapbox/streets-v11"
-                >
-                    <MapboxGl.Camera followZoomLevel={12} followUserLocation />
-                    <Text>123</Text>
-                    <MapboxGl.UserLocation onPress={this.onUserMarkerPress} />
-                </MapboxGl.MapView>
-                
-            </SafeAreaView>
-            
-        )
-    }
+    this.state = {
+      styleURL: this._mapOptions[0].data,
+    };
+
+    this.onMapChange = this.onMapChange.bind(this);
+    this.onUserMarkerPress = this.onUserMarkerPress.bind(this);
+  }
+
+  componentDidMount() {
+    MapboxGL.locationManager.start();
+  }
+
+  componentWillUnmount() {
+    MapboxGL.locationManager.stop();
+  }
+
+  onMapChange(index, styleURL) {
+    this.setState({styleURL});
+  }
+
+  onUserMarkerPress() {
+    Alert.alert('You pressed on the user location annotation');
+  }
+
+  render() {
+    return (
+      <TabBarPage
+        {...this.props}
+        scrollable
+        options={this._mapOptions}
+        onOptionPress={this.onMapChange}>
+        <MapboxGL.MapView
+          styleURL={this.state.styleURL}
+          style={styles.matchParent}>
+          <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+
+          <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
+        </MapboxGL.MapView>
+      </TabBarPage>
+    );
+  }
 }
+
+export default ShowMap;
+
+const styles = StyleSheet.create({
+    matchParent: {
+        flex: 1,
+    }
+      
+})
+
