@@ -7,16 +7,28 @@ MapboxGl.setAccessToken(
 	'pk.eyJ1IjoiejUyMDJkYmMiLCJhIjoiY2tiZGlsNDZjMGMwNzJ0cWVhY202NDMzMSJ9.tjMX8-zkh0OSxfs6mKtvMQ'
 );
 
+// const pointInView = await this._map.getPointInView([-37.817070, 144.949901]);
+
 export default class showMap extends Component {
+    
+
+    onUserMarkerPress() {
+        Alert.alert('You pressed on the user location annotation');
+    }
+
     render() {
         return (
-            <View>
+            <SafeAreaView>
                 <MapboxGl.MapView
-                    zoomLevel = {14}
-                    centerCoordinate = {[11.256, 43.77]} 
-                />
-                {/* </MapboxGl.MapView> */}
-            </View>
+                styleURL="mapbox://styles/mapbox/streets-v11"
+                >
+                    <MapboxGl.Camera followZoomLevel={12} followUserLocation />
+                    <Text>123</Text>
+                    <MapboxGl.UserLocation onPress={this.onUserMarkerPress} />
+                </MapboxGl.MapView>
+                
+            </SafeAreaView>
+            
         )
     }
 }

@@ -12,6 +12,8 @@ import HomeScreen from './screens/HomeScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import LoginScreen from "./screens/LoginScreen";
 
+import showMap from './components/showMap';
+
 function DetailsScreen({ navigation, route }) {
   const { itemId } = route.params;
   // const { otherParam } = route.params;
@@ -30,6 +32,7 @@ function DetailsScreen({ navigation, route }) {
       />
       <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
       <Button title="Go back" onPress={() => navigation.goBack()} />
+      
     </View>
   );
 }
@@ -49,6 +52,8 @@ export default class App extends Component {
           <Stack.Screen name="Login" component={LoginScreen} />
           {/* <Stack.Screen name="Register"component={RegisterScreen} /> */}
           <Stack.Screen name="Fetching" component={FetchingScreen} />
+
+          <Stack.Screen name="ShowMap" component={showMap} />
 
         </Stack.Navigator>
       </NavigationContainer>
