@@ -5,7 +5,7 @@ import Geolocation from '@react-native-community/geolocation';
 import * as Sensors from "react-native-sensors";
 import moment from 'moment'
 
-
+import ShowMap from '../components/showMap';
 
 
 Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
@@ -131,7 +131,7 @@ export default class FetchingScreen extends Component {
     if(this.state.position) {
       data.pos = this.state.position.coords
       data.behavior = this.state.behavior
-      this.writeFile(data)
+      // this.writeFile(data)
 
     }
 
@@ -145,6 +145,10 @@ export default class FetchingScreen extends Component {
             最近儲存時間...{this.state.lastWriteTime}
           </Text>
         </View>
+        <View>
+          <ShowMap />
+        </View>
+        
       </SafeAreaView>
       
     );

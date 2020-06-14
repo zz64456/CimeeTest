@@ -3,6 +3,7 @@ import { Text, View, Button, StyleSheet } from "react-native";
 
 import Logo from '../components/Logo';
 
+
 export default function HomeScreen({ navigation }) {
     // React.useEffect(() => {
     //   if (route.params?.post) {
