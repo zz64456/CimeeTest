@@ -48,7 +48,7 @@ class MapHeader extends React.PureComponent {
           color: colors.secondary.white,
           underlayColor: this.props.backgroundColor,
         }}
-        centerComponent={{text: this.props.label, style: styles.label}}
+        centerComponent={{text: 'Cimee', style: styles.label}}
       />
     );
   }

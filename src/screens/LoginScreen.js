@@ -10,7 +10,7 @@ const Login = ( {navigation} ) => {
     return (
         <PackageLoginScreen
             onPressSettings={() => alert("Settings Button is pressed")}
-            loginText="loginText"
+            // loginText="loginText"
             onPressLogin={() => {
                 navigation.navigate('Fetching')
             }}

@@ -9,10 +9,9 @@ import { Text, View, Button } from "react-native";
 // } from './screens/SavingInfoScreen'
 import FetchingScreen from './screens/FetchingScreen'
 import HomeScreen from './screens/HomeScreen'
-import RegisterScreen from './screens/RegisterScreen'
 import LoginScreen from "./screens/LoginScreen";
-
 import ShowMap from './components/showMap';
+
 
 function DetailsScreen({ navigation, route }) {
   const { itemId } = route.params;
