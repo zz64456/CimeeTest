@@ -7,7 +7,7 @@ import { Text, View, Button } from "react-native";
 //   SavingInfoScreen1,
 //   S2,
 // } from './screens/SavingInfoScreen'
-import FetchingScreen from './screens/FetchingScreen'
+// import FetchingScreen from './screens/FetchingScreen'
 import HomeScreen from './screens/HomeScreen'
 import LoginScreen from "./screens/LoginScreen";
 import MapScreen from "./screens/MapScreen";
@@ -52,7 +52,7 @@ export default class App extends Component {
           {/* <Stack.Screen name="Details" component={DetailsScreen} /> */}
           <Stack.Screen name="Login" component={LoginScreen} />
           {/* <Stack.Screen name="Register"component={RegisterScreen} /> */}
-          <Stack.Screen name="Fetching" component={FetchingScreen} />
+          {/* <Stack.Screen name="Fetching" component={FetchingScreen} /> */}
           <Stack.Screen name="Map" component={MapScreen} />
 
           {/* <Stack.Screen name="ShowMap" component={ShowMap} /> */}

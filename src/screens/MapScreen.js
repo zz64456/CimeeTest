@@ -1,6 +1,7 @@
 import React from 'react'
 
 import ShowMap from '../components/showMap';
+import Fetching from '../components/Fetching';
 
 export default class MapScreen extends React.Component {
 
@@ -10,7 +11,10 @@ export default class MapScreen extends React.Component {
 
     render() {
         return (
-            <ShowMap label='CIMEE' onDismissExample={() => this.onDismissExample()} />
+            <>
+                <Fetching />
+                <ShowMap label='CIMEE' onDismissExample={() => this.onDismissExample()} />
+            </>
         )
     }
 }

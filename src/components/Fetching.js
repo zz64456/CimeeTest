@@ -16,7 +16,7 @@ Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 // console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
 
 
-export default class FetchingScreen extends Component {
+export default class Fetching extends Component {
 
   constructor() {
     super()
@@ -30,7 +30,7 @@ export default class FetchingScreen extends Component {
 
   writeFile(p) {
     var RNFS = require('react-native-fs');
-    var path = RNFS.DocumentDirectoryPath + '/v2.txt';
+    var path = RNFS.DocumentDirectoryPath + '/v3.txt';
     if(!RNFS.exists(path)) {
     // Write the file
     RNFS.writeFile(path, JSON.stringify(p), 'utf8')
@@ -131,35 +131,37 @@ export default class FetchingScreen extends Component {
     if(this.state.position) {
       data.pos = this.state.position.coords
       data.behavior = this.state.behavior
-      // this.writeFile(data)
-
+      this.writeFile(data)
+      console.log('running....')
     }
 
   }
 
-  render() {
-    return (
-      <SafeAreaView>
-        <View>
-          <Text>
-            最近儲存時間...{this.state.lastWriteTime}
-          </Text>
-        </View>
-        {/* <View>
-          <ShowMap />
-        </View> */}
+  render() { return null; }
+
+  // render() {
+  //   return (
+  //     <SafeAreaView>
+  //       <View>
+  //         <Text>
+  //           最近儲存時間...{this.state.lastWriteTime}
+  //         </Text>
+  //       </View>
+  //       {/* <View>
+  //         <ShowMap />
+  //       </View> */}
         
-      </SafeAreaView>
+  //     </SafeAreaView>
       
-    );
-  }
+  //   );
+  // }
 }
 
-const styles = StyleSheet.create({
-  savingblock: {
-    flex: 1
-  },
-  savingtime: {
+// const styles = StyleSheet.create({
+//   savingblock: {
+//     flex: 1
+//   },
+//   savingtime: {
     
-  }
-})
+//   }
+// })
