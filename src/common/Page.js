@@ -16,11 +16,11 @@ class Page extends React.Component {
     return (
       <View style={sheet.matchParent}>
         <MapHeader
-          backgroundColor={colors.primary.pink}
+          backgroundColor={colors.secondary.purpleLight}
           statusBarColor={colors.primary.pinkDark}
           statusBarTextTheme={'light-content'}
           label={this.props.label}
-          // onBack={this.props.onDismissExample}
+          onBack={this.props.onDismissExample}
         />
 
         {this.props.children}

@@ -51,10 +51,6 @@ class ShowMap extends React.Component {
         Alert.alert('You pressed on the user location annotation');
     }
 
-    onDismissExample() {
-        this.props.navigation.goBack();
-    }
-
     render() {
         return (
         <TabBarPage
