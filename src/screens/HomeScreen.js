@@ -14,12 +14,12 @@ export default function HomeScreen({ navigation }) {
   
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={styles.text}>Welcome to Cimee</Text>
+            {/* <Text style={styles.text}>Welcome to Cimee</Text> */}
             <Logo />
             
             <Button title="Login" onPress={() => navigation.navigate('Login')} />
-            <Button title="Go to MapView"
-                onPress={() => navigation.navigate('ShowMap')} />
+            {/* <Button title="Go to MapView"
+                onPress={() => navigation.navigate('ShowMap')} /> */}
             {/* <Button title="Go to SavingInfo" onPress = { () => {navigation.navigate('SavingInfo')} } /> */}
             {/* <Button title="Go to Fetching" onPress = { () => {navigation.navigate('Fetching')} } /> */}
         </View>

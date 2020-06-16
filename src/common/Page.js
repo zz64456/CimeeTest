@@ -20,7 +20,7 @@ class Page extends React.Component {
           statusBarColor={colors.primary.pinkDark}
           statusBarTextTheme={'light-content'}
           label={this.props.label}
-          onBack={this.props.onDismissExample}
+          // onBack={this.props.onDismissExample}
         />
 
         {this.props.children}

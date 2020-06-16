@@ -9,63 +9,65 @@ import BaseExamplePropTypes from '../common/BaseExamplePropTypes';
 import TabBarPage from '../common/TabBarPage';
 
 class ShowMap extends React.Component {
-  static propTypes = {
-    ...BaseExamplePropTypes,
-  };
 
-  constructor(props) {
-    super(props);
-
-    this._mapOptions = Object.keys(MapboxGL.StyleURL)
-      .map((key) => {
-        return {
-          label: key,
-          data: MapboxGL.StyleURL[key],
-        };
-      })
-      .sort(onSortOptions);
-
-    this.state = {
-      styleURL: this._mapOptions[0].data,
+    static propTypes = {
+        ...BaseExamplePropTypes,
     };
 
-    this.onMapChange = this.onMapChange.bind(this);
-    this.onUserMarkerPress = this.onUserMarkerPress.bind(this);
-  }
+    constructor(props) {   
+        super(props);
+        this._mapOptions = Object.keys(MapboxGL.StyleURL)
+            .map((key) => {
+            return {
+                label: key,
+                data: MapboxGL.StyleURL[key],
+            };
+            })
+            .sort(onSortOptions);
 
-  componentDidMount() {
-    MapboxGL.locationManager.start();
-  }
+        this.state = {
+            styleURL: this._mapOptions[0].data,
+        };
+        
+        this.label = props.label;
 
-  componentWillUnmount() {
-    MapboxGL.locationManager.stop();
-  }
+        this.onMapChange = this.onMapChange.bind(this);
+        this.onUserMarkerPress = this.onUserMarkerPress.bind(this);
+    }
 
-  onMapChange(index, styleURL) {
-    this.setState({styleURL});
-  }
+    componentDidMount() {
+        MapboxGL.locationManager.start();
+    }
 
-  onUserMarkerPress() {
-    Alert.alert('You pressed on the user location annotation');
-  }
+    componentWillUnmount() {
+        MapboxGL.locationManager.stop();
+    }
 
-  render() {
-    return (
-      <TabBarPage
-        {...this.props}
-        scrollable
-        options={this._mapOptions}
-        onOptionPress={this.onMapChange}>
-        <MapboxGL.MapView
-          styleURL={this.state.styleURL}
-          style={styles.matchParent}>
-          <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+    onMapChange(index, styleURL) {
+        this.setState({styleURL});
+    }
 
-          <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
-        </MapboxGL.MapView>
-      </TabBarPage>
-    );
-  }
+    onUserMarkerPress() {
+        Alert.alert('You pressed on the user location annotation');
+    }
+
+    render() {
+        return (
+        <TabBarPage
+            {...this.props}
+            scrollable
+            options={this._mapOptions}
+            onOptionPress={this.onMapChange}>
+            <MapboxGL.MapView
+            styleURL={this.state.styleURL}
+            style={styles.matchParent}>
+            <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+
+            <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
+            </MapboxGL.MapView>
+        </TabBarPage>
+        );
+    }
 }
 
 export default ShowMap;

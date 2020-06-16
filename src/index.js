@@ -10,7 +10,9 @@ import { Text, View, Button } from "react-native";
 import FetchingScreen from './screens/FetchingScreen'
 import HomeScreen from './screens/HomeScreen'
 import LoginScreen from "./screens/LoginScreen";
-import ShowMap from './components/showMap';
+import MainScreen from "./screens/MainScreen";
+
+// import ShowMap from './components/showMap';
 
 
 function DetailsScreen({ navigation, route }) {
@@ -51,8 +53,9 @@ export default class App extends Component {
           <Stack.Screen name="Login" component={LoginScreen} />
           {/* <Stack.Screen name="Register"component={RegisterScreen} /> */}
           <Stack.Screen name="Fetching" component={FetchingScreen} />
+          <Stack.Screen name="Main" component={MainScreen} />
 
-          <Stack.Screen name="ShowMap" component={ShowMap} />
+          {/* <Stack.Screen name="ShowMap" component={ShowMap} /> */}
 
         </Stack.Navigator>
       </NavigationContainer>

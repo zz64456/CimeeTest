@@ -12,7 +12,7 @@ const Login = ( {navigation} ) => {
             onPressSettings={() => alert("Settings Button is pressed")}
             // loginText="loginText"
             onPressLogin={() => {
-                navigation.navigate('Fetching')
+                navigation.navigate('Main')
             }}
         />
     );

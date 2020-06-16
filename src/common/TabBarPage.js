@@ -59,6 +59,7 @@ class TabBarPage extends React.Component {
     if (typeof this.props.onOptionPress === 'function') {
       const option = this.props.options[index];
       this.props.onOptionPress(index, option.data);
+      console.log(option)
     }
   }
 
