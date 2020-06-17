@@ -12,7 +12,7 @@ export default class MapScreen extends React.Component {
     render() {
         return (
             <>
-                <Fetching />
+                {/* <Fetching /> */}
                 <ShowMap label='CIMEE' onDismissExample={() => this.onDismissExample()} />
             </>
         )

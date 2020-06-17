@@ -26,7 +26,7 @@ class ShowMap extends React.Component {
             .sort(onSortOptions);
 
         this.state = {
-            styleURL: this._mapOptions[0].data,
+            styleURL: this._mapOptions[5].data,
         };
         
         this.label = props.label;
@@ -60,9 +60,9 @@ class ShowMap extends React.Component {
             onOptionPress={this.onMapChange}>
             
             <MapboxGL.MapView
-            styleURL={this.state.styleURL}
-            style={styles.matchParent}>
-            <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+                styleURL={this.state.styleURL}
+                style={styles.matchParent}>
+            <MapboxGL.Camera followZoomLevel={13} followUserLocation />
 
             <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
             </MapboxGL.MapView>

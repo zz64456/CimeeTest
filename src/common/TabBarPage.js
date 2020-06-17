@@ -39,7 +39,7 @@ class TabBarPage extends React.Component {
   };
 
   static defaultProps = {
-    initialIndex: 0,
+    initialIndex: 5,
     scrollable: false,
   };
 
