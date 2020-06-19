@@ -131,10 +131,9 @@ export default class Fetching extends Component {
     if(this.state.position) {
       data.pos = this.state.position.coords
       data.behavior = this.state.behavior
-      this.writeFile(data)
+      // this.writeFile(data)
       console.log('running....')
     }
-
   }
 
   render() { return null; }

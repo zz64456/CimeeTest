@@ -27,6 +27,7 @@ class ShowMap extends React.Component {
 
         this.state = {
             styleURL: this._mapOptions[5].data,
+            uri: props.uri,
         };
         
         this.label = props.label;
@@ -48,7 +49,8 @@ class ShowMap extends React.Component {
     }
 
     onUserMarkerPress() {
-        Alert.alert('You pressed on the user location annotation');
+        // Alert.alert('You pressed on the user location annotation');
+        Alert.alert(this.props.uri);
     }
 
     render() {
@@ -62,9 +64,9 @@ class ShowMap extends React.Component {
             <MapboxGL.MapView
                 styleURL={this.state.styleURL}
                 style={styles.matchParent}>
-            <MapboxGL.Camera followZoomLevel={13} followUserLocation />
+                <MapboxGL.Camera followZoomLevel={13} followUserLocation />
 
-            <MapboxGL.UserLocation onPress={this.onUserMarkerPress} />
+                <MapboxGL.UserLocation onPress={this.onUserMarkerPress} uri={this.props.uri} />
             </MapboxGL.MapView>
         </TabBarPage>
         );
