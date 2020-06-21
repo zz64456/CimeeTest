@@ -65,7 +65,7 @@ class ShowMap extends React.Component {
                 styleURL={this.state.styleURL}
                 style={styles.matchParent}>
                 <MapboxGL.Camera followZoomLevel={13} followUserLocation />
-
+                
                 <MapboxGL.UserLocation onPress={this.onUserMarkerPress} uri={this.props.uri} />
             </MapboxGL.MapView>
         </TabBarPage>

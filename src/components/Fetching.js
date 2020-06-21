@@ -4,6 +4,8 @@ import { ScrollView, Text, SafeAreaView, View, StyleSheet, Button, TextInput } f
 import Geolocation from '@react-native-community/geolocation';
 import * as Sensors from "react-native-sensors";
 import moment from 'moment'
+import Geocoder from 'react-native-geocoding';
+Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
 // import ShowMap from '../components/showMap';
 
@@ -108,6 +110,30 @@ export default class Fetching extends Component {
       position => {
         console.log(moment().unix())
         position.timestamp = moment().unix();
+
+        // Geocoder.from(position.coords.latitude, position.coords.longitude)
+        //     .then(json => { 
+        //       console.log(json);
+        //       var addressComponent = json.results[0].address_components;
+        //       this.setState({
+        //         Address: addressComponent
+        //       })
+        //       console.log(addressComponent);
+        //     })
+
+        //     .catch(error => console.warn(error));
+        
+        Geocoder.from(39.5489013,-119.8217853)
+        .then(json => {
+          var addressComponent = json.results[0].address_components;
+          this.setState({
+            Address: addressComponent
+          })
+          console.log(addressComponent);
+        })
+        .catch(error => console.warn(error));
+      
+
         this.setState({
           position
         });
@@ -132,7 +158,7 @@ export default class Fetching extends Component {
       data.pos = this.state.position.coords
       data.behavior = this.state.behavior
       // this.writeFile(data)
-      console.log('running....')
+      // console.log('running....')
     }
   }
 
