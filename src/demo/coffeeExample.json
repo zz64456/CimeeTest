@@ -1,0 +1,781 @@
+{
+    "html_attributions": [],
+    "results": [
+        {
+            "geometry": {
+                "location": {
+                    "lat": 25.0282033,
+                    "lng": 121.4746379
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0295522802915,
+                        "lng": 121.4759868302915
+                    },
+                    "southwest": {
+                        "lat": 25.0268543197085,
+                        "lng": 121.4732888697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+            "id": "a46fd0ee756f81cea6da1bd6e79915970ac8ef80",
+            "name": "北91鄉道167-143號",
+            "place_id": "ChIJyweJOkeoQjQRyGuek9YRa1Y",
+            "reference": "ChIJyweJOkeoQjQRyGuek9YRa1Y",
+            "scope": "GOOGLE",
+            "types": [
+                "route"
+            ]
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028216,
+                    "lng": 121.474357
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0296226802915,
+                        "lng": 121.4757554302915
+                    },
+                    "southwest": {
+                        "lat": 25.0269247197085,
+                        "lng": 121.4730574697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "cfd0840e0500b64b9d8636d7d71481c8e5d608f8",
+            "name": "知訊圖書有限公司",
+            "place_id": "ChIJKZKKMkeoQjQRlSLKKlGPlVY",
+            "plus_code": {
+                "compound_code": "2FHF+7P 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+7P"
+            },
+            "reference": "ChIJKZKKMkeoQjQRlSLKKlGPlVY",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "板橋區雙十路二段157號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028216,
+                    "lng": 121.474357
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0296226802915,
+                        "lng": 121.4757554302915
+                    },
+                    "southwest": {
+                        "lat": 25.0269247197085,
+                        "lng": 121.4730574697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "ee8a9aad4c6ac612b41c9f42c2f300e9cb37cbca",
+            "name": "JD佐登妮絲_寶雅板橋雙十店",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3024,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/114357053793266311108\">Susan Li</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAaoAF_F8dNR-pddsG8lQyfTrlkq9vtFG3lc2o9bTPBgJiG1NWykY4lwo4iGNyxawDkfnrg9kSjux79Y0zFzLw_7vQ7HCZVw_BV0cghEslef9p-eSHOMqCHYujt5q6x-EFEhCIAljvswjb7clTbPve33uzGhRMHb8ChSisecoIGmokZKJ3KASg5Q",
+                    "width": 4032
+                }
+            ],
+            "place_id": "ChIJKZKKMkeoQjQR-Z2J_ds6JDw",
+            "plus_code": {
+                "compound_code": "2FHF+7P 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+7P"
+            },
+            "rating": 4,
+            "reference": "ChIJKZKKMkeoQjQR-Z2J_ds6JDw",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 2,
+            "vicinity": "板橋區雙十路二段157號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028286,
+                    "lng": 121.474271
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0296896802915,
+                        "lng": 121.4756668802915
+                    },
+                    "southwest": {
+                        "lat": 25.02699171970849,
+                        "lng": 121.4729689197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "53e1065ed2af54ff01231c49f3af28e31f5215e3",
+            "name": "宏都汽車電機冷氣保養維修廠",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 960,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/107865265135244806695\">宏都汽車電機冷氣保養維修廠</a>"
+                    ],
+                    "photo_reference": "CmRaAAAA22ovWWHPozxqKCfSgYj3fmUP-FKpmNQkVBBG-FbFydU-z_V1L6GjOGmLwyS0hS78X34aFNAhx6NELPnR6R2c4KEny_8gWm2Ob3SEUiZAIeBI-WFP7uR7Je1HBnIq9ko4EhCla0zm2lVe62xuUUF94X-YGhRJqo8t3Pa00c-njbx2X7aRI8hUfw",
+                    "width": 1706
+                }
+            ],
+            "place_id": "ChIJMwuiMkeoQjQR9SRgNP8hB4w",
+            "plus_code": {
+                "compound_code": "2FHF+8P 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+8P"
+            },
+            "rating": 4.8,
+            "reference": "ChIJMwuiMkeoQjQR9SRgNP8hB4w",
+            "scope": "GOOGLE",
+            "types": [
+                "car_repair",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 85,
+            "vicinity": "板橋區雙十路二段161號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028312,
+                    "lng": 121.47423
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0297165802915,
+                        "lng": 121.4756266302915
+                    },
+                    "southwest": {
+                        "lat": 25.0270186197085,
+                        "lng": 121.4729286697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "7152a5ad56c345afb98b533732def5c7c1a1910e",
+            "name": "男髮誌",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJcdKnMkeoQjQRlzXXDPDQyl8",
+            "plus_code": {
+                "compound_code": "2FHF+8M 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+8M"
+            },
+            "rating": 4.3,
+            "reference": "ChIJcdKnMkeoQjQRlzXXDPDQyl8",
+            "scope": "GOOGLE",
+            "types": [
+                "hair_care",
+                "health",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 131,
+            "vicinity": "板橋區雙十路二段163號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028216,
+                    "lng": 121.474357
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0296226802915,
+                        "lng": 121.4757554302915
+                    },
+                    "southwest": {
+                        "lat": 25.0269247197085,
+                        "lng": 121.4730574697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+            "id": "fcb9f184ca2c8b22707a584b75266b71c8a661cc",
+            "name": "新銳咖啡板橋雙十店 (深夜咖啡廳)",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1044,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/109486277997460534470\">李奐龍</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAVFCn8wx70rtzN6T1EtxmZMGCJZBEsYhlu2GY3P8BSq5KAQtBSbwN2YsIxwkrJ_VjMoTM0mKTQph7hFIvhs9qZuXdPLtNQI8g32XFGkDf_NM4yR3mKg5kQr8TxdK3vbj5EhDZh8RCEsRyYBUjGv7r2eh4GhQ_bD4vIgT24jcWhpWaEz9AJgyiFQ",
+                    "width": 1568
+                }
+            ],
+            "place_id": "ChIJkYWV6b2pQjQRvc7nhN_Xo8E",
+            "plus_code": {
+                "compound_code": "2FHF+7P 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+7P"
+            },
+            "rating": 4.8,
+            "reference": "ChIJkYWV6b2pQjQRvc7nhN_Xo8E",
+            "scope": "GOOGLE",
+            "types": [
+                "cafe",
+                "food",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 32,
+            "vicinity": "板橋區雙十路二段157號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028216,
+                    "lng": 121.474357
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0296226802915,
+                        "lng": 121.4757554302915
+                    },
+                    "southwest": {
+                        "lat": 25.0269247197085,
+                        "lng": 121.4730574697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "04cf7b546ec5ebff761a270e146f7d77cacee3b6",
+            "name": "肯揚國際實業有限公司",
+            "place_id": "ChIJKZKKMkeoQjQROhWrLNjGq84",
+            "plus_code": {
+                "compound_code": "2FHF+7P 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+7P"
+            },
+            "reference": "ChIJKZKKMkeoQjQROhWrLNjGq84",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "板橋區雙十路二段157號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028216,
+                    "lng": 121.474357
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0296226802915,
+                        "lng": 121.4757554302915
+                    },
+                    "southwest": {
+                        "lat": 25.0269247197085,
+                        "lng": 121.4730574697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "4c03f98f3e6c8706030424c8061fd1bc25f302e0",
+            "name": "學智企業有限公司",
+            "place_id": "ChIJKZKKMkeoQjQRuZiK3clFoBs",
+            "plus_code": {
+                "compound_code": "2FHF+7P 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+7P"
+            },
+            "reference": "ChIJKZKKMkeoQjQRuZiK3clFoBs",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "板橋區雙十路二段157號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028184,
+                    "lng": 121.474444
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0295815302915,
+                        "lng": 121.4758346302915
+                    },
+                    "southwest": {
+                        "lat": 25.0268835697085,
+                        "lng": 121.4731366697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "12e4c5c49eff938d93ec3309a21c7ab8e96a9804",
+            "name": "義利光有限公司 Opto Engineering Southeast Asia CO., LTD.",
+            "opening_hours": {
+                "open_now": false
+            },
+            "photos": [
+                {
+                    "height": 1000,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/100876152075842767396\">義利光有限公司 Opto Engineering Southeast Asia CO., LTD.</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAFinxmzUfQD1XiTXHJCdotMpvnflsXiGQLp2A05ucOcj2vgEw1KgyrK3zqnhFhO2_hTZl1913VEmmZ_dD3yQCoblX2UmmgSrQTOiIPX_eMRImw89jWoOfKdExieEbT8WUEhDAX8Ft2UDibIE_LLSDP84SGhR1psNGYms33YerPSSrz3Wme_zvYg",
+                    "width": 1000
+                }
+            ],
+            "place_id": "ChIJ3bGfPUmpQjQRGMZWIn0G9v4",
+            "plus_code": {
+                "compound_code": "2FHF+7Q 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+7Q"
+            },
+            "rating": 4,
+            "reference": "ChIJ3bGfPUmpQjQRGMZWIn0G9v4",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 1,
+            "vicinity": "板橋區雙十路二段153號22043 號 4F"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028318,
+                    "lng": 121.474258
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0297145802915,
+                        "lng": 121.4756477802915
+                    },
+                    "southwest": {
+                        "lat": 25.0270166197085,
+                        "lng": 121.4729498197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+            "id": "dbba184b7976a82f86f6908cc6f1225406b4f94e",
+            "name": "來碗辣炒麻辣滷味",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3456,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/109427615281854450178\">Vivi V</a>"
+                    ],
+                    "photo_reference": "CmRaAAAA_Fa5suB1VaMoAf8I2k6ai_mRxfNw4tmO3n-7ylU1lFTd63gmXEl-Dq2jUxOoTR7kluUsEnEm0-9jrnyKATu6z9tmYVOfVIWsr8r6Rrv1C3T_kCtCtI_BTZQh658wTFuiEhD1A3clkZw_HCMAoOYVq-elGhQ1iARgX_hFP6Q_f8PNHpDAlw13Pg",
+                    "width": 4608
+                }
+            ],
+            "place_id": "ChIJ6U0tqyypQjQRlW2LmmOEB9w",
+            "plus_code": {
+                "compound_code": "2FHF+8P 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+8P"
+            },
+            "rating": 3.5,
+            "reference": "ChIJ6U0tqyypQjQRlW2LmmOEB9w",
+            "scope": "GOOGLE",
+            "types": [
+                "restaurant",
+                "food",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 106,
+            "vicinity": "板橋區雙十路二段159號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028312,
+                    "lng": 121.47423
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0297165802915,
+                        "lng": 121.4756266302915
+                    },
+                    "southwest": {
+                        "lat": 25.0270186197085,
+                        "lng": 121.4729286697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "7365b5d5a3d1fc95ae8ba0c8e3233529be3ad8ad",
+            "name": "珀絲妍SPA美容美體美睫芳療精油岩盤浴",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1108,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/115668534217097130075\">珀絲妍SPA美容美體美睫芳療精油岩盤浴</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAGLSt8E1iJV98j5IiaRTUDTNEp9lYhyZJGpmVUV5ep4m7PbminWi_USOgvEdGycf8ohE0JUbQrYCET2gqHbwg8mJEx0ZiHCQH0oGoYVou14p_pc9tIAtihcO-hVl_0Vi1EhAEN1F6oUk_LPPnoMdYQAgyGhR4vavmh9OTxcjjfsDwacuz6KuvcQ",
+                    "width": 1477
+                }
+            ],
+            "place_id": "ChIJh5x72BSpQjQRlm6QWTBM8Yk",
+            "plus_code": {
+                "compound_code": "2FHF+8M 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+8M"
+            },
+            "rating": 4,
+            "reference": "ChIJh5x72BSpQjQRlm6QWTBM8Yk",
+            "scope": "GOOGLE",
+            "types": [
+                "beauty_salon",
+                "spa",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 4,
+            "vicinity": "板橋區雙十路二段163號2樓"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0283119,
+                    "lng": 121.4742299
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0297165302915,
+                        "lng": 121.4756265802915
+                    },
+                    "southwest": {
+                        "lat": 25.0270185697085,
+                        "lng": 121.4729286197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "0f3a585eaaaee60196573c9b58d0f6f31d00c121",
+            "name": "匯利室內裝潢有限公司",
+            "photos": [
+                {
+                    "height": 2304,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/113633457188319661281\">Wu碳</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAG-9srY4wBPIbv4mSi0_oZpqnntm4x2poR1d-CcuAm1zO_q2KbvlAnculMn3dhlMoXhPuBEEZzldO44dUZmm77Rb3VpptoM3tRXd9lyivBo3LJWMoMOUIP2mHJTQtFx7qEhAJ7qiLUKzQqvUvhh6apDT1GhQCjg-S5nNbASfE2ocrln-E0bZ_WQ",
+                    "width": 4096
+                }
+            ],
+            "place_id": "ChIJcdKnMkeoQjQR3_lvf2Ks0ls",
+            "plus_code": {
+                "compound_code": "2FHF+8M 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+8M"
+            },
+            "rating": 1,
+            "reference": "ChIJcdKnMkeoQjQR3_lvf2Ks0ls",
+            "scope": "GOOGLE",
+            "types": [
+                "general_contractor",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 1,
+            "vicinity": "板橋區雙十路二段163號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.028337,
+                    "lng": 121.47419
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0297425802915,
+                        "lng": 121.4755874802915
+                    },
+                    "southwest": {
+                        "lat": 25.0270446197085,
+                        "lng": 121.4728895197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "a022c8747c526d7d22a309c909bd27d9fbc2b127",
+            "name": "今雅畫室(雙十店)",
+            "place_id": "ChIJlRNVLUeoQjQRppbw5WF-0e0",
+            "plus_code": {
+                "compound_code": "2FHF+8M 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+8M"
+            },
+            "reference": "ChIJlRNVLUeoQjQRppbw5WF-0e0",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "板橋區雙十路二段165號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0283369,
+                    "lng": 121.47419
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0297424802915,
+                        "lng": 121.4755875302915
+                    },
+                    "southwest": {
+                        "lat": 25.0270445197085,
+                        "lng": 121.4728895697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "6028efa9adb764273eb9b2cc7f7e835aab7e5518",
+            "name": "華成四輪定位 (汽車保養廠)",
+            "photos": [
+                {
+                    "height": 960,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/116047361505052224190\">Tanya Tsai</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAb3Npz0sfFa3_CsBExLkWjDiM12ljsuaEg4pTMVbsLajszL20QciT_43vWjnpFEKcFzx57lbwZwoRlW6w2Y4i7f9vZitonwIRmNUah-nnuJ-EktMzHxeQnxd6c_XavpDbEhB9Dfp0N3zsw2bBoRuCijAWGhT7jTnV2oNqEx-z4BLqN4crPMsczg",
+                    "width": 1706
+                }
+            ],
+            "place_id": "ChIJmRNVLUeoQjQRwtM1mxvPTcU",
+            "plus_code": {
+                "compound_code": "2FHF+8M 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+8M"
+            },
+            "rating": 4.5,
+            "reference": "ChIJmRNVLUeoQjQRwtM1mxvPTcU",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 8,
+            "vicinity": "板橋區雙十路二段165號1 樓"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0283369,
+                    "lng": 121.47419
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0297152302915,
+                        "lng": 121.4754881302915
+                    },
+                    "southwest": {
+                        "lat": 25.0270172697085,
+                        "lng": 121.4727901697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "76c80d1e7bba00fa0afcea81f2177d2e5f418a49",
+            "name": "瑪嘉妮企業社",
+            "place_id": "ChIJmRNVLUeoQjQRniRFZz0o0IQ",
+            "plus_code": {
+                "compound_code": "2FHF+8M 台灣台北",
+                "global_code": "7QQ32FHF+8M"
+            },
+            "reference": "ChIJmRNVLUeoQjQRniRFZz0o0IQ",
+            "scope": "GOOGLE",
+            "types": [
+                "clothing_store",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "vicinity": "臺灣省新北市 板橋區雙十路二段165號2樓"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0281467,
+                    "lng": 121.4745448
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0295337802915,
+                        "lng": 121.4759264302915
+                    },
+                    "southwest": {
+                        "lat": 25.0268358197085,
+                        "lng": 121.4732284697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "2c505b6a732fb56811543463b680578598a6bd25",
+            "name": "POYA 寶雅 板橋雙十店",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1108,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/107960241624046063956\">POYA 寶雅 板橋雙十店</a>"
+                    ],
+                    "photo_reference": "CmRaAAAALLqArhX8YCehUGnKsxPFtuOuiLs3lgp7k_AJEYzqUaTAqFmyV8v5rMFjH1fv_2E4L4n0q4tR7uFjYa5UNTnHf-yZAm3chuGeUi1jxkfr9meQo7bvvqdgX40XmunLiB46EhD_k36Z2rtcfKSfrmGOUdlLGhQdjDVRdjiGt-x48j-Z-JAHNB9R_A",
+                    "width": 1478
+                }
+            ],
+            "place_id": "ChIJKZKKMkeoQjQR1XuQMqJyx_8",
+            "plus_code": {
+                "compound_code": "2FHF+7R 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+7R"
+            },
+            "rating": 4.2,
+            "reference": "ChIJKZKKMkeoQjQR1XuQMqJyx_8",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "user_ratings_total": 844,
+            "vicinity": "板橋區雙十路二段157號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.02837,
+                    "lng": 121.474184
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0297665802915,
+                        "lng": 121.4755737802915
+                    },
+                    "southwest": {
+                        "lat": 25.0270686197085,
+                        "lng": 121.4728758197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "6b6466d2e8d41e24af11b66d71f4bada86073dcd",
+            "name": "板橋劉仲彥皮膚專科診所",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 634,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/115888980666975834627\">板橋劉仲彥皮膚專科診所</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAXrsGHlWcqyzvJJz-42ERfN7IZKFsJrOduJXTPWcVcAf7Zbilc0VEumGArEr3A-6Qx9oUHk6Np0cMTD5NvMsVsP2DKQ3aVgmeA3TcjIdATO8nR825yd3IBllbrbF1V0VhEhAQ2boLC4ZKYhOygk1AngOHGhQWdZd67OMdTbAchMBRV_3kOcIwiA",
+                    "width": 1125
+                }
+            ],
+            "place_id": "ChIJ5Sev0kCoQjQRRQWUJF3KbPA",
+            "plus_code": {
+                "compound_code": "2FHF+8M 台灣新北市板橋區忠翠里",
+                "global_code": "7QQ32FHF+8M"
+            },
+            "rating": 4,
+            "reference": "ChIJ5Sev0kCoQjQRRQWUJF3KbPA",
+            "scope": "GOOGLE",
+            "types": [
+                "doctor",
+                "health",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 236,
+            "vicinity": "板橋區雙十路二段167號"
+        },
+        {
+            "geometry": {
+                "location": {
+                    "lat": 25.0329694,
+                    "lng": 121.5654177
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.2443731,
+                        "lng": 121.7300824
+                    },
+                    "southwest": {
+                        "lat": 24.7900797,
+                        "lng": 121.2826735
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png",
+            "id": "3c359536b1aec9b816c0d0098d31f1dbd4b04c64",
+            "name": "台北",
+            "photos": [
+                {
+                    "height": 367,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/108952706690871260850\">Yihya Alali</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAbvMql6PfIIqnodxcKvlT7XUR9Q8On1iGdfrLxYtBGWddtysS1t1NTVbvP2-q9FRb_KnjNvvR5gWLl-zxuzw3bkdWSWiiMD_2oSuXcPrs5dppWywhyycS1BIq_1HCR9yqEhAtk1DlF-kHQb2RGe6RmPFJGhTyRBujIlX0ZGZdZbfyijJEP0cycw",
+                    "width": 550
+                }
+            ],
+            "place_id": "ChIJmQrivHKsQjQR4MIK3c41aj8",
+            "reference": "ChIJmQrivHKsQjQR4MIK3c41aj8",
+            "scope": "GOOGLE",
+            "types": [
+                "colloquial_area",
+                "locality",
+                "political"
+            ],
+            "vicinity": "台北"
+        }
+    ],
+    "status": "OK"
+}

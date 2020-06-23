@@ -5,32 +5,32 @@ import Geolocation from '@react-native-community/geolocation';
 import sensors, * as Sensors from "react-native-sensors";
 import moment from 'moment'
 import Geocoder from 'react-native-geocoding';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
 
 Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
-navigator.geolocation = require('@react-native-community/geolocation');
-// navigator.geolocation = require('react-native-geolocation-service');
+/** real-world implementation */
+// import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+// navigator.geolocation = require('@react-native-community/geolocation');
+// const GooglePlacesInput = () => {
+//   return (
+//     <GooglePlacesAutocomplete
+//       placeholder='Search'
+//       onPress={(data, details = null) => {
+//         // 'details' is provided when fetchDetails = true
+//         console.log(data, details);
+//       }}
+//       query={{
+//         key: 'AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA',
+//         language: 'en',
+//       }}
+//       currentLocation={true}
+//       currentLocationLabel='Current location'
+//     />
+//   );
+// };
 
-const GooglePlacesInput = () => {
-  return (
-    <GooglePlacesAutocomplete
-      placeholder='Search'
-      onPress={(data, details = null) => {
-        // 'details' is provided when fetchDetails = true
-        console.log(data, details);
-      }}
-      query={{
-        key: 'AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA',
-        language: 'en',
-      }}
-      currentLocation={true}
-      currentLocationLabel='Current location'
-    />
-  );
-};
-
-export default GooglePlacesInput;
+// export default GooglePlacesInput;
 
 
 
@@ -38,7 +38,7 @@ export default GooglePlacesInput;
 // console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
 
 
-class Fetching extends Component {
+export default class Fetching extends Component {
 
   constructor() {
     super()
