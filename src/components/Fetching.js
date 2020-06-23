@@ -5,9 +5,32 @@ import Geolocation from '@react-native-community/geolocation';
 import sensors, * as Sensors from "react-native-sensors";
 import moment from 'moment'
 import Geocoder from 'react-native-geocoding';
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+
 Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
-// import ShowMap from '../components/showMap';
+navigator.geolocation = require('@react-native-community/geolocation');
+// navigator.geolocation = require('react-native-geolocation-service');
+
+const GooglePlacesInput = () => {
+  return (
+    <GooglePlacesAutocomplete
+      placeholder='Search'
+      onPress={(data, details = null) => {
+        // 'details' is provided when fetchDetails = true
+        console.log(data, details);
+      }}
+      query={{
+        key: 'AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA',
+        language: 'en',
+      }}
+      currentLocation={true}
+      currentLocationLabel='Current location'
+    />
+  );
+};
+
+export default GooglePlacesInput;
 
 
 
@@ -15,7 +38,7 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 // console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
 
 
-export default class Fetching extends Component {
+class Fetching extends Component {
 
   constructor() {
     super()
@@ -100,9 +123,10 @@ export default class Fetching extends Component {
   // ************************ Geolocation
   componentDidMount() {
 
+    /** Activate sensors fetching */
     // sensorCall()
     
-    setInterval( () => this.updateGeolocation(), 2000)
+    setInterval( () => this.updateGeolocation(), 10000)
     setInterval( () => this.toAsync(), 1000)
     
   }
