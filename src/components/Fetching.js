@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ScrollView, Text, SafeAreaView, View, StyleSheet, Button, TextInput } from "react-native";
 
 import Geolocation from '@react-native-community/geolocation';
-import * as Sensors from "react-native-sensors";
+import sensors, * as Sensors from "react-native-sensors";
 import moment from 'moment'
 import Geocoder from 'react-native-geocoding';
 Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
@@ -10,10 +10,7 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 // import ShowMap from '../components/showMap';
 
 
-Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
-Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
-Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
-Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
+
 
 // console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
 
@@ -58,10 +55,12 @@ export default class Fetching extends Component {
     })
   }
   
+  sensorCall() {
 
-
-  // ************************ Geolocation
-  componentDidMount() {
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 
     Sensors.accelerometer.subscribe(({ x, y, z }) => {
       timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
@@ -95,6 +94,13 @@ export default class Fetching extends Component {
           },
       })
     })
+  }
+
+
+  // ************************ Geolocation
+  componentDidMount() {
+
+    // sensorCall()
     
     setInterval( () => this.updateGeolocation(), 2000)
     setInterval( () => this.toAsync(), 1000)
@@ -105,38 +111,60 @@ export default class Fetching extends Component {
   //   this.watchID != null && Geolocation.clearWatch(this.watchID);
   // }
 
+  getRandomLatLng(latitude, longitude) {
+    lat_min = latitude-0.00001;
+    lat_max = latitude+0.00001;
+    let new_lat = Math.random() * (lat_max - lat_min) + lat_min;
+    lng_min = longitude-0.00001;
+    lng_max = longitude+0.00001;
+    let new_lng = Math.random() * (lng_max - lng_min + 1) + lng_min;
+
+    var n1 = Math.round(Math.random()*100); //獲取100之內的任意一個整數;
+    if( n1 < 90 ) {
+      return [latitude, longitude];
+    } else {
+      console.log(new_lat, new_lng);
+      return [new_lat, new_lng];
+    }
+    
+  } 
+
   updateGeolocation() {
     Geolocation.getCurrentPosition(
       position => {
-        console.log(moment().unix())
+        // console.log(moment().unix())
         position.timestamp = moment().unix();
+        console.log(position.coords.latitude, position.coords.longitude)
+        let location = this.getRandomLatLng(position.coords.latitude, position.coords.longitude)
+        // console.log(location)
+        Geocoder.from(position.coords.latitude, position.coords.longitude)
+        // Geocoder.from(location)
+            .then(json => { 
+              // console.log(json);
+              var addressComponent = json.results[0].formatted_address;
+              this.setState({
+                Address: addressComponent
+              })
+              console.log(addressComponent);
+            })
 
-        // Geocoder.from(position.coords.latitude, position.coords.longitude)
-        //     .then(json => { 
-        //       console.log(json);
-        //       var addressComponent = json.results[0].address_components;
-        //       this.setState({
-        //         Address: addressComponent
-        //       })
-        //       console.log(addressComponent);
-        //     })
-
-        //     .catch(error => console.warn(error));
+            .catch(error => console.warn(error));
         
-        Geocoder.from(39.5489013,-119.8217853)
-        .then(json => {
-          var addressComponent = json.results[0].address_components;
-          this.setState({
-            Address: addressComponent
-          })
-          console.log(addressComponent);
-        })
-        .catch(error => console.warn(error));
+        // Geocoder.from(39.5489013,-119.8217853)
+        // .then(json => {
+        //   var addressComponent = json.results[0].address_components;
+        //   this.setState({
+        //     Address: addressComponent
+        //   })
+        //   console.log(addressComponent);
+        // })
+        // .catch(error => console.warn(error));
       
 
-        this.setState({
-          position
-        });
+        // this.setState({
+        //   position
+        // });
+
       },
       error => Alert.alert('Error', JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
