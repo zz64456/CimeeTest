@@ -1,6 +1,7 @@
 import React from 'react';
 import {Alert, StyleSheet} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
+import Geolocation from '@react-native-community/geolocation';
 
 // import sheet from '../styles/sheet';
 import {onSortOptions} from '../utils';
@@ -38,6 +39,7 @@ class ShowMap extends React.Component {
 
     componentDidMount() {
         MapboxGL.locationManager.start();
+        this.readLocations();
     }
 
     componentWillUnmount() {
@@ -50,8 +52,29 @@ class ShowMap extends React.Component {
 
     onUserMarkerPress() {
         // Alert.alert('You pressed on the user location annotation');
-        Alert.alert(this.props.uri);
+        // Alert.alert(this.props.uri);
+        // this.readLocations();
+        Alert.alert(JSON.stringify(this.state.candidateLocations.results[0].name))
+        // Alert.alert(JSON.stringify(this.state.candidateLocations.results.length))
     }
+
+    readLocations() {
+        var RNFS = require('react-native-fs');
+
+        let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample_rankbydistance.json';
+        RNFS.readFile(filePath, 'utf8')
+            .then((result) => {
+                candidateLocations = JSON.parse(result)
+                // console.log(candidateLocations.results[1].name)
+                // console.log('length= ', candidateLocations.results.length)
+                this.setState({candidateLocations})
+                // console.log()
+            })
+            .catch((err) => {this.state.candidateLocations.results[0]
+                console.log(err.message, err.code);
+            });
+    }
+
 
     render() {
         return (

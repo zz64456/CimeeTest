@@ -26,11 +26,11 @@ export default class MapScreen extends React.Component {
         return (
             <>
                 <Fetching />
-                {/* <ShowMap
+                <ShowMap
                     label='CIMEE'
                     onDismissExample={() => this.onDismissExample()}
                     uri={behaviors[behavior]}
-                /> */}
+                />
             </>
         )
     }

@@ -147,7 +147,7 @@ export default class Fetching extends Component {
     if( n1 < 90 ) {
       return [latitude, longitude];
     } else {
-      console.log(new_lat, new_lng);
+      // console.log(new_lat, new_lng);
       return [new_lat, new_lng];
     }
     
@@ -158,7 +158,7 @@ export default class Fetching extends Component {
       position => {
         // console.log(moment().unix())
         position.timestamp = moment().unix();
-        console.log(position.coords.latitude, position.coords.longitude)
+        // console.log(position.coords.latitude, position.coords.longitude)
         let location = this.getRandomLatLng(position.coords.latitude, position.coords.longitude)
         // console.log(location)
         Geocoder.from(position.coords.latitude, position.coords.longitude)
@@ -169,7 +169,7 @@ export default class Fetching extends Component {
               this.setState({
                 Address: addressComponent
               })
-              console.log(addressComponent);
+              // console.log(addressComponent);
             })
 
             .catch(error => console.warn(error));
