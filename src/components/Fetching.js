@@ -32,13 +32,14 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
 // export default GooglePlacesInput;
 
+var exportbehavior = ''
+
+export function expehavior() {
+  return exportbehavior
+}
 
 
-
-// console.log(moment().format('YYYY-MM-DD HH:mm:ss.SSSS'))
-
-
-export default class Fetching extends Component {
+export class Fetching extends Component {
 
   constructor() {
     super()
@@ -48,16 +49,17 @@ export default class Fetching extends Component {
     }
   }
 
-  // ************************ Async
-
+  // ************************ Record data to device
   writeFile(p) {
     var RNFS = require('react-native-fs');
-    var path = RNFS.DocumentDirectoryPath + '/v3.txt';
+    var path = RNFS.DocumentDirectoryPath + '/0629-1.json';
+    console.log('Hi')
     if(!RNFS.exists(path)) {
     // Write the file
     RNFS.writeFile(path, JSON.stringify(p), 'utf8')
       .then((success) => {
-        console.log('FILE WRITTEN!~~~~');
+        // console.log('FILE WRITTEN!~~~~');
+        console.log(p)
       })
       .catch((err) => {
         console.log(err.message);
@@ -123,17 +125,26 @@ export default class Fetching extends Component {
   // ************************ Geolocation
   componentDidMount() {
 
-    /** Activate sensors fetching */
-    // sensorCall()
+    /* Activate sensors fetching */
+    this.sensorCall()
+
+    /* Get candidate locations */
+    this.readLocations()
     
     setInterval( () => this.updateGeolocation(), 10000)
-    setInterval( () => this.toAsync(), 1000)
+    setInterval( () => this.toAsync(), 3000)
     
   }
 
   // componentWillUnmount() {
   //   this.watchID != null && Geolocation.clearWatch(this.watchID);
   // }
+
+  /*
+    ******************************************************************
+    For Demo -> Pass "Archie" geolocation -> Create nearby geolocation
+    ******************************************************************
+  */
 
   getRandomLatLng(latitude, longitude) {
     lat_min = latitude-0.00001;
@@ -143,11 +154,11 @@ export default class Fetching extends Component {
     lng_max = longitude+0.00001;
     let new_lng = Math.random() * (lng_max - lng_min + 1) + lng_min;
 
-    var n1 = Math.round(Math.random()*100); //獲取100之內的任意一個整數;
+    var n1 = Math.round(Math.random()*100);
+    // 90% of accurate geolcoation, 10% of inaccurate
     if( n1 < 90 ) {
       return [latitude, longitude];
     } else {
-      // console.log(new_lat, new_lng);
       return [new_lat, new_lng];
     }
     
@@ -156,47 +167,60 @@ export default class Fetching extends Component {
   updateGeolocation() {
     Geolocation.getCurrentPosition(
       position => {
-        // console.log(moment().unix())
         position.timestamp = moment().unix();
-        // console.log(position.coords.latitude, position.coords.longitude)
-        let location = this.getRandomLatLng(position.coords.latitude, position.coords.longitude)
-        // console.log(location)
+
+        /*
+        ******************************************************************
+        For Demo -> pass "Archie" geolocation -> create nearby geolocation
+        ******************************************************************
+        */
+
+        /* Let randomLocation = this.getRandomLatLng(39.5490077,-119.8239203) */
+        // Geocoder.from(randomLocation)
+
         Geocoder.from(position.coords.latitude, position.coords.longitude)
-        // Geocoder.from(location)
-            .then(json => { 
-              // console.log(json);
+            .then(json => {
               var addressComponent = json.results[0].formatted_address;
               this.setState({
                 Address: addressComponent
               })
-              // console.log(addressComponent);
             })
 
             .catch(error => console.warn(error));
-        
-        // Geocoder.from(39.5489013,-119.8217853)
-        // .then(json => {
-        //   var addressComponent = json.results[0].address_components;
-        //   this.setState({
-        //     Address: addressComponent
-        //   })
-        //   console.log(addressComponent);
-        // })
-        // .catch(error => console.warn(error));
-      
 
-        // this.setState({
-        //   position
-        // });
+        this.setState({
+          position
+        });
 
       },
       error => Alert.alert('Error', JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   }
+
+  /* Get downloaded geolocation data for Sensory coffee shop */
+  readLocations() {
+    var RNFS = require('react-native-fs');
+
+    let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample_rankbydistance.json';
+    // Let filePath = '../demo/coffeeExample_rankbydistance.json'
+    RNFS.readFile(filePath, 'utf8')
+        .then((result) => {
+            candidateLocations = JSON.parse(result)
+            this.setState({candidateLocations})
+            
+            // typeArr = Object.values(this.state.candidateLocations.results[0].types);
+            // console.log(typeArr.includes('food'))
+            // console.log(typeArr)
+            // console.log(typeof(typeArr))
+        })
+        .catch((err) => {
+            console.log(err.message, err.code);
+        });
+}
   
 
-  // 整理 SensorView & Geolocation 後輸出至AsyncStorage
+  /* Put data of SensorView & Geolocation together */
   toAsync() {
 
     var data = {}
@@ -206,39 +230,48 @@ export default class Fetching extends Component {
     data.mag = this.state.mag
     data.baro = this.state.baro
 
+    
+    
+
+    /* Infer behavior */
+    if(this.state.candidateLocations.results[0].types.includes('cafe')) {
+      if (data.acc.x < 0.05 && data.acc.x > -0.05 && data.acc.y < 0.05 && data.acc.y > -0.05) {
+        this.setState({
+          behavior: 'Coffee'
+        })
+      } else {
+        this.setState({
+          behavior: 'Nothing'
+        })
+      }
+    }
+
+    exportbehavior = this.state.behavior
+    // console.log(exportbehavior)
+
+    // console.log(this.state.candidateLocations.results[0].name)
+    // const FoodCoffee = this.state.candidateLocations.results[0].types.some(function(item){
+    //   return item == 'food' || item == 'cafe'
+    // });
+
+
+    //  Behavior-Static location
+    // if(FoodCoffee) {
+    //   if (data.acc.x < 0.05 && data.acc.x > -0.05 && data.acc.y < 0.05 && data.acc.y > -0.05) {
+        
+    //   }
+    // }
+    // console.log(FoodCoffee); 
+    // if(this.state.candidateLocations.results[0].types.includes())
+
+    /* Record data in device */
     if(this.state.position) {
-      data.pos = this.state.position.coords
+      data.position = this.state.position.coords
       data.behavior = this.state.behavior
       // this.writeFile(data)
-      // console.log('running....')
     }
   }
 
   render() { return null; }
 
-  // render() {
-  //   return (
-  //     <SafeAreaView>
-  //       <View>
-  //         <Text>
-  //           最近儲存時間...{this.state.lastWriteTime}
-  //         </Text>
-  //       </View>
-  //       {/* <View>
-  //         <ShowMap />
-  //       </View> */}
-        
-  //     </SafeAreaView>
-      
-  //   );
-  // }
 }
-
-// const styles = StyleSheet.create({
-//   savingblock: {
-//     flex: 1
-//   },
-//   savingtime: {
-    
-//   }
-// })

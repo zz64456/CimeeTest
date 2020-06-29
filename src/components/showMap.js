@@ -8,6 +8,9 @@ import {onSortOptions} from '../utils';
 
 import BaseExamplePropTypes from '../common/BaseExamplePropTypes';
 import TabBarPage from '../common/TabBarPage';
+import {Fetching, expehavior} from './Fetching';
+
+var be = '';
 
 class ShowMap extends React.Component {
 
@@ -39,7 +42,8 @@ class ShowMap extends React.Component {
 
     componentDidMount() {
         MapboxGL.locationManager.start();
-        this.readLocations();
+
+        setInterval( () => { be = expehavior}, 10000)
     }
 
     componentWillUnmount() {
@@ -53,45 +57,30 @@ class ShowMap extends React.Component {
     onUserMarkerPress() {
         // Alert.alert('You pressed on the user location annotation');
         // Alert.alert(this.props.uri);
-        // this.readLocations();
         Alert.alert(JSON.stringify(this.state.candidateLocations.results[0].name))
         // Alert.alert(JSON.stringify(this.state.candidateLocations.results.length))
     }
 
-    readLocations() {
-        var RNFS = require('react-native-fs');
-
-        let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample_rankbydistance.json';
-        RNFS.readFile(filePath, 'utf8')
-            .then((result) => {
-                candidateLocations = JSON.parse(result)
-                // console.log(candidateLocations.results[1].name)
-                // console.log('length= ', candidateLocations.results.length)
-                this.setState({candidateLocations})
-                // console.log()
-            })
-            .catch((err) => {this.state.candidateLocations.results[0]
-                console.log(err.message, err.code);
-            });
-    }
-
-
     render() {
         return (
-        <TabBarPage
-            {...this.props}
-            scrollable
-            options={this._mapOptions}
-            onOptionPress={this.onMapChange}>
-            
-            <MapboxGL.MapView
-                styleURL={this.state.styleURL}
-                style={styles.matchParent}>
-                <MapboxGL.Camera followZoomLevel={13} followUserLocation />
-                
-                <MapboxGL.UserLocation onPress={this.onUserMarkerPress} uri={this.props.uri} />
-            </MapboxGL.MapView>
-        </TabBarPage>
+            <>
+                {console.log('behavior: ', be)}
+                <Fetching />
+                <TabBarPage
+                    {...this.props}
+                    scrollable
+                    options={this._mapOptions}
+                    onOptionPress={this.onMapChange}>
+                    
+                    <MapboxGL.MapView
+                        styleURL={this.state.styleURL}
+                        style={styles.matchParent}>
+                        <MapboxGL.Camera followZoomLevel={13} followUserLocation />
+                        
+                        <MapboxGL.UserLocation onPress={this.onUserMarkerPress} uri={this.props.uri} />
+                    </MapboxGL.MapView>
+                </TabBarPage>
+            </>
         );
     }
 }
