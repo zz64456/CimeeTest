@@ -1,6 +1,4 @@
-import React, { Component } from "react";
-import { ScrollView, Text, SafeAreaView, View, StyleSheet, Button, TextInput } from "react-native";
-
+import { Component } from "react";
 import Geolocation from '@react-native-community/geolocation';
 import sensors, * as Sensors from "react-native-sensors";
 import moment from 'moment'
@@ -32,14 +30,9 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
 // export default GooglePlacesInput;
 
-var exportbehavior = ''
-
-export function expehavior() {
-  return exportbehavior
-}
 
 
-export class Fetching extends Component {
+export default class Fetching extends Component {
 
   constructor() {
     super()
@@ -47,6 +40,8 @@ export class Fetching extends Component {
       behavior: 'null',
       lastWriteTime: '0'
     }
+
+    this.AnalyzeBehavior=this.AnalyzeBehavior.bind(this);
   }
 
   // ************************ Record data to device
@@ -133,12 +128,17 @@ export class Fetching extends Component {
     
     setInterval( () => this.updateGeolocation(), 10000)
     setInterval( () => this.toAsync(), 3000)
-    
+    setInterval( () => this.AnalyzeBehavior(), 3000)
   }
 
-  // componentWillUnmount() {
-  //   this.watchID != null && Geolocation.clearWatch(this.watchID);
+  /** When State Changes */
+  // componentDidUpdate(){
+    
   // }
+
+  componentWillUnmount() {
+    this.watchID != null && Geolocation.clearWatch(this.watchID);
+  }
 
   /*
     ******************************************************************
@@ -203,21 +203,35 @@ export class Fetching extends Component {
     var RNFS = require('react-native-fs');
 
     let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample_rankbydistance.json';
-    // Let filePath = '../demo/coffeeExample_rankbydistance.json'
     RNFS.readFile(filePath, 'utf8')
         .then((result) => {
             candidateLocations = JSON.parse(result)
             this.setState({candidateLocations})
-            
-            // typeArr = Object.values(this.state.candidateLocations.results[0].types);
-            // console.log(typeArr.includes('food'))
-            // console.log(typeArr)
-            // console.log(typeof(typeArr))
         })
         .catch((err) => {
             console.log(err.message, err.code);
         });
 }
+
+  /* Infer behavior */
+
+  AnalyzeBehavior() {  
+    if(this.state.candidateLocations.results[0].types.includes('cafe')) {
+      if (this.state.acc.x < 0.05 && this.state.acc.x > -0.05 &&
+          this.state.acc.y < 0.05 && this.state.acc.y > -0.05) {
+        this.setState({
+          behavior: 'Coffee'
+        })
+      } else {
+        console.log(this.state.acc.x, this.state.acc.y)
+        this.setState({
+          behavior: 'Workout'
+        })
+      }
+    }
+    this.props.SendResultToShowmap(this.state.behavior)
+    // console.log(this.state.behavior)
+  }
   
 
   /* Put data of SensorView & Geolocation together */
@@ -229,40 +243,6 @@ export class Fetching extends Component {
     data.gyro = this.state.gyro
     data.mag = this.state.mag
     data.baro = this.state.baro
-
-    
-    
-
-    /* Infer behavior */
-    if(this.state.candidateLocations.results[0].types.includes('cafe')) {
-      if (data.acc.x < 0.05 && data.acc.x > -0.05 && data.acc.y < 0.05 && data.acc.y > -0.05) {
-        this.setState({
-          behavior: 'Coffee'
-        })
-      } else {
-        this.setState({
-          behavior: 'Nothing'
-        })
-      }
-    }
-
-    exportbehavior = this.state.behavior
-    // console.log(exportbehavior)
-
-    // console.log(this.state.candidateLocations.results[0].name)
-    // const FoodCoffee = this.state.candidateLocations.results[0].types.some(function(item){
-    //   return item == 'food' || item == 'cafe'
-    // });
-
-
-    //  Behavior-Static location
-    // if(FoodCoffee) {
-    //   if (data.acc.x < 0.05 && data.acc.x > -0.05 && data.acc.y < 0.05 && data.acc.y > -0.05) {
-        
-    //   }
-    // }
-    // console.log(FoodCoffee); 
-    // if(this.state.candidateLocations.results[0].types.includes())
 
     /* Record data in device */
     if(this.state.position) {

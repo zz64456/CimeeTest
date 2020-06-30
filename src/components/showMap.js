@@ -1,16 +1,20 @@
 import React from 'react';
 import {Alert, StyleSheet} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import Geolocation from '@react-native-community/geolocation';
 
-// import sheet from '../styles/sheet';
 import {onSortOptions} from '../utils';
 
 import BaseExamplePropTypes from '../common/BaseExamplePropTypes';
 import TabBarPage from '../common/TabBarPage';
-import {Fetching, expehavior} from './Fetching';
+import Fetching from './Fetching';
 
-var be = '';
+
+const behaviors = {
+    workout: "https://upload.cc/i1/2020/06/17/iXUof9.png",
+    coffee: "https://upload.cc/i1/2020/06/19/LbO8ft.png"
+}
+const behavior = 'workout'
+
 
 class ShowMap extends React.Component {
 
@@ -31,19 +35,22 @@ class ShowMap extends React.Component {
 
         this.state = {
             styleURL: this._mapOptions[5].data,
-            uri: props.uri,
         };
         
         this.label = props.label;
 
         this.onMapChange = this.onMapChange.bind(this);
         this.onUserMarkerPress = this.onUserMarkerPress.bind(this);
+
+        this.decideBehavior = this.decideBehavior.bind(this)
+    }
+
+    decideBehavior(behavior) {
+        this.setState({behavior})
     }
 
     componentDidMount() {
         MapboxGL.locationManager.start();
-
-        setInterval( () => { be = expehavior}, 10000)
     }
 
     componentWillUnmount() {
@@ -57,15 +64,15 @@ class ShowMap extends React.Component {
     onUserMarkerPress() {
         // Alert.alert('You pressed on the user location annotation');
         // Alert.alert(this.props.uri);
-        Alert.alert(JSON.stringify(this.state.candidateLocations.results[0].name))
+        // Alert.alert(JSON.stringify(this.state.candidateLocations.results[0].name))
+        Alert.alert(this.state.behavior)
         // Alert.alert(JSON.stringify(this.state.candidateLocations.results.length))
     }
 
     render() {
         return (
             <>
-                {console.log('behavior: ', be)}
-                <Fetching />
+                <Fetching SendResultToShowmap={this.decideBehavior} />
                 <TabBarPage
                     {...this.props}
                     scrollable
@@ -77,7 +84,7 @@ class ShowMap extends React.Component {
                         style={styles.matchParent}>
                         <MapboxGL.Camera followZoomLevel={13} followUserLocation />
                         
-                        <MapboxGL.UserLocation onPress={this.onUserMarkerPress} uri={this.props.uri} />
+                        <MapboxGL.UserLocation onPress={this.onUserMarkerPress} uri={behaviors[behavior]} />
                     </MapboxGL.MapView>
                 </TabBarPage>
             </>
