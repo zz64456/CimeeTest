@@ -220,12 +220,12 @@ export default class Fetching extends Component {
       if (this.state.acc.x < 0.05 && this.state.acc.x > -0.05 &&
           this.state.acc.y < 0.05 && this.state.acc.y > -0.05) {
         this.setState({
-          behavior: 'Coffee'
+          behavior: 'coffee'
         })
       } else {
         console.log(this.state.acc.x, this.state.acc.y)
         this.setState({
-          behavior: 'Workout'
+          behavior: 'default'
         })
       }
     }

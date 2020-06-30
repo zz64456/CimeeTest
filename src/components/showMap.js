@@ -9,11 +9,8 @@ import TabBarPage from '../common/TabBarPage';
 import Fetching from './Fetching';
 
 
-const behaviors = {
-    workout: "https://upload.cc/i1/2020/06/17/iXUof9.png",
-    coffee: "https://upload.cc/i1/2020/06/19/LbO8ft.png"
-}
-const behavior = 'workout'
+
+
 
 
 class ShowMap extends React.Component {
@@ -35,6 +32,7 @@ class ShowMap extends React.Component {
 
         this.state = {
             styleURL: this._mapOptions[5].data,
+            behavior: 'default',
         };
         
         this.label = props.label;
@@ -47,6 +45,7 @@ class ShowMap extends React.Component {
 
     decideBehavior(behavior) {
         this.setState({behavior})
+        // console.log(this.state.behavior)
     }
 
     componentDidMount() {
@@ -66,6 +65,8 @@ class ShowMap extends React.Component {
         // Alert.alert(this.props.uri);
         // Alert.alert(JSON.stringify(this.state.candidateLocations.results[0].name))
         Alert.alert(this.state.behavior)
+        // Alert.alert(JSON.stringify(behaviors))
+        // Alert.alert('Hello')
         // Alert.alert(JSON.stringify(this.state.candidateLocations.results.length))
     }
 
@@ -84,7 +85,7 @@ class ShowMap extends React.Component {
                         style={styles.matchParent}>
                         <MapboxGL.Camera followZoomLevel={13} followUserLocation />
                         
-                        <MapboxGL.UserLocation onPress={this.onUserMarkerPress} uri={behaviors[behavior]} />
+                        <MapboxGL.UserLocation onPress={this.onUserMarkerPress} decided_Behavior={this.state.behavior} />
                     </MapboxGL.MapView>
                 </TabBarPage>
             </>
