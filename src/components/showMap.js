@@ -45,14 +45,20 @@ class ShowMap extends React.Component {
 
     decideBehavior(behavior) {
         this.setState({behavior})
-        // console.log(this.state.behavior)
+        console.log(`decideBehavior : ${behavior}`)
     }
 
     componentDidMount() {
+        /*this._interval = setInterval(() => this.setState(({ behavior }) => {
+            return {
+                behavior: behavior == 'coffee' ? 'default' : 'coffee'
+            };
+        }), 10000)*/
         MapboxGL.locationManager.start();
     }
 
     componentWillUnmount() {
+        //clearInterval(this._interval)
         MapboxGL.locationManager.stop();
     }
 
@@ -71,6 +77,7 @@ class ShowMap extends React.Component {
     }
 
     render() {
+        console.log(`ShowMap render! ${this.state.behavior}`)
         return (
             <>
                 <Fetching SendResultToShowmap={this.decideBehavior} />
@@ -85,7 +92,9 @@ class ShowMap extends React.Component {
                         style={styles.matchParent}>
                         <MapboxGL.Camera followZoomLevel={13} followUserLocation />
                         
-                        <MapboxGL.UserLocation onPress={this.onUserMarkerPress} decided_Behavior={this.state.behavior} />
+                        <MapboxGL.UserLocation
+                         onPress={this.onUserMarkerPress} 
+                         decidedBehavior={this.state.behavior} />
                     </MapboxGL.MapView>
                 </TabBarPage>
             </>

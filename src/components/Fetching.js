@@ -126,9 +126,11 @@ export default class Fetching extends Component {
     /* Get candidate locations */
     this.readLocations()
     
-    setInterval( () => this.updateGeolocation(), 10000)
-    setInterval( () => this.toAsync(), 3000)
-    setInterval( () => this.AnalyzeBehavior(), 3000)
+    this._intervals = [  
+    setInterval( () => this.updateGeolocation(), 10000),
+    setInterval( () => this.toAsync(), 3000),
+    setInterval( () => this.AnalyzeBehavior(), 3000),
+    ]
   }
 
   /** When State Changes */
@@ -138,6 +140,7 @@ export default class Fetching extends Component {
 
   componentWillUnmount() {
     this.watchID != null && Geolocation.clearWatch(this.watchID);
+    this._intervals.forEach(i => clearInterval(i))
   }
 
   /*
@@ -216,20 +219,27 @@ export default class Fetching extends Component {
   /* Infer behavior */
 
   AnalyzeBehavior() {  
+    let behavior = 'default'
     if(this.state.candidateLocations.results[0].types.includes('cafe')) {
       if (this.state.acc.x < 0.05 && this.state.acc.x > -0.05 &&
           this.state.acc.y < 0.05 && this.state.acc.y > -0.05) {
-        this.setState({
+            behavior = 'coffee'
+        /*this.setState({
           behavior: 'coffee'
         })
+        */
       } else {
-        console.log(this.state.acc.x, this.state.acc.y)
-        this.setState({
+        //console.log(this.state.acc.x, this.state.acc.y)
+        /*this.setState({
           behavior: 'default'
-        })
+        })*/
       }
+      this.setState({ behavior });
+      console.log(`AnalyzeBehavior: ${behavior}`)
+      this.props.SendResultToShowmap(behavior)
     }
-    this.props.SendResultToShowmap(this.state.behavior)
+    //this.setState({ behavior });
+    //this.props.SendResultToShowmap(behavior)
     // console.log(this.state.behavior)
   }
   
