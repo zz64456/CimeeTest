@@ -3,6 +3,7 @@ import Geolocation from '@react-native-community/geolocation';
 import sensors, * as Sensors from "react-native-sensors";
 import moment from 'moment'
 import Geocoder from 'react-native-geocoding';
+import * as geolib from 'geolib';
 
 
 Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
@@ -30,6 +31,8 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
 // export default GooglePlacesInput;
 
+const DataIn30Secs = []
+
 
 
 export default class Fetching extends Component {
@@ -48,7 +51,7 @@ export default class Fetching extends Component {
   writeFile(p) {
     var RNFS = require('react-native-fs');
     var path = RNFS.DocumentDirectoryPath + '/0629-1.json';
-    console.log('Hi')
+    console.log('Start writing...')
     if(!RNFS.exists(path)) {
     // Write the file
     RNFS.writeFile(path, JSON.stringify(p), 'utf8')
@@ -77,10 +80,10 @@ export default class Fetching extends Component {
   
   sensorCall() {
 
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 3000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 3000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 3000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 3000);
 
     Sensors.accelerometer.subscribe(({ x, y, z }) => {
       timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
@@ -89,6 +92,7 @@ export default class Fetching extends Component {
             x, y, z, timestamp
           }
       })
+      // console.log(this.state.acc.x, this.state.acc.y)
     })
     Sensors.gyroscope.subscribe(({ x, y, z }) => {
       timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
@@ -97,6 +101,7 @@ export default class Fetching extends Component {
             x, y, z, timestamp
           }
       })
+      // console.log(this.state.gyro.x, this.state.gyro.y)
     })
     Sensors.magnetometer.subscribe(({ x, y, z }) => {
       timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
@@ -127,9 +132,9 @@ export default class Fetching extends Component {
     this.readLocations()
     
     this._intervals = [  
-    setInterval( () => this.updateGeolocation(), 10000),
+    setInterval( () => this.updateGeolocation(), 3000),
     setInterval( () => this.toAsync(), 3000),
-    setInterval( () => this.AnalyzeBehavior(), 3000),
+    // setInterval( () => this.AnalyzeBehavior(), 5000),
     ]
   }
 
@@ -205,11 +210,12 @@ export default class Fetching extends Component {
   readLocations() {
     var RNFS = require('react-native-fs');
 
-    let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample_rankbydistance.json';
+    let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample2.json';
     RNFS.readFile(filePath, 'utf8')
         .then((result) => {
             candidateLocations = JSON.parse(result)
             this.setState({candidateLocations})
+            // console.log('name type : ', typeof(this.state.candidateLocations.results[0].name))
         })
         .catch((err) => {
             console.log(err.message, err.code);
@@ -218,17 +224,91 @@ export default class Fetching extends Component {
 
   /* Infer behavior */
 
-  AnalyzeBehavior() {  
+  AnalyzeBehavior() { 
+    console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
+    console.log(DataIn30Secs)
     let behavior = 'default'
-    if(this.state.candidateLocations.results[0].types.includes('cafe')) {
-      if (this.state.acc.x < 0.05 && this.state.acc.x > -0.05 &&
-          this.state.acc.y < 0.05 && this.state.acc.y > -0.05) {
-            behavior = 'coffee'
+    // if(this.state.candidateLocations.results[0].types.includes('cafe')) {
+      if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 ) {
+        console.log('Moving...')
+        /**
+         * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
+         * Need Velocity -> Need Geolocation
+         * */ 
+
+        /** Compute the Distance  Unit:meter/30s */
+        // let distance = geolib.getPreciseDistance({
+        //   latitude: JSON.stringify(this.state.position.latitude),
+        //   longitude: JSON.stringify(this.state.position.longitude)},{
+        //   latitude: JSON.stringify(DataIn30Secs[0].position.latitude),
+        //   longitude: JSON.stringify(DataIn30Secs[0].position.longitude)})
+
+        let distance = geolib.getPreciseDistance(
+          { latitude: 51.5103, longitude: 7.49347 },
+          { latitude: "51° 31' N", longitude: "7° 28' E" }
+        );
+        
+        
+        console.log('Distance is : ' + distance)
+          
+
+        /** The Velocity of the Object is similar to Walking, Running, or Driving */
+        if (Math.abs(distance) <= 40) {
+          behavior = 'walking'
+        } else if (Math.abs(distance) > 40 && Math.abs(distance) <= 140) {
+          behavior = 'running'
+        } else if (Math.abs(distance) > 140) {
+          behavior = 'driving'
+        }
+
+
+        // behavior = 'coffee'
         /*this.setState({
           behavior: 'coffee'
         })
         */
       } else {
+        /**
+         * It's not moving -> Decide Behavior -> Need Candidate Location
+         * Here the model use top 5 results in Candidate Location
+         */
+        console.log('Not Moving...')
+
+        var shop_name, shop_type = ''
+
+        /** Default: Candidate Location[0] */
+        shop_name = this.state.candidateLocations.results[0].name.toLowerCase()
+        shop_types = this.state.candidateLocations.results[0].types
+
+        /**
+         * Priority: Food > Bar > Cafe
+         * Restaurant || Food
+         * */
+        if (shop_types.includes('restaurant')) {
+          
+          if (shop_name.indexOf('sandwich')>0 || shop_name.indexOf('subway')>0) {
+            console.log('indexof : ', shop_name.indexOf('sandwich'))
+            behavior = 'sandwich'
+          }
+          if (shop_name.indexOf('pizza')>0) {
+            behavior = 'pizza'
+          }
+          if (shop_name.indexOf('hamburger')>0 || shop_name.indexOf('burger')>0 ||
+            shop_name.indexOf('mcdonald')>0 || shop_name.indexOf('shake shack')>0) {
+            behavior = 'hamburger'
+          }
+        }
+        else if (shop_types.includes('bar')>0 && shop_types.includes('cafe')<0) {
+          behavior = 'bar'
+        }
+        else {
+          behavior = 'cafe'
+        }
+
+
+
+
+
         //console.log(this.state.acc.x, this.state.acc.y)
         /*this.setState({
           behavior: 'default'
@@ -237,7 +317,7 @@ export default class Fetching extends Component {
       this.setState({ behavior });
       console.log(`AnalyzeBehavior: ${behavior}`)
       this.props.SendResultToShowmap(behavior)
-    }
+    // }
     //this.setState({ behavior });
     //this.props.SendResultToShowmap(behavior)
     // console.log(this.state.behavior)
@@ -259,7 +339,14 @@ export default class Fetching extends Component {
       data.position = this.state.position.coords
       data.behavior = this.state.behavior
       // this.writeFile(data)
+      if (DataIn30Secs.length == 10) {
+        DataIn30Secs.shift()
+      }
+      DataIn30Secs.push(data)
     }
+
+    this.AnalyzeBehavior()
+
   }
 
   render() { return null; }

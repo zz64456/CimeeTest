@@ -1,0 +1,858 @@
+{
+    "html_attributions": [],
+    "next_page_token": "CqQCFQEAAIcqHmiYoma-P-2kw6dnFJh-JGPPUkvwAkcRv6A5dQCY83xaZQOYZ92bH8pLgLtgxUUmeJdine0jBcMyifgeZAa_cppZAs3TqzOwb-weoll5EaTwBCI213odbpekUOWqANjdSaB_yEsAXSv2xEEegXnUVXAIrgLU83Jhnp809vwMneXfIS_85ysrpV46BlEu0hMwElWVhNdWJbUp2ZO9glt_V93rl35LM7wdFAR1NkKPXiPJgzni49A12uun9tuevhZZlEMzwvJUa4yodJKjF_bptT4pOFDskWdDvbMvHgS7Ofvd5qufO9JtDvMb3vouDiUu0D_BUs89AN1y3wSefs3QnCv2_ErkYs4iaGFTLj0uW5AOikbukrI46ZkgQMnyxhIQw15RFWsPL-smsLq5mwbdHhoUxwYrj55RCKVc4T9LyVSdHf5pCrI",
+    "results": [
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0535237,
+                    "lng": 121.4602464
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0548724302915,
+                        "lng": 121.4615013802915
+                    },
+                    "southwest": {
+                        "lat": 25.0521744697085,
+                        "lng": 121.4588034197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/cafe-71.png",
+            "id": "b00b3be37bb3e5435e26e85299d066435849e6a9",
+            "name": "STARBUCKS 星巴克 (新莊思源門市)",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3024,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/102792964163024606019\">Vito</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAB0D9iZHjlYUe_Jj9mx29vyqjn6TGANo-cQNSNr9coaZVAgyO3rCoBQ6xFJu5CrlDjK99y-WiLDlJEgPol52fBwpKmLbCf1-f9roLLoANKnuqDCmj7oir6OwL2i9-TGguEhAV6kmJCT1DLBPw7kRcF5sUGhTerHHLnnxzsOekUXt96O3vpCUOcQ",
+                    "width": 4032
+                }
+            ],
+            "place_id": "ChIJzaN4q4moQjQR_CqcFtwlGfI",
+            "plus_code": {
+                "compound_code": "3F36+C3 台灣新北市新莊區頭前里",
+                "global_code": "7QQ33F36+C3"
+            },
+            "price_level": 2,
+            "rating": 4.3,
+            "reference": "ChIJzaN4q4moQjQR_CqcFtwlGfI",
+            "scope": "GOOGLE",
+            "types": [
+                "cafe",
+                "food",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 1201,
+            "vicinity": "新莊區思源路448號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0534448,
+                    "lng": 121.4608416
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0547926302915,
+                        "lng": 121.4621341802915
+                    },
+                    "southwest": {
+                        "lat": 25.0520946697085,
+                        "lng": 121.4594362197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "1b13832473e62de7e97a8527a00cc038d20f6651",
+            "name": "碧瑤峰範",
+            "photos": [
+                {
+                    "height": 471,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/112224725130752850110\">陳麒米 CHEN Chimi</a>"
+                    ],
+                    "photo_reference": "CmRaAAAATRGdPrqtqVYcBh3dEA1is-8jzA-K5rkGFyN8nXJNYkH0hVetaggzKoQbq5kZTw2boaYctXtKlLIDGuA2lnIA_94-nfrZNGinU1Z3DA9AxeYqEbYd0YW9-oeVhO3-53XgEhC9lHLo_RguRgFW_Qj9VrpEGhSy5VdavdbliVqRsudDQJsE39BNiQ",
+                    "width": 799
+                }
+            ],
+            "place_id": "ChIJ6Re4CYmoQjQRhLO8slAussY",
+            "plus_code": {
+                "compound_code": "3F36+98 台灣新北市新莊區頭前里",
+                "global_code": "7QQ33F36+98"
+            },
+            "rating": 4,
+            "reference": "ChIJ6Re4CYmoQjQRhLO8slAussY",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 11,
+            "vicinity": "新莊區福美街16號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0530517,
+                    "lng": 121.4608553
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0543994802915,
+                        "lng": 121.4621459802915
+                    },
+                    "southwest": {
+                        "lat": 25.05170151970849,
+                        "lng": 121.4594480197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/civic_building-71.png",
+            "id": "e5bbfa00aa181151b47dd3f570cfa9b6838c05f4",
+            "name": "新北市政府頭前抽水站",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1093,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/113703566569078278065\">jung Lii</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAIcf0pkbsDaUH5QlfY3yUrOeIafDHxS0BeD0FA6G-rEo-dd01Ck6ZDVlTZ3XFJgwwd5sUShIFSkiSVmud93a4DsKnaz9ybeHUxG7pXwPa4qGModtXSjA1aC1qHsx2G0-CEhB8eTiAVvStLJlhzJbptvkiGhRlPek9JH6mWSwQALqmvaNjVfT6yQ",
+                    "width": 1077
+                }
+            ],
+            "place_id": "ChIJjcIQSTmpQjQRd5jLncIgALc",
+            "plus_code": {
+                "compound_code": "3F36+68 台灣新北市新莊區頭前里",
+                "global_code": "7QQ33F36+68"
+            },
+            "reference": "ChIJjcIQSTmpQjQRd5jLncIgALc",
+            "scope": "GOOGLE",
+            "types": [
+                "local_government_office",
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "新莊區福美街12號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.053741,
+                    "lng": 121.460113
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0550899802915,
+                        "lng": 121.4614415302915
+                    },
+                    "southwest": {
+                        "lat": 25.0523920197085,
+                        "lng": 121.4587435697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/bus-71.png",
+            "id": "33b5620fb989ae1957137822dbab56bee043faa5",
+            "name": "頭前國中(思源路口)",
+            "place_id": "ChIJiQoPAYmoQjQR3rOBpW-ht_s",
+            "plus_code": {
+                "compound_code": "3F36+F2 台灣台北",
+                "global_code": "7QQ33F36+F2"
+            },
+            "reference": "ChIJiQoPAYmoQjQR3rOBpW-ht_s",
+            "scope": "GOOGLE",
+            "types": [
+                "bus_station",
+                "transit_station",
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "Taiwan"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0537203,
+                    "lng": 121.4608756
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0550079802915,
+                        "lng": 121.4622225802915
+                    },
+                    "southwest": {
+                        "lat": 25.0523100197085,
+                        "lng": 121.4595246197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "838515d179021372c3c296a2bf86cf7785e50de0",
+            "name": "永葉國際有限公司",
+            "place_id": "ChIJOWM1CYmoQjQRsYZz02BtrVc",
+            "plus_code": {
+                "compound_code": "3F36+F9 台灣新北市新莊區頭前里",
+                "global_code": "7QQ33F36+F9"
+            },
+            "reference": "ChIJOWM1CYmoQjQRsYZz02BtrVc",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "新莊區頭興街"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0533428,
+                    "lng": 121.4596794
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0547130302915,
+                        "lng": 121.4610293302915
+                    },
+                    "southwest": {
+                        "lat": 25.0520150697085,
+                        "lng": 121.4583313697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png",
+            "id": "99baa45889885c02662a7a1b0b7f6e779b5c58a4",
+            "name": "鵝肉殿",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 3024,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/105371282671376052316\">Kuei Huang</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAys6pmH5fVDNSPzsSR7udSToWtDCgtzymyNNrqOFoCOEGcuhY20Rw0CnO-ScvqJ8SreuHjOE0Oc_XZz_RX5996tla9rcBDW5X5EqSJ4LfyMVx0ztrwtBDsRZPZf__3sc1EhApa4xvD7T9RVNSmY7MF_tIGhS_7psLADgttKRnGUmtl3vD0cdS4Q",
+                    "width": 4032
+                }
+            ],
+            "place_id": "ChIJfVllVIioQjQRucx1i0Nzn6I",
+            "plus_code": {
+                "compound_code": "3F35+8V 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+8V"
+            },
+            "price_level": 2,
+            "rating": 3.8,
+            "reference": "ChIJfVllVIioQjQRucx1i0Nzn6I",
+            "scope": "GOOGLE",
+            "types": [
+                "restaurant",
+                "food",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 168,
+            "vicinity": "新莊區思源路451號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.05365,
+                    "lng": 121.4609884
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0549751302915,
+                        "lng": 121.4623365802915
+                    },
+                    "southwest": {
+                        "lat": 25.05227716970849,
+                        "lng": 121.4596386197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "9e1c889fcc9d89a830e7cbf0ebe083bded1c2b83",
+            "name": "大喵重機出租",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 608,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/101562153222632000970\">大喵重機出租</a>"
+                    ],
+                    "photo_reference": "CmRZAAAAujYwW0g7CvubFW2LOaHu7Zu0iduaWwen4aWU0z5KMnAnb1tf4910u1gJSC89R7CKQ3egbe0J8k9azSdDlrvl6bM1mEKmPsyYXcPxGJZNhIgEcoDVaWvDUN9hhwBgcO3JEhARg4iUzLlPy43kLYTKQ_2JGhQ5u2EtOVYakYrjRkMZzZzUYttMPA",
+                    "width": 911
+                }
+            ],
+            "place_id": "ChIJOxS8An-oQjQR_YBGv037f4Q",
+            "plus_code": {
+                "compound_code": "3F36+F9 台灣新北市新莊區頭前里",
+                "global_code": "7QQ33F36+F9"
+            },
+            "rating": 4.5,
+            "reference": "ChIJOxS8An-oQjQR_YBGv037f4Q",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 104,
+            "vicinity": "新莊區頭興街180 號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0536597,
+                    "lng": 121.46099
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0549761302915,
+                        "lng": 121.4623379302915
+                    },
+                    "southwest": {
+                        "lat": 25.05227816970849,
+                        "lng": 121.4596399697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "b4d875f86ec771b7c753c1413db1db8dceeb057f",
+            "name": "大喵重機租賃",
+            "place_id": "ChIJBVcvh46oQjQRDkrX7QjBW20",
+            "plus_code": {
+                "compound_code": "3F36+F9 台灣新北市新莊區頭前里",
+                "global_code": "7QQ33F36+F9"
+            },
+            "reference": "ChIJBVcvh46oQjQRDkrX7QjBW20",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "vicinity": "新莊區頭興街180號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0531522,
+                    "lng": 121.4595818
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0545031302915,
+                        "lng": 121.4610202802915
+                    },
+                    "southwest": {
+                        "lat": 25.05180516970849,
+                        "lng": 121.4583223197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "5ab71393ba5e780a61a6725113363635d3157a50",
+            "name": "榮達進口摩托車",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 807,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/117219761541882608773\">榮達進口摩托車</a>"
+                    ],
+                    "photo_reference": "CmRZAAAAWUdsPXvM4HCeqM8jBmlfZFBGHgNw6YxAQSoZCGl_jXPUL9Iv9FHLQZUrXFJKcRVO9B4shdBLDrlGPeoGOh9nXezxU1O0Lq4LtgLDkBpOr_IHClhiWPCImm4gzDNVYq-nEhBT0VjzQlA9317u_Msr_-viGhQ-5R75M-y9pDODSUY1NkdgqdqVfA",
+                    "width": 807
+                }
+            ],
+            "place_id": "ChIJA8gC_sapQjQRonuSdyzFRRU",
+            "plus_code": {
+                "compound_code": "3F35+7R 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+7R"
+            },
+            "rating": 4.7,
+            "reference": "ChIJA8gC_sapQjQRonuSdyzFRRU",
+            "scope": "GOOGLE",
+            "types": [
+                "car_repair",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "user_ratings_total": 11,
+            "vicinity": "新莊區思源路445號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0540021,
+                    "lng": 121.4607231
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.05535118029151,
+                        "lng": 121.4621068302915
+                    },
+                    "southwest": {
+                        "lat": 25.0526532197085,
+                        "lng": 121.4594088697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "eeeffa5ac7aaabf78ba09de3c71abac9d0e0ab0f",
+            "name": "星途旅程專業代購",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 800,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/106685530238329024786\">星途旅程專業代購</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAr3TKnOv1jhwu6QLHb2tOKyZAqmn_m5JelIr_v2YcROd2e57EPNcGNhwz4Hhs0YpDtJZkhnZLEhVVKn7ly4F2KEhQentKIPEYTD9igKLOYjyRZQss9AOJYyeaHbdPSZUSEhB0y4Ls-cz2XzDBikN60I4nGhRrsoTFvoUnwMoJ9Us0ZrPf9ctnaw",
+                    "width": 800
+                }
+            ],
+            "place_id": "ChIJ_Vv5CHKpQjQRd1PwbXXo1yw",
+            "plus_code": {
+                "compound_code": "3F36+J7 台灣新北市新莊區頭前里",
+                "global_code": "7QQ33F36+J7"
+            },
+            "reference": "ChIJ_Vv5CHKpQjQRd1PwbXXo1yw",
+            "scope": "GOOGLE",
+            "types": [
+                "store",
+                "grocery_or_supermarket",
+                "food",
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "新莊區福美街52號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0530497,
+                    "lng": 121.4595826
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0544006302915,
+                        "lng": 121.4610220302915
+                    },
+                    "southwest": {
+                        "lat": 25.0517026697085,
+                        "lng": 121.4583240697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "5441e5b444294f3a558f7cba795a44ae10d66e01",
+            "name": "弘基企業管理顧問有限公司",
+            "place_id": "ChIJaUMaUoioQjQRm6-UzMwIXls",
+            "plus_code": {
+                "compound_code": "3F35+6R 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+6R"
+            },
+            "reference": "ChIJaUMaUoioQjQRm6-UzMwIXls",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "新莊區思源路427號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.053044,
+                    "lng": 121.459582
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0543949302915,
+                        "lng": 121.4610218302915
+                    },
+                    "southwest": {
+                        "lat": 25.0516969697085,
+                        "lng": 121.4583238697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/atm-71.png",
+            "id": "dff4d78f7c2bbfb5e4ec67124e353e5515b3ab27",
+            "name": "日盛銀行新莊分行ATM",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJcUMaUoioQjQRh2404BNHOxk",
+            "plus_code": {
+                "compound_code": "3F35+6R 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+6R"
+            },
+            "reference": "ChIJcUMaUoioQjQRh2404BNHOxk",
+            "scope": "GOOGLE",
+            "types": [
+                "atm",
+                "finance",
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "新莊區思源路427號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0530439,
+                    "lng": 121.459582
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0543948302915,
+                        "lng": 121.4610218302915
+                    },
+                    "southwest": {
+                        "lat": 25.0516968697085,
+                        "lng": 121.4583238697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "9f0f951099a42398f8045c7802ff7ee782f4eaca",
+            "name": "兆豐證券股份有限公司",
+            "opening_hours": {
+                "open_now": false
+            },
+            "place_id": "ChIJCVEaUoioQjQRCoSoIOFVTOo",
+            "plus_code": {
+                "compound_code": "3F35+6R 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+6R"
+            },
+            "reference": "ChIJCVEaUoioQjQRCoSoIOFVTOo",
+            "scope": "GOOGLE",
+            "types": [
+                "finance",
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "新莊區思源路427號2樓"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0530439,
+                    "lng": 121.459582
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0543948302915,
+                        "lng": 121.4610218302915
+                    },
+                    "southwest": {
+                        "lat": 25.0516968697085,
+                        "lng": 121.4583238697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/bank_dollar-71.png",
+            "id": "e7449bbd82934bd52e421253f40a76489d133894",
+            "name": "日盛銀行（新莊分行）",
+            "opening_hours": {
+                "open_now": false
+            },
+            "place_id": "ChIJFanXhWSoQjQR8_dAvCSm-C0",
+            "plus_code": {
+                "compound_code": "3F35+6R 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+6R"
+            },
+            "rating": 2.3,
+            "reference": "ChIJFanXhWSoQjQR8_dAvCSm-C0",
+            "scope": "GOOGLE",
+            "types": [
+                "bank",
+                "finance",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 4,
+            "vicinity": "新莊區思源路427號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0531449,
+                    "lng": 121.4595479
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0544961802915,
+                        "lng": 121.4610034302915
+                    },
+                    "southwest": {
+                        "lat": 25.0517982197085,
+                        "lng": 121.4583054697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "2bf4ad9220b66f90abe000b7abdbb3c96ee8fc53",
+            "name": "方代書地政士事務所",
+            "place_id": "ChIJmRAqUoioQjQR75ikssuQcHI",
+            "plus_code": {
+                "compound_code": "3F35+7R 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+7R"
+            },
+            "rating": 5,
+            "reference": "ChIJmRAqUoioQjQR75ikssuQcHI",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 1,
+            "vicinity": "新莊區思源路445號2樓"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0527247,
+                    "lng": 121.4609965
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0539850802915,
+                        "lng": 121.4623449302915
+                    },
+                    "southwest": {
+                        "lat": 25.0512871197085,
+                        "lng": 121.4596469697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "41f20544c81a6d6ff35aa4dd7f251f4fc1272201",
+            "name": "碧瑤極大城",
+            "photos": [
+                {
+                    "height": 3432,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/112239716449142013118\">碧瑤極大城</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAvNLKzE0u865JMwy_8vzW6dF0tf9Ew7G6yMwmhyyymawv6w0E3C2VRcvWWLD3czZ2Luhn2g4sMhfZEbOV5uP4FHQqhPWd8nZH47AJfzVFudtPzfN6XLso1ZLWk1XxMD90EhB8P40Q3x0fdGobbSqesrpuGhSTR775dRuXfKRnqSfd6OVHr7aerw",
+                    "width": 8569
+                }
+            ],
+            "place_id": "ChIJzYcohuypQjQRkBdCOW29YEc",
+            "plus_code": {
+                "compound_code": "3F36+39 台灣新北市新莊區",
+                "global_code": "7QQ33F36+39"
+            },
+            "rating": 5,
+            "reference": "ChIJzYcohuypQjQRkBdCOW29YEc",
+            "scope": "GOOGLE",
+            "types": [
+                "store",
+                "point_of_interest",
+                "establishment"
+            ],
+            "user_ratings_total": 1,
+            "vicinity": "新莊區頭前路166號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0537656,
+                    "lng": 121.4596455
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0551135302915,
+                        "lng": 121.4610530802915
+                    },
+                    "southwest": {
+                        "lat": 25.0524155697085,
+                        "lng": 121.4583551197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "f2ded3a5f0776e049e72ed8e85fd07e7f3d98637",
+            "name": "立融儀器貿易有限公司-台北分公司",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJxUPI-IioQjQR_b_jo9iAgqc",
+            "plus_code": {
+                "compound_code": "3F35+GV 台灣新北市新莊區昌平里",
+                "global_code": "7QQ33F35+GV"
+            },
+            "reference": "ChIJxUPI-IioQjQR_b_jo9iAgqc",
+            "scope": "GOOGLE",
+            "types": [
+                "hardware_store",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "vicinity": "新莊區思源路461號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.053525,
+                    "lng": 121.459505
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0548124302915,
+                        "lng": 121.4608513302915
+                    },
+                    "southwest": {
+                        "lat": 25.0521144697085,
+                        "lng": 121.4581533697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "cc8ace41253c0d9be29e42c6f6cae5ed3b54504d",
+            "name": "如鎰有限公司",
+            "opening_hours": {
+                "open_now": true
+            },
+            "place_id": "ChIJJ6B8VoioQjQRiWJDWncuelA",
+            "plus_code": {
+                "compound_code": "3F35+CR 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+CR"
+            },
+            "reference": "ChIJJ6B8VoioQjQRiWJDWncuelA",
+            "scope": "GOOGLE",
+            "types": [
+                "home_goods_store",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "vicinity": "新莊區思源路455號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.053525,
+                    "lng": 121.459505
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0548124302915,
+                        "lng": 121.4608513302915
+                    },
+                    "southwest": {
+                        "lat": 25.0521144697085,
+                        "lng": 121.4581533697085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/generic_business-71.png",
+            "id": "41a0f141d87f820c25f812bbb9b1768f8dc39193",
+            "name": "肯徠企業股份有限公司",
+            "place_id": "ChIJJ6B8VoioQjQRW5B-L0bXHaE",
+            "plus_code": {
+                "compound_code": "3F35+CR 台灣新北市新莊區和平里",
+                "global_code": "7QQ33F35+CR"
+            },
+            "reference": "ChIJJ6B8VoioQjQRW5B-L0bXHaE",
+            "scope": "GOOGLE",
+            "types": [
+                "point_of_interest",
+                "establishment"
+            ],
+            "vicinity": "新莊區思源路455號"
+        },
+        {
+            "business_status": "OPERATIONAL",
+            "geometry": {
+                "location": {
+                    "lat": 25.0535628,
+                    "lng": 121.461268
+                },
+                "viewport": {
+                    "northeast": {
+                        "lat": 25.0549046802915,
+                        "lng": 121.4626167802915
+                    },
+                    "southwest": {
+                        "lat": 25.0522067197085,
+                        "lng": 121.4599188197085
+                    }
+                }
+            },
+            "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/shopping-71.png",
+            "id": "ccc9deb577dc9ea19732e7938856059bdb09af19",
+            "name": "喬雅企業社",
+            "opening_hours": {
+                "open_now": true
+            },
+            "photos": [
+                {
+                    "height": 1108,
+                    "html_attributions": [
+                        "<a href=\"https://maps.google.com/maps/contrib/110533488740162565087\">王志浩</a>"
+                    ],
+                    "photo_reference": "CmRaAAAAmx7CqV3EvjSPF8aWfjtnt4UgvdK3isRF7XZXgxuNn07oN2NpFAz_D9r4xXKtPYUJfL34naPdPdULjPT6WnGFOZypdyceAerJ3w4Eq8AyC6IJvKzgcxyq_Yt9jKNSQ0q6EhBvbb_TS2LpE794EN7GeyqpGhQKtHvAbIJKI2IreLGmwM9108vrUw",
+                    "width": 1478
+                }
+            ],
+            "place_id": "ChIJp-pbC4moQjQRt0suFGPggUo",
+            "plus_code": {
+                "compound_code": "3F36+CG 台灣新北市新莊區",
+                "global_code": "7QQ33F36+CG"
+            },
+            "rating": 3.4,
+            "reference": "ChIJp-pbC4moQjQRt0suFGPggUo",
+            "scope": "GOOGLE",
+            "types": [
+                "home_goods_store",
+                "point_of_interest",
+                "store",
+                "establishment"
+            ],
+            "user_ratings_total": 5,
+            "vicinity": "新莊區頭興街"
+        }
+    ],
+    "status": "OK"
+}

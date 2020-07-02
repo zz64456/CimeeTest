@@ -9,10 +9,6 @@ import TabBarPage from '../common/TabBarPage';
 import Fetching from './Fetching';
 
 
-
-
-
-
 class ShowMap extends React.Component {
 
     static propTypes = {
@@ -45,7 +41,7 @@ class ShowMap extends React.Component {
 
     decideBehavior(behavior) {
         this.setState({behavior})
-        console.log(`decideBehavior : ${behavior}`)
+        console.log(`DecideBehavior : ${behavior}`)
     }
 
     componentDidMount() {
@@ -77,7 +73,7 @@ class ShowMap extends React.Component {
     }
 
     render() {
-        console.log(`ShowMap render! ${this.state.behavior}`)
+        // console.log(`ShowMap render! ${this.state.behavior}`)
         return (
             <>
                 <Fetching SendResultToShowmap={this.decideBehavior} />
