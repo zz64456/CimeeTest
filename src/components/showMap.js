@@ -61,14 +61,15 @@ class ShowMap extends React.Component {
 
     setModalVisible = (visible) => {
         this.setState({ modalVisible: visible })
+        let behavior =''
         if (this.state.correctedBehavior) {
-            let behavior = this.state.correctedBehavior.toLowerCase()
+            behavior = this.state.correctedBehavior.toLowerCase()
             behavior = behavior.trim()
             console.log('User correction: ', behavior)
             if (behaviors_URIs[behavior]) {
                 this.setState({ behavior })
             }
-            this.writeCorrectionFile()
+            this.writeCorrectionFile(behavior)
         }
     }
 
@@ -87,12 +88,13 @@ class ShowMap extends React.Component {
         MapboxGL.locationManager.start();
     }
 
-    writeCorrectionFile() {
+    writeCorrectionFile(behavior) {
         var RNFS = require('react-native-fs');
         var path = RNFS.DocumentDirectoryPath + '/Correction.json';
         const correctedData = {
             data: this.state.data,
-            correction: this.state.correctedBehavior
+            /** Here CANNOT Use state Because state is being updated  */
+            correction: behavior
         }
         console.log('Start Writing Correction File...')
 
@@ -110,7 +112,7 @@ class ShowMap extends React.Component {
         // Append the content to the file
         RNFS.appendFile(path, JSON.stringify(correctedData), 'utf8')
           .then((success) => {
-            console.log('Correction appended....');
+            console.log(correctedData)
           })
           .catch((err) => {
             console.log(err.message);
@@ -160,6 +162,7 @@ class ShowMap extends React.Component {
                     animationType="slide"
                     transparent={true}
                     visible={this.state.modalVisible}
+                    /** onRequestClose is for android or Apple TV which has physical button */
                     onRequestClose={() => {
                         Alert.alert("Modal has been closed.");
                     }}

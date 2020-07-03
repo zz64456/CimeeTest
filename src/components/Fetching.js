@@ -187,21 +187,71 @@ export default class Fetching extends Component {
         .catch((err) => {
             console.log(err.message, err.code);
         });
-}
+  }
+
+  readCorrection() {
+    console.log('readCorrection..')
+    var RNFS = require('react-native-fs');
+
+    let data = ''
+
+    let filePath = RNFS.DocumentDirectoryPath + '/Correction.json';
+
+    if (RNFS.exists(filePath)) {
+      RNFS.readFile(filePath, 'utf8')
+          .then((result) => {
+            // console.log(result)
+            data = result
+            // candidateLocations = JSON.parse(result)
+            // this.setState({candidateLocations})
+            // console.log('name type : ', typeof(this.state.candidateLocations.results[0].name))
+          })
+          .catch((err) => {
+            console.log(err.message, err.code);
+          });
+    }
+    return data
+  }
 
   /* Infer behavior */
-
   AnalyzeBehavior() { 
+
     console.log('------------------------------------------------')
-    console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
-    console.log(DataIn30Secs)
+
     let behavior = 'default'
+    let correction = this.readCorrection()
+    let HasCorrection = false
+
+    if (correction) {
+      console.log('hello', correction)
+      correction.forEach(
+        item => {
+          let distance = geolib.getPreciseDistance({
+            latitude: item.data.position.latitude,
+            longitude: item.data.position.longitude},{
+            latitude: this.state.position.latitude,
+            longitude: this.state.position.longitude})
+          console.log(item.correction, distance)
+          if(distance < 30) {
+            console.log('Correction data is found, behavior is set')
+            behavior = item.correction;
+            HasCorrection = true
+          }
+        }
+      )
+    }
+    if (!HasCorrection) {
+
+      console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
+      console.log(DataIn30Secs)
+    
       if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 ) {
-        console.log('Moving...')
+    
         /**
          * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
          * Need Velocity -> Need Geolocation
          * */ 
+        console.log('Moving...')
 
         /** Compute the Distance  Unit:meter/30s */
         let lat_LastInDate = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
@@ -228,12 +278,6 @@ export default class Fetching extends Component {
           behavior = 'driving'
         }
 
-
-        // behavior = 'coffee'
-        /*this.setState({
-          behavior: 'coffee'
-        })
-        */
       } else {
         /**
          * It's not moving -> Decide Behavior -> Need Candidate Location
@@ -274,22 +318,11 @@ export default class Fetching extends Component {
           behavior = 'cafe'
         }
 
-
-
-
-
-        //console.log(this.state.acc.x, this.state.acc.y)
-        /*this.setState({
-          behavior: 'default'
-        })*/
       }
       this.setState({ behavior });
       // console.log(`AnalyzeBehavior: ${behavior}`)
       this.props.SendResultToShowmap(behavior, this.state.data)
-    // }
-    //this.setState({ behavior });
-    //this.props.SendResultToShowmap(behavior)
-    // console.log(this.state.behavior)
+    }
   }
   
 
@@ -326,15 +359,15 @@ export default class Fetching extends Component {
     var path = RNFS.DocumentDirectoryPath + '/0629-1.json';
     console.log('Start writing...')
     if(!RNFS.exists(path)) {
-    // Write the file
-    RNFS.writeFile(path, JSON.stringify(p), 'utf8')
-      .then((success) => {
-        // console.log('FILE WRITTEN!~~~~');
-        console.log(p)
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+      // Write the file
+      RNFS.writeFile(path, JSON.stringify(p), 'utf8')
+        .then((success) => {
+          // console.log('FILE WRITTEN!~~~~');
+          console.log(p)
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
     }
 
       // Append the content to the file
