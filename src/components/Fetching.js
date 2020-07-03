@@ -40,46 +40,17 @@ export default class Fetching extends Component {
   constructor() {
     super()
     this.state = {
-      behavior: 'null',
+      behavior: 'default',
       lastWriteTime: '0'
     }
 
     this.AnalyzeBehavior=this.AnalyzeBehavior.bind(this);
   }
 
-  // ************************ Record data to device
-  writeFile(p) {
-    var RNFS = require('react-native-fs');
-    var path = RNFS.DocumentDirectoryPath + '/0629-1.json';
-    console.log('Start writing...')
-    if(!RNFS.exists(path)) {
-    // Write the file
-    RNFS.writeFile(path, JSON.stringify(p), 'utf8')
-      .then((success) => {
-        // console.log('FILE WRITTEN!~~~~');
-        console.log(p)
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-    }
 
-      // Append the content to the file
-    RNFS.appendFile(path, JSON.stringify(p), 'utf8')
-      .then((success) => {
-        console.log('appended....');
-      })
-      .catch((err) => {
-        console.log(err.message);
-    })
-
-    this.setState({
-      lastWriteTime: time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-    })
-  }
   
   sensorCall() {
-
+    console.log('sensorCall..')
     Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 3000);
     Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 3000);
     Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 3000);
@@ -124,17 +95,17 @@ export default class Fetching extends Component {
 
   // ************************ Geolocation
   componentDidMount() {
-
+    console.log('DidMount..')
     /* Activate sensors fetching */
     this.sensorCall()
 
     /* Get candidate locations */
     this.readLocations()
-    console.log('DidMount')
+    
     this._intervals = [  
     setInterval( () => this.updateGeolocation(), 3000),
     setInterval( () => this.toAsync(), 3000),
-    // setInterval( () => this.AnalyzeBehavior(), 5000),
+    setInterval( () => this.AnalyzeBehavior(), 3000),
     ]
   }
 
@@ -203,6 +174,7 @@ export default class Fetching extends Component {
 
   /* Get downloaded geolocation data for Sensory coffee shop */
   readLocations() {
+    console.log('readLocations..')
     var RNFS = require('react-native-fs');
 
     let filePath = RNFS.DocumentDirectoryPath + '/ComeTrue.json';
@@ -249,7 +221,7 @@ export default class Fetching extends Component {
         //   { latitude: "51° 31' N", longitude: "7° 28' E" }
         // );
         
-        
+        console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
         console.log('Distance is : ' + distance)
           
 
@@ -318,8 +290,8 @@ export default class Fetching extends Component {
         })*/
       }
       this.setState({ behavior });
-      console.log(`AnalyzeBehavior: ${behavior}`)
-      this.props.SendResultToShowmap(behavior)
+      // console.log(`AnalyzeBehavior: ${behavior}`)
+      this.props.SendResultToShowmap(behavior, this.state.data)
     // }
     //this.setState({ behavior });
     //this.props.SendResultToShowmap(behavior)
@@ -329,7 +301,7 @@ export default class Fetching extends Component {
 
   /* Put data of SensorView & Geolocation together */
   toAsync() {
-    console.log('toAsync')
+    console.log('toAsync..')
     var data = {}
 
     data.acc = this.state.acc
@@ -341,17 +313,52 @@ export default class Fetching extends Component {
     if(this.state.position) {
       data.position = this.state.position.coords
       data.behavior = this.state.behavior
+      this.setState({data})
       // this.writeFile(data)
-      if (DataIn30Secs.length == 10) {
-        DataIn30Secs.shift()
+      if (DataIn30Secs.length == 11) {
+        const DataShifted = DataIn30Secs.shift()
+        console.log(DataShifted)
       }
       DataIn30Secs.push(data)
     }
 
-    this.AnalyzeBehavior()
+    // this.AnalyzeBehavior()
 
   }
 
-  render() { return null; }
+  // ************************ Record data to device
+  writeFile(p) {
+    var RNFS = require('react-native-fs');
+    var path = RNFS.DocumentDirectoryPath + '/0629-1.json';
+    console.log('Start writing...')
+    if(!RNFS.exists(path)) {
+    // Write the file
+    RNFS.writeFile(path, JSON.stringify(p), 'utf8')
+      .then((success) => {
+        // console.log('FILE WRITTEN!~~~~');
+        console.log(p)
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+    }
+
+      // Append the content to the file
+    RNFS.appendFile(path, JSON.stringify(p), 'utf8')
+      .then((success) => {
+        console.log('appended....');
+      })
+      .catch((err) => {
+        console.log(err.message);
+    })
+
+    this.setState({
+      lastWriteTime: time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+    })
+  }
+
+  render() { 
+    // console.log('render..')
+    return null; }
 
 }
