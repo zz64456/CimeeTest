@@ -130,18 +130,13 @@ export default class Fetching extends Component {
 
     /* Get candidate locations */
     this.readLocations()
-    
+    console.log('DidMount')
     this._intervals = [  
     setInterval( () => this.updateGeolocation(), 3000),
     setInterval( () => this.toAsync(), 3000),
     // setInterval( () => this.AnalyzeBehavior(), 5000),
     ]
   }
-
-  /** When State Changes */
-  // componentDidUpdate(){
-    
-  // }
 
   componentWillUnmount() {
     this.watchID != null && Geolocation.clearWatch(this.watchID);
@@ -210,7 +205,7 @@ export default class Fetching extends Component {
   readLocations() {
     var RNFS = require('react-native-fs');
 
-    let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample2.json';
+    let filePath = RNFS.DocumentDirectoryPath + '/ComeTrue.json';
     RNFS.readFile(filePath, 'utf8')
         .then((result) => {
             candidateLocations = JSON.parse(result)
@@ -225,6 +220,7 @@ export default class Fetching extends Component {
   /* Infer behavior */
 
   AnalyzeBehavior() { 
+    console.log('------------------------------------------------')
     console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
     console.log(DataIn30Secs)
     let behavior = 'default'
@@ -237,16 +233,21 @@ export default class Fetching extends Component {
          * */ 
 
         /** Compute the Distance  Unit:meter/30s */
-        // let distance = geolib.getPreciseDistance({
-        //   latitude: JSON.stringify(this.state.position.latitude),
-        //   longitude: JSON.stringify(this.state.position.longitude)},{
-        //   latitude: JSON.stringify(DataIn30Secs[0].position.latitude),
-        //   longitude: JSON.stringify(DataIn30Secs[0].position.longitude)})
+        let lat_LastInDate = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
+        let lng_LastInDate = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
+        let lat_FirstInData = DataIn30Secs[0].position.latitude
+        let lng_FirstInData = DataIn30Secs[0].position.longitude
+        // console.log(typeof(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude), DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
+        let distance = geolib.getPreciseDistance({
+          latitude: lat_LastInDate,
+          longitude: lng_LastInDate},{
+          latitude: lat_FirstInData,
+          longitude: lng_FirstInData})
 
-        let distance = geolib.getPreciseDistance(
-          { latitude: 51.5103, longitude: 7.49347 },
-          { latitude: "51° 31' N", longitude: "7° 28' E" }
-        );
+        // let distance = geolib.getPreciseDistance(
+        //   { latitude: 51.5103, longitude: 7.49347 },
+        //   { latitude: "51° 31' N", longitude: "7° 28' E" }
+        // );
         
         
         console.log('Distance is : ' + distance)
@@ -274,11 +275,13 @@ export default class Fetching extends Component {
          */
         console.log('Not Moving...')
 
-        var shop_name, shop_type = ''
+
+        var shop_name, shop_types = ''
 
         /** Default: Candidate Location[0] */
         shop_name = this.state.candidateLocations.results[0].name.toLowerCase()
         shop_types = this.state.candidateLocations.results[0].types
+        console.log(shop_name, shop_types)
 
         /**
          * Priority: Food > Bar > Cafe
@@ -298,10 +301,10 @@ export default class Fetching extends Component {
             behavior = 'hamburger'
           }
         }
-        else if (shop_types.includes('bar')>0 && shop_types.includes('cafe')<0) {
+        else if (shop_types.includes('bar')) {
           behavior = 'bar'
         }
-        else {
+        else if (shop_types.includes('cafe')){
           behavior = 'cafe'
         }
 
@@ -326,7 +329,7 @@ export default class Fetching extends Component {
 
   /* Put data of SensorView & Geolocation together */
   toAsync() {
-
+    console.log('toAsync')
     var data = {}
 
     data.acc = this.state.acc
