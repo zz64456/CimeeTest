@@ -196,7 +196,6 @@ export default class Fetching extends Component {
     console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
     console.log(DataIn30Secs)
     let behavior = 'default'
-    // if(this.state.candidateLocations.results[0].types.includes('cafe')) {
       if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 ) {
         console.log('Moving...')
         /**
@@ -209,17 +208,12 @@ export default class Fetching extends Component {
         let lng_LastInDate = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
         let lat_FirstInData = DataIn30Secs[0].position.latitude
         let lng_FirstInData = DataIn30Secs[0].position.longitude
-        // console.log(typeof(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude), DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
+        
         let distance = geolib.getPreciseDistance({
           latitude: lat_LastInDate,
           longitude: lng_LastInDate},{
           latitude: lat_FirstInData,
           longitude: lng_FirstInData})
-
-        // let distance = geolib.getPreciseDistance(
-        //   { latitude: 51.5103, longitude: 7.49347 },
-        //   { latitude: "51° 31' N", longitude: "7° 28' E" }
-        // );
         
         console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
         console.log('Distance is : ' + distance)

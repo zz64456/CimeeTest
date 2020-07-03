@@ -8,6 +8,25 @@ import BaseExamplePropTypes from '../common/BaseExamplePropTypes';
 import TabBarPage from '../common/TabBarPage';
 import Fetching from './Fetching';
 
+const behaviors_URIs = {
+    bar: "https://upload.cc/i1/2020/07/02/Ep0aGH.png",
+    cafe:  "https://upload.cc/i1/2020/06/19/LbO8ft.png",
+    casino: "https://upload.cc/i1/2020/07/03/mnJH1p.png",
+    default: "https://upload.cc/i1/2020/06/30/OU1LpQ.png",
+    driving: "https://upload.cc/i1/2020/06/30/sxkmeb.png",
+    donut: "https://upload.cc/i1/2020/07/02/eqyHTm.png",
+    hamburger: "https://upload.cc/i1/2020/06/30/b7SmGF.png",
+    movie: "https://upload.cc/i1/2020/07/02/OJ3FWu.png",
+    pizza: "https://upload.cc/i1/2020/07/02/U83Gth.png",
+    running: "https://upload.cc/i1/2020/07/02/FtYQX7.png",
+    sleeping: "https://upload.cc/i1/2020/07/02/tMJBNb.png",
+    sandwich: "https://upload.cc/i1/2020/07/02/asWJzp.png",
+    walking: "https://upload.cc/i1/2020/07/02/TkveY1.png",
+    working: "https://upload.cc/i1/2020/07/02/oYQyCn.png",
+    workout: "https://upload.cc/i1/2020/06/17/iXUof9.png",
+    
+  }
+
 
 class ShowMap extends React.Component {
 
@@ -41,7 +60,16 @@ class ShowMap extends React.Component {
     }
 
     setModalVisible = (visible) => {
-        this.setState({ modalVisible: visible });
+        this.setState({ modalVisible: visible })
+        if (this.state.correctedBehavior) {
+            let behavior = this.state.correctedBehavior.toLowerCase()
+            behavior = behavior.trim()
+            console.log('User correction: ', behavior)
+            if (behaviors_URIs[behavior]) {
+                this.setState({ behavior })
+            }
+            this.writeCorrectionFile()
+        }
     }
 
     decideBehavior(behavior, data) {
@@ -59,6 +87,37 @@ class ShowMap extends React.Component {
         MapboxGL.locationManager.start();
     }
 
+    writeCorrectionFile() {
+        var RNFS = require('react-native-fs');
+        var path = RNFS.DocumentDirectoryPath + '/Correction.json';
+        const correctedData = {
+            data: this.state.data,
+            correction: this.state.correctedBehavior
+        }
+        console.log('Start Writing Correction File...')
+
+        if(!RNFS.exists(path)) {
+            // Write the file
+            RNFS.writeFile(path, JSON.stringify(correctedData), 'utf8')
+            .then((success) => {
+                console.log(correctedData)
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        }
+    
+        // Append the content to the file
+        RNFS.appendFile(path, JSON.stringify(correctedData), 'utf8')
+          .then((success) => {
+            console.log('Correction appended....');
+          })
+          .catch((err) => {
+            console.log(err.message);
+        })
+    
+    }
+
     componentWillUnmount() {
         //clearInterval(this._interval)
         MapboxGL.locationManager.stop();
@@ -69,17 +128,9 @@ class ShowMap extends React.Component {
     }
 
     onUserMarkerPress() {
-        // Alert.alert('You pressed on the user location annotation');
-        // Alert.alert(this.props.uri);
-        // Alert.alert(JSON.stringify(this.state.candidateLocations.results[0].name))
-        // Alert.alert(this.state.behavior)
         // Alert.alert(JSON.stringify(this.state.data))
         this.setModalVisible(true);
         
-        
-        // Alert.alert(JSON.stringify(behaviors))
-        // Alert.alert('Hello')
-        // Alert.alert(JSON.stringify(this.state.candidateLocations.results.length))
     }
 
     render() {
@@ -115,16 +166,22 @@ class ShowMap extends React.Component {
                     >
                     <View style={styles.matchParent}>
                         <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Hello World!</Text>
+                            <Text style={styles.modalText}>Your behavior:</Text>
+                            
+                            <TextInput
+                                style={{ width:100, marginBottom:10, height: 40, borderColor: 'gray', borderWidth: 1, color: 'black' }}
+                                onChangeText={correctedBehavior => this.setState({correctedBehavior})}
+                                // value={value}
+                            />
 
-                        <TouchableHighlight
-                            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                            onPress={() => {
-                            this.setModalVisible(!this.state.modalVisible);
-                            }}
-                        >
-                            <Text style={styles.textStyle}>Hide Modal</Text>
-                        </TouchableHighlight>
+                            <TouchableHighlight
+                                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                                onPress={() => {
+                                this.setModalVisible(!this.state.modalVisible);
+                                }}
+                            >
+                                <Text style={styles.textStyle}>OK</Text>
+                            </TouchableHighlight>
                         </View>
                     </View>
                 </Modal>
@@ -154,25 +211,25 @@ const styles = StyleSheet.create({
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
-          width: 0,
-          height: 2
+            width: 0,
+            height: 2
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5
-      },
-      openButton: {
+    },
+    openButton: {
         backgroundColor: "#F194FF",
         borderRadius: 20,
         padding: 10,
         elevation: 2
-      },
-      textStyle: {
+    },
+    textStyle: {
         color: "white",
         fontWeight: "bold",
         textAlign: "center"
-      },
-      modalText: {
+    },
+    modalText: {
         marginBottom: 15,
         textAlign: "center"
       }
