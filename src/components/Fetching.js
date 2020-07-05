@@ -276,7 +276,7 @@ export default class Fetching extends Component {
           
 
         /** The Velocity of the Object is similar to Walking, Running, or Driving */
-        if (Math.abs(distance) <= 40) {
+        if (Math.abs(distance) > 20 && Math.abs(distance) <= 40) {
           behavior = 'walking'
         } else if (Math.abs(distance) > 40 && Math.abs(distance) <= 140) {
           behavior = 'running'

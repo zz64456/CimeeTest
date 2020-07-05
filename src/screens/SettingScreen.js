@@ -1,10 +1,20 @@
 import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView, FlatList, ScrollView, Image } from 'react-native'
-import { Icon } from 'react-native-elements'
+import { View, Text, StyleSheet, SafeAreaView, FlatList, ScrollView, Image, Alert } from 'react-native'
+// import { Icon } from 'react-native-elements'
 // import { ScrollView } from 'react-native-gesture-handler';
-import { CheckBox } from 'react-native-elements'
+import { CheckBox, Icon } from 'react-native-elements'
 
 export default class Setting extends React.Component{
+
+    constructor() {
+        super()
+        this.state = {
+            ShareBool : true,
+            LowBattery : false,
+            Device : true,
+        }
+    }
+
 
     render() {
         return (
@@ -17,7 +27,10 @@ export default class Setting extends React.Component{
                         name='arrow-left-thick'
                         type='material-community'/>
                     <Text style={styles.backText}>Map</Text>
-                    <Text style={{left:100, fontSize:30, alignSelf:'flex-start'}}>Setting</Text>
+                    
+                </View>
+                <View style={{fontSize:30, alignSelf:'center', marginTop: 5,}}>
+                    <Text style={{fontSize:30, fontWeight:'500', fontFamily:'cochin'}}>Setting</Text>
                 </View>
                 <View style={styles.main}>
                     <View style={styles.optionblock}>
@@ -32,8 +45,11 @@ export default class Setting extends React.Component{
                                     <>
                                     {/* <Text style={styles.optionsText}>{item.text}</Text> */}
                                     <CheckBox
-                                    title={item.text}
-                                    checked />
+                                        containerStyle = {{backgroundColor: '#E4F2F9'}}
+                                        title={item.text}
+                                        checked={this.state[item.key]}
+                                        onPress={() => this.setState({[item.key]: !this.state[[item.key]]})}
+                                    />
                                     </>
                                 }
                             />
@@ -41,6 +57,17 @@ export default class Setting extends React.Component{
                     </View>
                     <View style={styles.friendblock}>
                         {/* <View style={styles.friendlist}> */}
+                            <View style={{ margin: 10, alignItems:'flex-end'}}>
+                                <Icon 
+                                    style={{ marginRight: 10}}
+                                    size={30}
+                                    name='plus'
+                                    type='simple-line-icon'
+                                    color='#517fa4'
+                                    onPress={ () => Alert.alert('Add Friends here.')}
+                                />
+                            </View>
+                            
                             <FlatList
                                 data={[
                                     {key: 'Devin', uri: 'https://upload.cc/i1/2020/07/05/3FBeTU.png'},
@@ -52,16 +79,27 @@ export default class Setting extends React.Component{
                                 ]}
                                 renderItem={({item}) => 
                                 <>
-                                <View style={styles.friend}>
-                                    <Image 
-                                    style={styles.avatar}
-                                    source={{uri: item.uri}} />
-                                    <Text style={styles.friendsText}>{item.key}</Text>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                    <View style={styles.friend}>
+                                        <Image 
+                                            style={styles.avatar}
+                                            source={{uri: item.uri}} />
+                                        <Text style={styles.friendsText}>{item.key}</Text>
+                                    </View>
+                                    <View style={{ alignItems:'flex-end', right: 30}}>
+                                        <Icon 
+                                            style={styles.friendsBan}
+                                            name='ban'
+                                            type='simple-line-icon'
+                                            color='#517fa4'
+                                            onPress={ () => Alert.alert('Ban a friend.')}
+                                        />
+                                    </View>
                                 </View>
-                                    
                                 </>
                                 }
                             />
+                            {/* </View> */}
                         {/* </View> */}
                     </View>
                     
@@ -81,16 +119,16 @@ const styles = StyleSheet.create({
     },
     main: {
         flex: 1,
-        backgroundColor: 'yellow',
+        // backgroundColor: 'yellow',
         // alignItems: 'center',
         // justifyContent: 'center',
         // flexDirection: 'row'
     },
     back: {
-        height: 50,
+        height: 40,
         paddingTop: 10,
         flexDirection: 'row',
-        backgroundColor: 'red',
+        backgroundColor: '#D3F5F4',
     },
     backText: {
         marginLeft: 10,
@@ -98,7 +136,7 @@ const styles = StyleSheet.create({
     },
     optionblock: {
         // flex: 1,
-        backgroundColor: 'lightgreen',
+        // backgroundColor: 'lightgreen',
         margin: 20,
         height: 180,
     },
@@ -111,21 +149,21 @@ const styles = StyleSheet.create({
     friendblock: {
         // flex: 1,
         alignSelf: 'center',
-        width: 300,
-        backgroundColor: 'white',
+        width: 380,
+        // backgroundColor: 'white',
         height: 400,
     },
     friend: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        // backgroundColor: 'brown',
+        width: 200,
     },
-    // friendlist: {
-        
-    //     alignSelf: 'center',
-    //     height: 200,
-    //     // justifyContent: 'center'
-    // },
     friendsText: {
         fontSize: 25,
+        paddingTop: 10,
+    },
+    friendsBan: {
+        marginLeft: 10,
         paddingTop: 10,
     },
     avatar: {
