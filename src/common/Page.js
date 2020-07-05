@@ -12,6 +12,8 @@ class Page extends React.Component {
     ...BaseExamplePropTypes,
   };
 
+  
+
   render() {
     return (
       <View style={sheet.matchParent}>
@@ -21,8 +23,9 @@ class Page extends React.Component {
           statusBarTextTheme={'light-content'}
           label={this.props.label}
           onBack={this.props.onDismissExample}
+          onSetting={this.props.onSetting}
         />
-
+  
         {this.props.children}
       </View>
     );

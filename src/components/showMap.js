@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import {Alert, View, TextInput, StyleSheet, Modal, TouchableHighlight, Text} from 'react-native';
+import {Alert, View, TextInput, StyleSheet, Modal, TouchableHighlight, Text, Image} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import {onSortOptions} from '../utils';
@@ -78,7 +78,7 @@ class ShowMap extends React.Component {
         this.setState({data})
         console.log(`DecideBehavior : ${behavior}`)
     }
-
+  
     componentDidMount() {
         /*this._interval = setInterval(() => this.setState(({ behavior }) => {
             return {
@@ -140,18 +140,22 @@ class ShowMap extends React.Component {
         return (
             <>
                 <Fetching SendResultToShowmap={this.decideBehavior} />
-
+                
                 <TabBarPage
                     {...this.props}
                     scrollable
                     options={this._mapOptions}
                     onOptionPress={this.onMapChange}>
+
+                    
                     
                     <MapboxGL.MapView
                         styleURL={this.state.styleURL}
                         style={styles.matchParent}>
                         <MapboxGL.Camera followZoomLevel={13} followUserLocation />
                         
+                        
+
                         <MapboxGL.UserLocation
                          onPress={this.onUserMarkerPress} 
                          decidedBehavior={this.state.behavior} />

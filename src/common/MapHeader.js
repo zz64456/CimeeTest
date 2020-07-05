@@ -28,14 +28,14 @@ class MapHeader extends React.PureComponent {
     statusBarTextTheme: 'light-content',
     statusBarColor: colors.primary.blueDark,
     backgroundColor: colors.primary.blue,
-  };
+  };  
 
   render() {
     const statusBarProps = {
       barStyle: this.props.statusBarTextTheme,
       backgroundColor: this.props.statusBarColor,
     };
-
+ 
     return (
       <Header
         placement="left"
@@ -47,6 +47,10 @@ class MapHeader extends React.PureComponent {
           onPress: this.props.onBack,
           color: colors.secondary.white,
           underlayColor: this.props.backgroundColor,
+        }}
+        rightComponent={{
+          icon: 'settings',
+          onPress: this.props.onSetting,
         }}
         centerComponent={{text: this.props.label, style: styles.label}}
       />

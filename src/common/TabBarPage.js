@@ -62,6 +62,7 @@ class TabBarPage extends React.Component {
       console.log(option)
     }
   }
+   
 
   render() {
     const buttonGroupProps = {

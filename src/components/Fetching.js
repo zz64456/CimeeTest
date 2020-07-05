@@ -177,7 +177,7 @@ export default class Fetching extends Component {
     console.log('readLocations..')
     var RNFS = require('react-native-fs');
 
-    let filePath = RNFS.DocumentDirectoryPath + '/ComeTrue.json';
+    let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample_rankbydistance.json';
     RNFS.readFile(filePath, 'utf8')
         .then((result) => {
             candidateLocations = JSON.parse(result)
@@ -188,26 +188,27 @@ export default class Fetching extends Component {
             console.log(err.message, err.code);
         });
   }
-
+ 
   readCorrection() {
     console.log('readCorrection..')
     var RNFS = require('react-native-fs');
-
-    let data = ''
+ 
+    let data = 'none'
 
     let filePath = RNFS.DocumentDirectoryPath + '/Correction.json';
 
     if (RNFS.exists(filePath)) {
       RNFS.readFile(filePath, 'utf8')
           .then((result) => {
-            // console.log(result)
+            console.log('hello', result[0])
             data = result
             // candidateLocations = JSON.parse(result)
             // this.setState({candidateLocations})
             // console.log('name type : ', typeof(this.state.candidateLocations.results[0].name))
           })
           .catch((err) => {
-            console.log(err.message, err.code);
+            // console.log(err.message, err.code); 
+            console.log('Correction has not been created yet.')
           });
     }
     return data
@@ -222,7 +223,7 @@ export default class Fetching extends Component {
     let correction = this.readCorrection()
     let HasCorrection = false
 
-    if (correction) {
+    if (correction != 'none') {
       console.log('hello', correction)
       correction.forEach(
         item => {
@@ -243,7 +244,10 @@ export default class Fetching extends Component {
     if (!HasCorrection) {
 
       console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
-      console.log(DataIn30Secs)
+      if(DataIn30Secs) {
+        console.log(DataIn30Secs)
+      }
+      
     
       if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 ) {
     
@@ -289,37 +293,39 @@ export default class Fetching extends Component {
         var shop_name, shop_types = ''
 
         /** Default: Candidate Location[0] */
-        shop_name = this.state.candidateLocations.results[0].name.toLowerCase()
-        shop_types = this.state.candidateLocations.results[0].types
-        console.log(shop_name, shop_types)
 
-        /**
-         * Priority: Food > Bar > Cafe
-         * Restaurant || Food
-         * */
-        if (shop_types.includes('restaurant')) {
-          
-          if (shop_name.indexOf('sandwich')>0 || shop_name.indexOf('subway')>0) {
-            console.log('indexof : ', shop_name.indexOf('sandwich'))
-            behavior = 'sandwich'
-          }
-          if (shop_name.indexOf('pizza')>0) {
-            behavior = 'pizza'
-          }
-          if (shop_name.indexOf('hamburger')>0 || shop_name.indexOf('burger')>0 ||
-            shop_name.indexOf('mcdonald')>0 || shop_name.indexOf('shake shack')>0) {
-            behavior = 'hamburger'
-          }
-        }
-        else if (shop_types.includes('bar')) {
-          behavior = 'bar'
-        }
-        else if (shop_types.includes('cafe')){
-          behavior = 'cafe'
-        }
+        if (this.state.candidateLocations.results) {        
+          shop_name = this.state.candidateLocations.results[0].name.toLowerCase()
+          shop_types = this.state.candidateLocations.results[0].types
+          console.log(shop_name, shop_types)
 
+          /**
+           * Priority: Food > Bar > Cafe
+           * Restaurant || Food
+           * */
+          if (shop_types.includes('restaurant')) {
+            
+            if (shop_name.indexOf('sandwich')>0 || shop_name.indexOf('subway')>0) {
+              console.log('indexof : ', shop_name.indexOf('sandwich'))
+              behavior = 'sandwich'
+            }
+            if (shop_name.indexOf('pizza')>0) {
+              behavior = 'pizza'
+            }
+            if (shop_name.indexOf('hamburger')>0 || shop_name.indexOf('burger')>0 ||
+              shop_name.indexOf('mcdonald')>0 || shop_name.indexOf('shake shack')>0) {
+              behavior = 'hamburger'
+            }
+          }
+          else if (shop_types.includes('bar')) {
+            behavior = 'bar'
+          }
+          else if (shop_types.includes('cafe')){
+            behavior = 'cafe'
+          }
+        }
+        this.setState({ behavior });
       }
-      this.setState({ behavior });
       // console.log(`AnalyzeBehavior: ${behavior}`)
       this.props.SendResultToShowmap(behavior, this.state.data)
     }
