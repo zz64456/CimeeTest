@@ -1,23 +1,26 @@
 import React from 'react'
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native'
 import { Icon } from 'react-native-elements'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const SettingHeader = ( {navigation} ) => {
-
-    return (
-        <>
-            <View style={styles.back}>
-                <Icon
-                    name='arrow-left-thick'
-                    type='material-community'/>
-                <Text style={styles.backText}>Map</Text>
-            </View>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Settings</Text>
-                <Text style={styles.headerText}>Friends</Text>
-            </View>
-        </>
-    );
+class SettingHeader extends React.Component {
+    render() {
+        return (
+            <>
+                <View style={styles.back}>
+                    <Icon
+                        name='arrow-left-thick'
+                        type='material-community'/>
+                    <Text style={styles.backText}>Map</Text>
+                </View>
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Settings</Text>
+                    <Text style={styles.headerText}>Login</Text>
+                    
+                </View>
+            </>
+        );
+    }
 }
 
 const styles = StyleSheet.create({

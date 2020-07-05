@@ -171,22 +171,24 @@ export default class Fetching extends Component {
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
   }
-
+ 
   /* Get downloaded geolocation data for Sensory coffee shop */
   readLocations() {
     console.log('readLocations..')
     var RNFS = require('react-native-fs');
 
     let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample_rankbydistance.json';
-    RNFS.readFile(filePath, 'utf8')
-        .then((result) => {
-            candidateLocations = JSON.parse(result)
-            this.setState({candidateLocations})
-            // console.log('name type : ', typeof(this.state.candidateLocations.results[0].name))
-        })
-        .catch((err) => {
-            console.log(err.message, err.code);
-        });
+    if (RNFS.exists(filePath)) {
+      RNFS.readFile(filePath, 'utf8')
+          .then((result) => {
+              candidateLocations = JSON.parse(result)
+              this.setState({candidateLocations})
+              // console.log('name type : ', typeof(this.state.candidateLocations.results[0].name))
+          })
+          .catch((err) => {
+              console.log(err.message, err.code);
+          });
+    }
   }
  
   readCorrection() {
@@ -223,7 +225,7 @@ export default class Fetching extends Component {
     let correction = this.readCorrection()
     let HasCorrection = false
 
-    if (correction != 'none') {
+    if (correction != 'none' && this.state.position) {
       console.log('hello', correction)
       correction.forEach(
         item => {
@@ -241,7 +243,7 @@ export default class Fetching extends Component {
         }
       )
     }
-    if (!HasCorrection) {
+    if (!HasCorrection && this.state.position) {
 
       console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
       if(DataIn30Secs) {

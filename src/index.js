@@ -23,7 +23,7 @@ export default class App extends Component {
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Map" component={MapScreen} />
-          <Stack.Screen name="Setting" component={SettingScreen} />
+          <Stack.Screen name="Setting" component={SettingScreen} options={{ title: 'Settings' }} />
 
         </Stack.Navigator>
       </NavigationContainer>
