@@ -53,7 +53,7 @@ export default class Fetching extends Component {
     console.log('Record On !')
 
     this.setState({
-      recordBool: true
+      recordBool: this.state.recordBool ? false : true
     })
   }
   
@@ -281,10 +281,11 @@ export default class Fetching extends Component {
 
         /** The Velocity of the Object is similar to Walking, Running, or Driving */
         
-        /** Default moving behavior is WALKING */
-        behavior = 'walking'
-        
-        if (Math.abs(distance) > 40 && Math.abs(distance) <= 140) {
+        /** Default moving behavior is PHONE */
+        behavior = 'phone'
+        if (Math.abs(distance) > 20 && Math.abs(distance) <= 40) {
+          behavior = 'walking'
+        } else if (Math.abs(distance) > 40 && Math.abs(distance) <= 140) {
           behavior = 'running'
         } else if (Math.abs(distance) > 140) {
           behavior = 'driving'
@@ -422,6 +423,10 @@ export default class Fetching extends Component {
 
   render() { 
     // console.log('render..')
+    var record = 'OFF'
+    if (this.state.recordBool) {
+      record = 'On'
+    }
     return (
       <>
       <View style={{flexDirection: 'row', marginBottom: 15, marginTop: 30,}}>
@@ -429,14 +434,14 @@ export default class Fetching extends Component {
           // style={styles.button}
           onPress={ () => this.onChangerecordBool()}
         >
-          <Text style={{fontSize: 20}}>Record</Text>
+          <Text style={{fontSize: 20}}>Record {record}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={{height: 30, marginRight: 15, backgroundColor: "#DDDDDD",}}
+        {/* <TouchableOpacity style={{height: 30, marginRight: 15, backgroundColor: "#DDDDDD",}}
           onPress={ () => this.onChangerecordBool()}
         >
           <Text style={{fontSize: 20}}>Record</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       </>
     )

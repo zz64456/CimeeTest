@@ -8,6 +8,77 @@ import BaseExamplePropTypes from '../common/BaseExamplePropTypes';
 import TabBarPage from '../common/TabBarPage';
 import Fetching from './Fetching';
 
+
+const friends = {
+    'free': {
+        type: "FeatureCollection",
+        features: [{
+            geometry: {
+                type: "Point",
+                coordinates: [121.467231, 25.014033],
+        },
+        type: "Feature",
+        properties: {
+            label: 'free',
+        }
+        }]
+    },
+    'cpy': {
+        type: "FeatureCollection",
+        features: [{
+            geometry: {
+                type: "Point",
+                coordinates: [121.469824, 25.011796,],
+        },
+        type: "Feature",
+        properties: {
+            label: 'free',
+        }
+        }]
+    },
+    'hsiang': {
+        type: "FeatureCollection",
+        features: [{
+            geometry: {
+                type: "Point",
+                coordinates: [121.493769, 25.023497],
+        },
+        type: "Feature",
+        properties: {
+            label: 'free',
+        }
+        }]
+    },
+};
+
+
+const layerStyles = {
+    'free': {
+        iconImage: 'https://upload.cc/i1/2020/07/13/qCEB09.png',
+        iconSize: 0.2,
+        // iconAllowOverlap: true,
+        iconIgnorePlacement: true,
+        symbolSpacing: 300
+    },
+    'cpy': {
+        iconImage: 'https://upload.cc/i1/2020/07/13/xbT42t.png',
+        iconSize: 0.2,
+        // iconAllowOverlap: true,
+        iconIgnorePlacement: true,
+        symbolSpacing: 300
+    },
+    'hsiang': {
+        iconImage: 'https://upload.cc/i1/2020/07/13/fxR2ru.png',
+        iconSize: 0.2,
+        // iconAllowOverlap: true,
+        iconIgnorePlacement: true,
+        symbolSpacing: 300
+    },
+};
+
+
+
+
 const behaviors_URIs = {
     bar: "https://upload.cc/i1/2020/07/02/Ep0aGH.png",
     cafe:  "https://upload.cc/i1/2020/06/19/LbO8ft.png",
@@ -18,6 +89,7 @@ const behaviors_URIs = {
     hamburger: "https://upload.cc/i1/2020/06/30/b7SmGF.png",
     movie: "https://upload.cc/i1/2020/07/02/OJ3FWu.png",
     pizza: "https://upload.cc/i1/2020/07/02/U83Gth.png",
+    phone: "https://upload.cc/i1/2020/07/13/UChrb7.png",
     running: "https://upload.cc/i1/2020/07/02/FtYQX7.png",
     sleeping: "https://upload.cc/i1/2020/07/02/tMJBNb.png",
     sandwich: "https://upload.cc/i1/2020/07/02/asWJzp.png",
@@ -163,6 +235,10 @@ class ShowMap extends React.Component {
         
     }
 
+    onPressMarker() {
+        Alert.alert('Hello~')
+    }
+
     render() {
         // console.log(`ShowMap render! ${this.state.behavior}`)
         return (
@@ -180,14 +256,46 @@ class ShowMap extends React.Component {
                     <MapboxGL.MapView
                         styleURL={this.state.styleURL}
                         style={styles.matchParent}>
-                        <MapboxGL.Camera followZoomLevel={13} followUserLocation />
-                        
+                        <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+                
+
+                        <MapboxGL.ShapeSource
+                            id='free'
+                            onPress={this.onPressMarker}
+                            shape={friends['free']}>
+                            <MapboxGL.SymbolLayer
+                                id='free'
+                                minZoomLevel={12}
+                                style={layerStyles['free']}
+                            />
+                        </MapboxGL.ShapeSource>
+                        <MapboxGL.ShapeSource
+                            id='cpy'
+                            onPress={this.onPressMarker}
+                            shape={friends.cpy}>
+                            <MapboxGL.SymbolLayer
+                                id='cpy'
+                                minZoomLevel={12}
+                                maxZoomLevel={50}
+                                style={layerStyles['cpy']}
+                            />
+                        </MapboxGL.ShapeSource>
+                        <MapboxGL.ShapeSource
+                            id='hsiang'
+                            onPress={this.onPressMarker}
+                            shape={friends['hsiang']}>
+                            <MapboxGL.SymbolLayer
+                                id='hsiang'
+                                minZoomLevel={12}
+                                style={layerStyles['hsiang']}
+                            />
+                        </MapboxGL.ShapeSource>
                         
 
                         <MapboxGL.UserLocation
-                         onPress={this.onUserMarkerPress} 
-                         decidedBehavior={this.state.behavior}
-                         onUpdate={this.onUserLocationUpdate} />
+                            onPress={this.onUserMarkerPress} 
+                            decidedBehavior={this.state.behavior}
+                            onUpdate={this.onUserLocationUpdate} />
                     </MapboxGL.MapView>
                 </TabBarPage>
 
