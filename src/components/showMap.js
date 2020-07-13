@@ -49,6 +49,15 @@ class ShowMap extends React.Component {
             styleURL: this._mapOptions[5].data,
             behavior: 'default',
             modalVisible: false,
+            l : {
+                Ttimestamp: 0,
+                Tlatitude: 0.0,
+                Tlongitude: 0.0,
+                Taltitude: 0.0,
+                Theading: 0.0,
+                Taccuracy: 0.0,
+                Tspeed: 0.0,
+            }
         };
         
         this.label = props.label;
@@ -56,8 +65,27 @@ class ShowMap extends React.Component {
         this.onMapChange = this.onMapChange.bind(this);
         this.onUserMarkerPress = this.onUserMarkerPress.bind(this);
 
+        this.onUserLocationUpdate = this.onUserLocationUpdate.bind(this);
+
         this.decideBehavior = this.decideBehavior.bind(this)
     }
+
+    onUserLocationUpdate(location) {
+        // console.log('userlocationupdate', location)
+        this.setState({
+            l: {
+                Ttimestamp: location.timestamp,
+                Tlatitude: location.coords.latitude,
+                Tlongitude: location.coords.longitude,
+                Taltitude: location.coords.altitude,
+                Theading: location.coords.heading,
+                Taccuracy: location.coords.accuracy,
+                Tspeed: location.coords.speed,
+            }
+          
+        });
+        // console.log('userlocationupdate: ', this.state.l)
+      }
 
     setModalVisible = (visible) => {
         this.setState({ modalVisible: visible })
@@ -158,7 +186,8 @@ class ShowMap extends React.Component {
 
                         <MapboxGL.UserLocation
                          onPress={this.onUserMarkerPress} 
-                         decidedBehavior={this.state.behavior} />
+                         decidedBehavior={this.state.behavior}
+                         onUpdate={this.onUserLocationUpdate} />
                     </MapboxGL.MapView>
                 </TabBarPage>
 

@@ -1,9 +1,10 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import Geolocation from '@react-native-community/geolocation';
 import sensors, * as Sensors from "react-native-sensors";
 import moment from 'moment'
 import Geocoder from 'react-native-geocoding';
 import * as geolib from 'geolib';
+import {View, Text, TouchableOpacity} from 'react-native'
 
 
 Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
@@ -41,20 +42,27 @@ export default class Fetching extends Component {
     super()
     this.state = {
       behavior: 'default',
-      lastWriteTime: '0'
+      lastWriteTime: '0',
+      recordBool: false
     }
 
     this.AnalyzeBehavior=this.AnalyzeBehavior.bind(this);
   }
 
+  onChangerecordBool() {
+    console.log('Record On !')
 
+    this.setState({
+      recordBool: true
+    })
+  }
   
   sensorCall() {
     console.log('sensorCall..')
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 3000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 3000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 3000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 3000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
+    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 
     Sensors.accelerometer.subscribe(({ x, y, z }) => {
       timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
@@ -103,9 +111,9 @@ export default class Fetching extends Component {
     this.readLocations()
     
     this._intervals = [  
-    setInterval( () => this.updateGeolocation(), 3000),
-    setInterval( () => this.toAsync(), 3000),
-    setInterval( () => this.AnalyzeBehavior(), 3000),
+    setInterval( () => this.updateGeolocation(), 1000),
+    setInterval( () => this.toAsync(), 1000),
+    setInterval( () => this.AnalyzeBehavior(), 1000),
     ]
   }
 
@@ -218,7 +226,7 @@ export default class Fetching extends Component {
 
   /* Infer behavior */
   AnalyzeBehavior() { 
-
+    console.log('recordBool', this.state.recordBool)
     console.log('------------------------------------------------')
 
     let behavior = 'default'
@@ -246,9 +254,9 @@ export default class Fetching extends Component {
     if (!HasCorrection && this.state.position) {
 
       console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
-      if(DataIn30Secs) {
-        console.log(DataIn30Secs)
-      }
+      // if(DataIn30Secs) {
+      //   console.log(DataIn30Secs)
+      // }
       
     
       if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 ) {
@@ -276,9 +284,11 @@ export default class Fetching extends Component {
           
 
         /** The Velocity of the Object is similar to Walking, Running, or Driving */
-        if (Math.abs(distance) > 20 && Math.abs(distance) <= 40) {
-          behavior = 'walking'
-        } else if (Math.abs(distance) > 40 && Math.abs(distance) <= 140) {
+        
+        /** Default moving behavior is WALKING */
+        behavior = 'walking'
+        
+        if (Math.abs(distance) > 40 && Math.abs(distance) <= 140) {
           behavior = 'running'
         } else if (Math.abs(distance) > 140) {
           behavior = 'driving'
@@ -326,18 +336,26 @@ export default class Fetching extends Component {
             behavior = 'cafe'
           }
         }
+        if (behavior != this.state.behavior) {
+          behavior_CHANGED = true
+          this.toAsync(behavior_CHANGED)
+        }
         this.setState({ behavior });
       }
-      // console.log(`AnalyzeBehavior: ${behavior}`)
+
       this.props.SendResultToShowmap(behavior, this.state.data)
     }
   }
   
 
   /* Put data of SensorView & Geolocation together */
-  toAsync() {
+  toAsync(behavior_CHANGED) {
     console.log('toAsync..')
     var data = {}
+
+    if (behavior_CHANGED) {
+      data.behavior_CHANGED = 'CHANGED'
+    }
 
     data.acc = this.state.acc
     data.gyro = this.state.gyro
@@ -349,10 +367,15 @@ export default class Fetching extends Component {
       data.position = this.state.position.coords
       data.behavior = this.state.behavior
       this.setState({data})
-      // this.writeFile(data)
+
+      /** Log */
+      if (this.state.recordBool) {
+        this.writeLog(data)
+      }
+      
       if (DataIn30Secs.length == 11) {
         const DataShifted = DataIn30Secs.shift()
-        console.log(DataShifted)
+        console.log('被移除Data',DataShifted)
       }
       DataIn30Secs.push(data)
     }
@@ -362,16 +385,16 @@ export default class Fetching extends Component {
   }
 
   // ************************ Record data to device
-  writeFile(p) {
+  writeLog(data) {
     var RNFS = require('react-native-fs');
     var path = RNFS.DocumentDirectoryPath + '/0629-1.json';
     console.log('Start writing...')
     if(!RNFS.exists(path)) {
       // Write the file
-      RNFS.writeFile(path, JSON.stringify(p), 'utf8')
+      RNFS.writeFile(path, JSON.stringify(data), 'utf8')
         .then((success) => {
           // console.log('FILE WRITTEN!~~~~');
-          console.log(p)
+          console.log(data)
         })
         .catch((err) => {
           console.log(err.message);
@@ -379,7 +402,7 @@ export default class Fetching extends Component {
     }
 
       // Append the content to the file
-    RNFS.appendFile(path, JSON.stringify(p), 'utf8')
+    RNFS.appendFile(path, JSON.stringify(data), 'utf8')
       .then((success) => {
         console.log('appended....');
       })
@@ -394,6 +417,24 @@ export default class Fetching extends Component {
 
   render() { 
     // console.log('render..')
-    return null; }
+    return (
+      <>
+      <View style={{flexDirection: 'row', marginBottom: 15, marginTop: 30,}}>
+        <TouchableOpacity style={{height: 30, marginRight: 15, backgroundColor: "#DDDDDD",}}
+          // style={styles.button}
+          onPress={ () => this.onChangerecordBool()}
+        >
+          <Text style={{fontSize: 20}}>Record</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={{height: 30, marginRight: 15, backgroundColor: "#DDDDDD",}}
+          onPress={ () => this.onChangerecordBool()}
+        >
+          <Text style={{fontSize: 20}}>Record</Text>
+        </TouchableOpacity>
+      </View>
+      </>
+    )
+  }
 
 }
