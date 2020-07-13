@@ -254,10 +254,6 @@ export default class Fetching extends Component {
     if (!HasCorrection && this.state.position) {
 
       console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
-      // if(DataIn30Secs) {
-      //   console.log(DataIn30Secs)
-      // }
-      
     
       if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 ) {
     
@@ -294,7 +290,10 @@ export default class Fetching extends Component {
           behavior = 'driving'
         }
 
-      } else {
+      }
+      /** Moving ENDS */
+      
+      else {
         /**
          * It's not moving -> Decide Behavior -> Need Candidate Location
          * Here the model use top 5 results in Candidate Location
@@ -335,13 +334,18 @@ export default class Fetching extends Component {
           else if (shop_types.includes('cafe')){
             behavior = 'cafe'
           }
-        }
-        if (behavior != this.state.behavior) {
-          behavior_CHANGED = true
-          this.toAsync(behavior_CHANGED)
-        }
-        this.setState({ behavior });
+        }        
       }
+      /** Not Moving ENDS */
+
+      /** Behavior Changes */
+      if (behavior != this.state.behavior) {
+        console.log('Behavior CHANGES !!!')
+        behavior_CHANGED = true
+        this.toAsync(behavior_CHANGED)
+      }
+
+      this.setState({ behavior });
 
       this.props.SendResultToShowmap(behavior, this.state.data)
     }
@@ -354,6 +358,7 @@ export default class Fetching extends Component {
     var data = {}
 
     if (behavior_CHANGED) {
+      console.log('Behavior CHANGES 2')
       data.behavior_CHANGED = 'CHANGED'
     }
 
@@ -375,7 +380,7 @@ export default class Fetching extends Component {
       
       if (DataIn30Secs.length == 11) {
         const DataShifted = DataIn30Secs.shift()
-        console.log('被移除Data',DataShifted)
+        // console.log('被移除Data',DataShifted)
       }
       DataIn30Secs.push(data)
     }
