@@ -10,7 +10,33 @@ import Fetching from './Fetching';
 
 
 const friends = {
-    'free': {
+    'Selena': {
+        type: "FeatureCollection",
+        features: [{
+            geometry: {
+                type: "Point",
+                coordinates: [121.577434, 25.164285],
+        },
+        type: "Feature",
+        properties: {
+            label: 'free',
+        }
+        }]
+    },
+    'Coco': {
+        type: "FeatureCollection",
+        features: [{
+            geometry: {
+                type: "Point",
+                coordinates: [121.567004, 25.037930],
+        },
+        type: "Feature",
+        properties: {
+            label: 'free',
+        }
+        }]
+    },
+    'Katie': {
         type: "FeatureCollection",
         features: [{
             geometry: {
@@ -23,56 +49,31 @@ const friends = {
         }
         }]
     },
-    'cpy': {
-        type: "FeatureCollection",
-        features: [{
-            geometry: {
-                type: "Point",
-                coordinates: [121.469824, 25.011796,],
-        },
-        type: "Feature",
-        properties: {
-            label: 'free',
-        }
-        }]
-    },
-    'hsiang': {
-        type: "FeatureCollection",
-        features: [{
-            geometry: {
-                type: "Point",
-                coordinates: [121.493769, 25.023497],
-        },
-        type: "Feature",
-        properties: {
-            label: 'free',
-        }
-        }]
-    },
 };
 
 
 const layerStyles = {
-    'free': {
-        iconImage: 'https://upload.cc/i1/2020/07/13/qCEB09.png',
-        iconSize: 0.2,
+    'Selena': {
+        iconImage: 'https://upload.cc/i1/2020/07/14/08qenf.png',
+        iconSize: 0.3,
         // iconAllowOverlap: true,
         iconIgnorePlacement: true,
         symbolSpacing: 300
     },
-    'cpy': {
-        iconImage: 'https://upload.cc/i1/2020/07/13/xbT42t.png',
-        iconSize: 0.2,
+    'Coco': {
+        iconImage: 'https://upload.cc/i1/2020/07/14/OoulZv.png',
+        iconSize: 0.3,
         // iconAllowOverlap: true,
         iconIgnorePlacement: true,
         symbolSpacing: 300
     },
-    'hsiang': {
-        iconImage: 'https://upload.cc/i1/2020/07/13/fxR2ru.png',
-        iconSize: 0.2,
+    'Katie': {
+        iconImage: 'https://upload.cc/i1/2020/07/14/BeTCAa.png',
+        iconSize: 0.3,
         // iconAllowOverlap: true,
         iconIgnorePlacement: true,
-        symbolSpacing: 300
+        symbolSpacing: 100,
+        iconAllowOverlap: true
     },
 };
 
@@ -256,38 +257,37 @@ class ShowMap extends React.Component {
                     <MapboxGL.MapView
                         styleURL={this.state.styleURL}
                         style={styles.matchParent}>
-                        <MapboxGL.Camera followZoomLevel={12} followUserLocation />
+                        <MapboxGL.Camera followZoomLevel={9} followUserLocation />
                 
 
                         <MapboxGL.ShapeSource
-                            id='free'
+                            id='Selena'
                             onPress={this.onPressMarker}
-                            shape={friends['free']}>
+                            shape={friends['Selena']}>
                             <MapboxGL.SymbolLayer
-                                id='free'
-                                minZoomLevel={12}
-                                style={layerStyles['free']}
+                                id='Selena'
+                                minZoomLevel={9}
+                                style={layerStyles['Selena']}
                             />
                         </MapboxGL.ShapeSource>
                         <MapboxGL.ShapeSource
-                            id='cpy'
+                            id='Coco'
                             onPress={this.onPressMarker}
-                            shape={friends.cpy}>
+                            shape={friends.Coco}>
                             <MapboxGL.SymbolLayer
-                                id='cpy'
-                                minZoomLevel={12}
-                                maxZoomLevel={50}
-                                style={layerStyles['cpy']}
+                                id='Coco'
+                                minZoomLevel={9}
+                                style={layerStyles['Coco']}
                             />
                         </MapboxGL.ShapeSource>
                         <MapboxGL.ShapeSource
-                            id='hsiang'
+                            id='Katie'
                             onPress={this.onPressMarker}
-                            shape={friends['hsiang']}>
+                            shape={friends['Katie']}>
                             <MapboxGL.SymbolLayer
-                                id='hsiang'
-                                minZoomLevel={12}
-                                style={layerStyles['hsiang']}
+                                id='Katie'
+                                minZoomLevel={9}
+                                style={layerStyles['Katie']}
                             />
                         </MapboxGL.ShapeSource>
                         

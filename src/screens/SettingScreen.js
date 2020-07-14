@@ -4,6 +4,8 @@ import { View, Text, StyleSheet, SafeAreaView, FlatList, ScrollView, Image, Aler
 // import { ScrollView } from 'react-native-gesture-handler';
 import { CheckBox, Icon } from 'react-native-elements'
 
+const friends = ['Devin', 'Annie', 'Kabrie', 'Coco', 'Levi', 'Selena', 'Tom', 'Katie', 'Sandy', 'Dominic', 'Jackson', 'James', 'Julie']
+
 export default class Setting extends React.Component{
 
     constructor() {
@@ -12,6 +14,50 @@ export default class Setting extends React.Component{
             ShareBool : true,
             LowBattery : false,
             Device : true,
+        }
+    }
+
+    onShareChange(item) {
+
+        this.setState({[item.key]: !this.state[[item.key]]})
+
+        /** General Location-sharing will update Sharing setting of Friends */
+
+        if (item.key == 'ShareBool') {
+            
+            /** General Location-sharing -- ON */
+            if (!this.state[[item.key]]) {
+                this.onShareChangeSpecific(1, '')
+            }
+            /** General Location-sharing -- OFF */
+            else {
+                this.onShareChangeSpecific(2, '')
+            }
+        }
+    }
+
+    onShareChangeSpecific(type, name) {
+        if (type == 1) {
+            for (i=0; i<friends.length; i++) {
+                name = friends[i]
+                this.setState({
+                    [name]: true
+                })
+            }
+            
+        }
+        if(type == 2) {
+            for (i=0; i<friends.length; i++) {
+                name = friends[i]
+                this.setState({
+                    [name]: false
+                })
+            }
+        }
+        if(type == 3) {
+            this.setState({
+                [name]: !this.state[name]
+            })
         }
     }
 
@@ -48,7 +94,8 @@ export default class Setting extends React.Component{
                                         containerStyle = {{backgroundColor: '#E4F2F9'}}
                                         title={item.text}
                                         checked={this.state[item.key]}
-                                        onPress={() => this.setState({[item.key]: !this.state[[item.key]]})}
+                                        // onPress={() => this.setState({[item.key]: !this.state[[item.key]]})}
+                                        onPress={ () => this.onShareChange(item) }
                                     />
                                     </>
                                 }
@@ -71,11 +118,18 @@ export default class Setting extends React.Component{
                             <FlatList
                                 data={[
                                     {key: 'Devin', uri: 'https://upload.cc/i1/2020/07/05/3FBeTU.png'},
+                                    {key: 'Annie', uri: 'https://upload.cc/i1/2020/07/14/5ntWw8.png'},
+                                    {key: 'Coco', uri: 'https://upload.cc/i1/2020/07/14/3mVZHB.png'},
+                                    {key: 'Katie', uri: 'https://upload.cc/i1/2020/07/14/DhRvnM.png'},
+                                    {key: 'Tom', uri: 'https://upload.cc/i1/2020/07/14/TnZEcP.png'},
                                     {key: 'Sandy', uri: 'https://upload.cc/i1/2020/07/05/xm7uve.png'},
                                     {key: 'Dominic', uri: 'https://upload.cc/i1/2020/07/05/Nhnk4u.png'},
                                     {key: 'Jackson', uri: 'https://upload.cc/i1/2020/07/05/e4kV2Y.png'},
+                                    {key: 'Levi', uri: 'https://upload.cc/i1/2020/07/14/LnPhzw.png'},
                                     {key: 'James', uri: 'https://upload.cc/i1/2020/07/05/dlMxzG.png'},
                                     {key: 'Julie', uri: 'https://upload.cc/i1/2020/07/05/jfqGEk.png'},
+                                    {key: 'Selena', uri: 'https://upload.cc/i1/2020/07/14/21jhlB.png'},
+                                    {key: 'Kabrie', uri: 'https://upload.cc/i1/2020/07/14/a9JWEy.png'},
                                 ]}
                                 renderItem={({item}) => 
                                 <>
@@ -87,12 +141,19 @@ export default class Setting extends React.Component{
                                         <Text style={styles.friendsText}>{item.key}</Text>
                                     </View>
                                     <View style={{ alignItems:'flex-end', right: 30}}>
-                                        <Icon 
+                                        {/* <Icon 
                                             style={styles.friendsBan}
                                             name='ban'
                                             type='simple-line-icon'
                                             color='#517fa4'
-                                            onPress={ () => Alert.alert('Ban a friend.')}
+                                            onPress={ () => Alert.alert('Block a friend.')}
+                                        /> */}
+                                        <CheckBox
+                                            containerStyle = {{backgroundColor: '#E4F2F9'}}
+                                            // title={item.text}
+                                            checked={this.state[item.key]}
+                                            // onPress={() => this.setState({[item.key]: !this.state[[item.key]]})}
+                                            onPress={() => this.onShareChangeSpecific(3, item.key)}
                                         />
                                     </View>
                                 </View>
