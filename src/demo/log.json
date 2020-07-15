@@ -1,0 +1,11 @@
+{
+	"file": "log",
+	"results" : [
+	     {
+                  "lat": "25",
+                  "lng": "121",
+                  "behavior": "sleep",
+                  "correction": "testing"
+	     }
+	]
+}

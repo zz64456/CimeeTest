@@ -215,19 +215,22 @@ class ShowMap extends React.Component {
         var path = RNFS.DocumentDirectoryPath + '/Correction.json';
         let lng = this.state.data.position.longitude
         const correctedData = {
-            SensorData: lng,
+            SensorData: this.state.data,
             /** Here CANNOT Use state Because state is being updated  */
             CorrectionBehavior: behavior
         }
         console.log('Start Writing Correction File...')
 
-        // console.log(this.state.data)
-        // console.log(correctedData)
+        // RNFS.readFile(path, 'utf8')
+        //  .then((success) => {
+        //     var data = JSON.parse(success)
+        //     console.log(data)
+        //  })
 
         if(!RNFS.exists(path)) {
 
             /** Write the file */
-            RNFS.writeFile(path, JSON.stringify(correctedData), 'utf8')
+            RNFS.writeFile(path, JSON.stringify(correctedData, null, 2), 'utf8')
             .then((success) => {
                 console.log('correctedData is created')
             })
@@ -237,7 +240,7 @@ class ShowMap extends React.Component {
         }
     
         /** Append the content to the file */
-        RNFS.appendFile(path, JSON.stringify(correctedData), 'utf8')
+        RNFS.appendFile(path, JSON.stringify(correctedData, null, 2), 'utf8')
           .then((success) => {
             console.log('correctedData is appended')
           })

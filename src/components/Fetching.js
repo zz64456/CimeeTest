@@ -34,6 +34,8 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
 const DataIn30Secs = []
 var CorrectionData = 'none'
+var CorrArr = []
+
 
 
 export default class Fetching extends Component {
@@ -198,7 +200,7 @@ export default class Fetching extends Component {
           });
     }
   }
- 
+  
   readCorrection() {
     console.log('readCorrection..')
     var RNFS = require('react-native-fs');
@@ -211,13 +213,31 @@ export default class Fetching extends Component {
       // console.log('filepath1', filePath)
       RNFS.readFile(filePath, 'utf8')
           .then((result) => {
-            // CorrectionData = JSON.parse(result)
-            // console.log('HiYaku', JSON.parse(result))
-            // console.log(result)
-            CorrectionData = result
+
+            let indexOfLast = 0
+            let indexOfNext = result.indexOf("}{");
+            var item = ''
+            
+            // console.log("before while", result)
+            while(indexOfNext > 0) {
+
+              
+              item = result.slice(indexOfLast,indexOfNext+1)
+              // console.log(item)
+              // console.log(JSON.parse(item))
+              CorrArr.push(JSON.parse(item))
+              // console.log("in while", indexOfNext+1)
+              indexOfLast = indexOfNext + 1
+              indexOfNext = result.indexOf("}{", indexOfNext+1);
+              // console.log(indexOfNext)
+            }
+            item = result.slice(indexOfLast, result.length)
+            // console.log(JSON.parse(item))
+            CorrArr.push(JSON.parse(item))
+            
           })
           .catch((err) => {
-            // console.log(err.message, err.code);
+            console.log(err.message, err.code);
             console.log('Correction has not been created yet.')
           });
     }
@@ -236,8 +256,8 @@ export default class Fetching extends Component {
     this.readCorrection()
     let HasCorrection = false
 
-    if (CorrectionData != 'none' && this.state.position) {
-      console.log(CorrectionData)
+    if (CorrArr.length > 0 && this.state.position) {
+      console.log(CorrArr)
       // var res = CorrectionData.split("}{").join("},{")
       // var res = CorrectionData.replaceAll("}{", "}TAT{");
       // console.log(res)
@@ -407,34 +427,32 @@ export default class Fetching extends Component {
   // ************************ Record data to device
   writeLog(data) {
     var RNFS = require('react-native-fs');
-    var path = RNFS.DocumentDirectoryPath + '/0629-1.json';
+    var path = RNFS.DocumentDirectoryPath + '/log.json';
     console.log('Start writing...')
-    if(!RNFS.exists(path)) {
-      // Write the file
-      RNFS.writeFile(path, JSON.stringify(data), 'utf8')
-        .then((success) => {
-          // console.log('FILE WRITTEN!~~~~');
-          console.log(data)
-          console.log(JSON.stringify(data))
-        })
-        .catch((err) => {
-          console.log(err.message);
-        });
-    }
-
-      // Append the content to the file
-    RNFS.appendFile(path, JSON.stringify(data), 'utf8')
+    
+    RNFS.readFile(path, 'utf8')
       .then((success) => {
-        console.log('appended....');
-        console.log(data)
-          console.log(JSON.stringify(data))
+          var LogFile = JSON.parse(success)
+          var LogArr = LogFile.results
+
+          LogArr.push(data)
+          console.log(LogFile)
+          // LogFile.results = LogArr
+      
+          // /** Append the content to the file */ 
+          RNFS.writeFile(path, JSON.stringify(LogFile, null, 2), 'utf8')
+            .then((success) => {
+              console.log('appended....');
+            })
+            .catch((err) => {
+              console.log(err.message);
+          })
       })
-      .catch((err) => {
-        console.log(err.message);
-    })
+
+
 
     this.setState({
-      lastWriteTime: time = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+      lastWriteTime: moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
     })
   }
 
