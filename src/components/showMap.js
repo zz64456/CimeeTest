@@ -49,6 +49,19 @@ const friends = {
         }
         }]
     },
+    'Tom': {
+        type: "FeatureCollection",
+        features: [{
+            geometry: {
+                type: "Point",
+                coordinates: [121.499426, 25.004712],
+        },
+        type: "Feature",
+        properties: {
+            label: 'free',
+        }
+        }]
+    },
 };
 
 
@@ -69,6 +82,14 @@ const layerStyles = {
     },
     'Katie': {
         iconImage: 'https://upload.cc/i1/2020/07/14/BeTCAa.png',
+        iconSize: 0.3,
+        // iconAllowOverlap: true,
+        iconIgnorePlacement: true,
+        symbolSpacing: 100,
+        iconAllowOverlap: true
+    },
+    'Tom': {
+        iconImage: 'https://upload.cc/i1/2020/07/14/5CHtUu.png',
         iconSize: 0.3,
         // iconAllowOverlap: true,
         iconIgnorePlacement: true,
@@ -192,28 +213,33 @@ class ShowMap extends React.Component {
     writeCorrectionFile(behavior) {
         var RNFS = require('react-native-fs');
         var path = RNFS.DocumentDirectoryPath + '/Correction.json';
+        let lng = this.state.data.position.longitude
         const correctedData = {
-            data: this.state.data,
+            SensorData: lng,
             /** Here CANNOT Use state Because state is being updated  */
-            correction: behavior
+            CorrectionBehavior: behavior
         }
         console.log('Start Writing Correction File...')
 
+        // console.log(this.state.data)
+        // console.log(correctedData)
+
         if(!RNFS.exists(path)) {
-            // Write the file
+
+            /** Write the file */
             RNFS.writeFile(path, JSON.stringify(correctedData), 'utf8')
             .then((success) => {
-                console.log(correctedData)
+                console.log('correctedData is created')
             })
             .catch((err) => {
                 console.log(err.message);
             });
         }
     
-        // Append the content to the file
+        /** Append the content to the file */
         RNFS.appendFile(path, JSON.stringify(correctedData), 'utf8')
           .then((success) => {
-            console.log(correctedData)
+            console.log('correctedData is appended')
           })
           .catch((err) => {
             console.log(err.message);
@@ -288,6 +314,16 @@ class ShowMap extends React.Component {
                                 id='Katie'
                                 minZoomLevel={9}
                                 style={layerStyles['Katie']}
+                            />
+                        </MapboxGL.ShapeSource>
+                        <MapboxGL.ShapeSource
+                            id='Tom'
+                            onPress={this.onPressMarker}
+                            shape={friends['Tom']}>
+                            <MapboxGL.SymbolLayer
+                                id='Tom'
+                                minZoomLevel={9}
+                                style={layerStyles['Tom']}
                             />
                         </MapboxGL.ShapeSource>
                         

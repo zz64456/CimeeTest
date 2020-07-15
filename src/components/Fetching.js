@@ -33,7 +33,7 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 // export default GooglePlacesInput;
 
 const DataIn30Secs = []
-
+var CorrectionData = 'none'
 
 
 export default class Fetching extends Component {
@@ -202,58 +202,72 @@ export default class Fetching extends Component {
   readCorrection() {
     console.log('readCorrection..')
     var RNFS = require('react-native-fs');
- 
-    let data = 'none'
 
     let filePath = RNFS.DocumentDirectoryPath + '/Correction.json';
 
+    
+
     if (RNFS.exists(filePath)) {
+      // console.log('filepath1', filePath)
       RNFS.readFile(filePath, 'utf8')
           .then((result) => {
-            console.log('hello', result[0])
-            data = result
-            // candidateLocations = JSON.parse(result)
-            // this.setState({candidateLocations})
-            // console.log('name type : ', typeof(this.state.candidateLocations.results[0].name))
+            // CorrectionData = JSON.parse(result)
+            // console.log('HiYaku', JSON.parse(result))
+            // console.log(result)
+            CorrectionData = result
           })
           .catch((err) => {
-            // console.log(err.message, err.code); 
+            // console.log(err.message, err.code);
             console.log('Correction has not been created yet.')
           });
     }
-    return data
+    // console.log('there', CorrectionData)
+    // return data
   }
 
   /* Infer behavior */
   AnalyzeBehavior() { 
-    console.log('recordBool', this.state.recordBool)
+    
     console.log('------------------------------------------------')
+    console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
+    console.log('recordBool', this.state.recordBool)
 
     let behavior = 'default'
-    let correction = this.readCorrection()
+    this.readCorrection()
     let HasCorrection = false
 
-    if (correction != 'none' && this.state.position) {
-      console.log('hello', correction)
-      correction.forEach(
-        item => {
-          let distance = geolib.getPreciseDistance({
-            latitude: item.data.position.latitude,
-            longitude: item.data.position.longitude},{
-            latitude: this.state.position.latitude,
-            longitude: this.state.position.longitude})
-          console.log(item.correction, distance)
-          if(distance < 30) {
-            console.log('Correction data is found, behavior is set')
-            behavior = item.correction;
-            HasCorrection = true
-          }
-        }
-      )
+    if (CorrectionData != 'none' && this.state.position) {
+      console.log(CorrectionData)
+      // var res = CorrectionData.split("}{").join("},{")
+      // var res = CorrectionData.replaceAll("}{", "}TAT{");
+      // console.log(res)
+      // res = CorrectionData.split("TAT");
+      // res = JSON.parse(res)
+      // console.log(res)
+      // var res = CorrectionData.split("}{");
+      // console.log('array0', res[0])
+      // console.log('array1', res[1])
+      // console.log('array2', res[2])
+      // console.log('yoyoyo', JSON.parse(res))
+      // res.forEach(
+      //   item => {
+      //     let distance = geolib.getPreciseDistance({
+      //       latitude: item.data.position.latitude,
+      //       longitude: item.data.position.longitude},{
+      //       latitude: this.state.position.latitude,
+      //       longitude: this.state.position.longitude})
+      //     console.log(item.correction, distance)
+      //     if (distance < 30) {
+      //       console.log('Correction data is found, behavior is set')
+      //       behavior = item.correction;
+      //       HasCorrection = true
+      //     }
+      //   }
+      // )
     }
     if (!HasCorrection && this.state.position) {
 
-      console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
+      // console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
     
       if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 ) {
     
@@ -309,7 +323,7 @@ export default class Fetching extends Component {
         if (this.state.candidateLocations.results) {        
           shop_name = this.state.candidateLocations.results[0].name.toLowerCase()
           shop_types = this.state.candidateLocations.results[0].types
-          console.log(shop_name, shop_types)
+          console.log('Top 1: ', shop_name, shop_types)
 
           /**
            * Priority: Food > Bar > Cafe
@@ -401,6 +415,7 @@ export default class Fetching extends Component {
         .then((success) => {
           // console.log('FILE WRITTEN!~~~~');
           console.log(data)
+          console.log(JSON.stringify(data))
         })
         .catch((err) => {
           console.log(err.message);
@@ -411,6 +426,8 @@ export default class Fetching extends Component {
     RNFS.appendFile(path, JSON.stringify(data), 'utf8')
       .then((success) => {
         console.log('appended....');
+        console.log(data)
+          console.log(JSON.stringify(data))
       })
       .catch((err) => {
         console.log(err.message);
