@@ -32,6 +32,26 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
 // export default GooglePlacesInput;
 
+const behaviors_URIs = {
+  bar: "https://upload.cc/i1/2020/07/02/Ep0aGH.png",
+  cafe:  "https://upload.cc/i1/2020/06/19/LbO8ft.png",
+  casino: "https://upload.cc/i1/2020/07/03/mnJH1p.png",
+  default: "https://upload.cc/i1/2020/06/30/OU1LpQ.png",
+  driving: "https://upload.cc/i1/2020/06/30/sxkmeb.png",
+  donut: "https://upload.cc/i1/2020/07/02/eqyHTm.png",
+  hamburger: "https://upload.cc/i1/2020/06/30/b7SmGF.png",
+  movie: "https://upload.cc/i1/2020/07/02/OJ3FWu.png",
+  pizza: "https://upload.cc/i1/2020/07/02/U83Gth.png",
+  phone: "https://upload.cc/i1/2020/07/13/UChrb7.png",
+  running: "https://upload.cc/i1/2020/07/02/FtYQX7.png",
+  sleeping: "https://upload.cc/i1/2020/07/02/tMJBNb.png",
+  sandwich: "https://upload.cc/i1/2020/07/02/asWJzp.png",
+  walking: "https://upload.cc/i1/2020/07/02/TkveY1.png",
+  working: "https://upload.cc/i1/2020/07/02/oYQyCn.png",
+  workout: "https://upload.cc/i1/2020/06/17/iXUof9.png",
+  
+}
+
 const DataIn30Secs = []
 var CorrectionData = 'none'
 var CorrArr = []
@@ -111,7 +131,8 @@ export default class Fetching extends Component {
 
     /* Get candidate locations */
     this.readLocations()
-    
+    this.readCorrection()
+
     this._intervals = [  
     setInterval( () => this.updateGeolocation(), 1000),
     setInterval( () => this.toAsync(), 1000),
@@ -253,38 +274,50 @@ export default class Fetching extends Component {
     console.log('recordBool', this.state.recordBool)
 
     let behavior = 'default'
-    this.readCorrection()
     let HasCorrection = false
+    let NoIconText = ''
 
     if (CorrArr.length > 0 && this.state.position) {
-      console.log(CorrArr)
-      // var res = CorrectionData.split("}{").join("},{")
-      // var res = CorrectionData.replaceAll("}{", "}TAT{");
-      // console.log(res)
-      // res = CorrectionData.split("TAT");
-      // res = JSON.parse(res)
-      // console.log(res)
-      // var res = CorrectionData.split("}{");
-      // console.log('array0', res[0])
-      // console.log('array1', res[1])
-      // console.log('array2', res[2])
-      // console.log('yoyoyo', JSON.parse(res))
-      // res.forEach(
-      //   item => {
-      //     let distance = geolib.getPreciseDistance({
-      //       latitude: item.data.position.latitude,
-      //       longitude: item.data.position.longitude},{
-      //       latitude: this.state.position.latitude,
-      //       longitude: this.state.position.longitude})
-      //     console.log(item.correction, distance)
-      //     if (distance < 30) {
-      //       console.log('Correction data is found, behavior is set')
-      //       behavior = item.correction;
-      //       HasCorrection = true
-      //     }
-      //   }
-      // )
+
+      CorrArr.forEach(
+        item => {
+
+          var distance = 100
+
+          if (item && DataIn30Secs.length > 0) {
+            distance = geolib.getPreciseDistance(
+              {
+                latitude: item.SensorData.position.latitude,
+                longitude: item.SensorData.position.longitude
+              },
+              {
+                latitude: DataIn30Secs[(DataIn30Secs.length)-1].position.latitude,
+                longitude: DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
+              }
+            )
+          }
+          
+          // console.log('Correction_Behav: ',item.CorrectionBehavior, 'distance: ', distance)
+
+          if (distance < 60) {
+            
+            behavior = item.CorrectionBehavior;
+
+            if ( !behaviors_URIs[behavior] ) {
+              console.log('No icon found', behavior)
+              NoIconText = behavior
+
+              behavior = 'default'
+            }
+            HasCorrection = true
+          }
+        }
+      )
+      this.setState({ behavior });
+      
     }
+
+    /** No Correction Data Is Nearby Current Location */
     if (!HasCorrection && this.state.position) {
 
       // console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
@@ -295,7 +328,7 @@ export default class Fetching extends Component {
          * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
          * Need Velocity -> Need Geolocation
          * */ 
-        console.log('Moving...')
+        console.log('Device is moving...')
 
         /** Compute the Distance  Unit:meter/30s */
         let lat_LastInDate = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
@@ -323,6 +356,8 @@ export default class Fetching extends Component {
           behavior = 'running'
         } else if (Math.abs(distance) > 140) {
           behavior = 'driving'
+        } else {
+          console.log('User is not moving...')
         }
 
       }
@@ -375,15 +410,16 @@ export default class Fetching extends Component {
 
       /** Behavior Changes */
       if (behavior != this.state.behavior) {
-        console.log('Behavior CHANGES !!!')
+        console.log('******* BEHAVIOR CHANGES *******')
         behavior_CHANGED = true
         this.toAsync(behavior_CHANGED)
       }
 
       this.setState({ behavior });
-
-      this.props.SendResultToShowmap(behavior, this.state.data)
+      
     }
+    console.log(`DecideBehavior in Fetching: ${behavior}`)
+    this.props.SendResultToShowmap(behavior, this.state.data, NoIconText)
   }
   
 

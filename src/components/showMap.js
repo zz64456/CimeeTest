@@ -191,14 +191,22 @@ class ShowMap extends React.Component {
             if (behaviors_URIs[behavior]) {
                 this.setState({ behavior })
             }
+            else {
+                this.setState({ behavior: 'default' })
+                this.setState( {defaultText: behavior} )
+            }
             this.writeCorrectionFile(behavior)
         }
     }
 
-    decideBehavior(behavior, data) {
+    decideBehavior(behavior, data, NoIconText) {
         this.setState({behavior})
         this.setState({data})
-        console.log(`DecideBehavior : ${behavior}`)
+        console.log(`DecideBehavior in ShowMap: ${behavior}`)
+        if (NoIconText) {
+            this.setState({NoIconText})
+        }
+        console.log(`No Icon Text: ${NoIconText}`)
     }
   
     componentDidMount() {
@@ -221,11 +229,6 @@ class ShowMap extends React.Component {
         }
         console.log('Start Writing Correction File...')
 
-        // RNFS.readFile(path, 'utf8')
-        //  .then((success) => {
-        //     var data = JSON.parse(success)
-        //     console.log(data)
-        //  })
 
         if(!RNFS.exists(path)) {
 
@@ -273,7 +276,7 @@ class ShowMap extends React.Component {
         // console.log(`ShowMap render! ${this.state.behavior}`)
         return (
             <>
-                <Fetching SendResultToShowmap={this.decideBehavior} />
+                <Fetching SendResultToShowmap={this.decideBehavior}/>
                 
                 <TabBarPage
                     {...this.props}
@@ -334,6 +337,7 @@ class ShowMap extends React.Component {
                         <MapboxGL.UserLocation
                             onPress={this.onUserMarkerPress} 
                             decidedBehavior={this.state.behavior}
+                            NoIconText={this.state.NoIconText}
                             onUpdate={this.onUserLocationUpdate} />
                     </MapboxGL.MapView>
                 </TabBarPage>
