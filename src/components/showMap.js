@@ -121,6 +121,7 @@ const behaviors_URIs = {
     
   }
 
+// var be = ''
 
 class ShowMap extends React.Component {
 
@@ -193,7 +194,6 @@ class ShowMap extends React.Component {
             }
             else {
                 this.setState({ behavior: 'default' })
-                this.setState( {defaultText: behavior} )
             }
             this.writeCorrectionFile(behavior)
         }
@@ -201,12 +201,14 @@ class ShowMap extends React.Component {
 
     decideBehavior(behavior, data, NoIconText) {
         this.setState({behavior})
+        // be = behavior
         this.setState({data})
         console.log(`DecideBehavior in ShowMap: ${behavior}`)
         if (NoIconText) {
             this.setState({NoIconText})
+            console.log(`No Icon Text: ${NoIconText}`)
         }
-        console.log(`No Icon Text: ${NoIconText}`)
+        
     }
   
     componentDidMount() {
@@ -336,7 +338,7 @@ class ShowMap extends React.Component {
 
                         <MapboxGL.UserLocation
                             onPress={this.onUserMarkerPress} 
-                            decidedBehavior={this.state.behavior}
+                            Behavior={this.state.behavior}
                             NoIconText={this.state.NoIconText}
                             onUpdate={this.onUserLocationUpdate} />
                     </MapboxGL.MapView>

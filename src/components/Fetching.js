@@ -55,7 +55,7 @@ const behaviors_URIs = {
 const DataIn30Secs = []
 var CorrectionData = 'none'
 var CorrArr = []
-
+var Last_Behavior = ''
 
 
 export default class Fetching extends Component {
@@ -63,7 +63,7 @@ export default class Fetching extends Component {
   constructor() {
     super()
     this.state = {
-      behavior: 'default',
+      // behavior: 'default',
       lastWriteTime: '0',
       recordBool: false
     }
@@ -273,14 +273,18 @@ export default class Fetching extends Component {
     console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
     console.log('recordBool', this.state.recordBool)
 
+    /** Set Behavior as 'default' */
     let behavior = 'default'
+
     let HasCorrection = false
     let NoIconText = ''
 
     if (CorrArr.length > 0 && this.state.position) {
-
+      console.log('Check Correction data...')
       CorrArr.forEach(
         item => {
+          
+          
 
           var distance = 100
 
@@ -297,18 +301,21 @@ export default class Fetching extends Component {
             )
           }
           
-          // console.log('Correction_Behav: ',item.CorrectionBehavior, 'distance: ', distance)
-
           if (distance < 60) {
             
-            behavior = item.CorrectionBehavior;
-
-            if ( !behaviors_URIs[behavior] ) {
-              console.log('No icon found', behavior)
-              NoIconText = behavior
-
-              behavior = 'default'
+            console.log(item.CorrectionBehavior)
+            if (behaviors_URIs[item.CorrectionBehavior]) {
+              console.log('Icon found', item.CorrectionBehavior)
+              behavior = item.CorrectionBehavior;
+              NoIconText = ''
             }
+            else {
+              NoIconText = item.CorrectionBehavior
+
+              console.log('No icon found', item.CorrectionBehavior)
+            }
+
+            /** Correction Data Match Current Location */
             HasCorrection = true
           }
         }
@@ -319,6 +326,7 @@ export default class Fetching extends Component {
 
     /** No Correction Data Is Nearby Current Location */
     if (!HasCorrection && this.state.position) {
+      console.log('No Correction Data works')
 
       // console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
     
@@ -409,16 +417,20 @@ export default class Fetching extends Component {
       /** Not Moving ENDS */
 
       /** Behavior Changes */
-      if (behavior != this.state.behavior) {
+      if (behavior != Last_Behavior) {
         console.log('******* BEHAVIOR CHANGES *******')
-        behavior_CHANGED = true
+        console.log(behavior, this.state.behavior)
+        let behavior_CHANGED = true
         this.toAsync(behavior_CHANGED)
       }
 
       this.setState({ behavior });
-      
+
+      /** Record this behavior for next behavior to compare */
+      Last_Behavior = behavior
+
     }
-    console.log(`DecideBehavior in Fetching: ${behavior}`)
+    console.log(`DecideBehavior in Fetching: ${behavior} & NoIconText: ${NoIconText}`)
     this.props.SendResultToShowmap(behavior, this.state.data, NoIconText)
   }
   
