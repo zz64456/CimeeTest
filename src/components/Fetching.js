@@ -136,7 +136,7 @@ export default class Fetching extends Component {
     this._intervals = [  
     setInterval( () => this.updateGeolocation(), 1000),
     setInterval( () => this.toAsync(), 1000),
-    setInterval( () => this.AnalyzeBehavior(), 1000),
+    setInterval( () => this.AnalyzeBehavior(), 3000),
     ]
   }
 
@@ -431,12 +431,63 @@ export default class Fetching extends Component {
       Last_Behavior = behavior
 
     }
+
+    var top10arr = []
+    for (i=2; i<11; i++) {
+      if (DataIn30Secs[i]) {
+        top10arr.push(DataIn30Secs[i].behavior)
+      } else {
+        // console.log(DataIn30Secs[i])
+        top10arr.push('default')
+      }
+    }
+    top10arr.push(behavior)
+    console.log('top10arr')
+    console.log(top10arr)
+
+    const behaviors_count = {
+      bar: 0,
+      cafe:  0,
+      casino: 0,
+      default: 0,
+      driving: 0,
+      donut: 0,
+      hamburger: 0,
+      movie: 0,
+      pizza: 0,
+      phone: 0,
+      running: 0,
+      sleeping: 0,
+      sandwich: 0,
+      walking: 0,
+      working: 0,
+      workout: 0,
+    }
+    var max = 0, max_b = ''
+    for (i=0; i<10; i++) {
+      behaviors_count[top10arr[i]] += 1
+      if (behaviors_count[top10arr[i]] > max) {
+        max = behaviors_count[top10arr[i]]
+        max_b = top10arr[i]
+      }
+      if (behaviors_count[top10arr[i]] > 3 && (top10arr[i] == 'phone ' || top10arr[i] == 'walking' || top10arr[i] == 'running' || top10arr[i] == 'driving')) {
+        break;
+      }
+    }
+
+    console.log(max_b)
+    behavior = max_b
+    
+    /** Determine Final Behavior in Fetching.js, and send it back to ShowMap.js */
     console.log(`DecideBehavior in Fetching: ${behavior} & NoIconText: ${NoIconText}`)
     this.props.SendResultToShowmap(behavior, this.state.data, NoIconText)
+
   }
   
 
-  /* Put data of SensorView & Geolocation together */
+  /** Log */
+
+  /** Put data of SensorView & Geolocation together */
   toAsync(behavior_CHANGED) {
     console.log('toAsync..')
     var data = {}
