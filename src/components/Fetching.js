@@ -520,11 +520,6 @@ export default class Fetching extends Component {
           <Text style={{fontSize: 20}}>Record {record}</Text>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity style={{height: 30, marginRight: 15, backgroundColor: "#DDDDDD",}}
-          onPress={ () => this.onChangerecordBool()}
-        >
-          <Text style={{fontSize: 20}}>Record</Text>
-        </TouchableOpacity> */}
       </View>
       </>
     )
