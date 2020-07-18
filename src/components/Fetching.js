@@ -330,7 +330,8 @@ export default class Fetching extends Component {
 
       // console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
     
-      if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 ) {
+      if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 
+        && Math.abs(this.state.gyro.x) > 0.1 && Math.abs(this.state.gyro.y) > 0.1 ) {
     
         /**
          * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
@@ -443,6 +444,8 @@ export default class Fetching extends Component {
     if (behavior_CHANGED) {
       console.log('Behavior CHANGES 2')
       data.behavior_CHANGED = 'CHANGED'
+    } else {
+      data.behavior_CHANGED = 'NULL'
     }
 
     data.acc = this.state.acc
