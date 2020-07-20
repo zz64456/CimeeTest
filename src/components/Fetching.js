@@ -330,8 +330,7 @@ export default class Fetching extends Component {
 
       // console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
     
-      if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1 
-        && Math.abs(this.state.gyro.x) > 0.1 && Math.abs(this.state.gyro.y) > 0.1 ) {
+      if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) {
     
         /**
          * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
@@ -340,19 +339,31 @@ export default class Fetching extends Component {
         console.log('Device is moving...')
 
         /** Compute the Distance  Unit:meter/30s */
-        let lat_LastInDate = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
-        let lng_LastInDate = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
-        let lat_FirstInData = DataIn30Secs[0].position.latitude
-        let lng_FirstInData = DataIn30Secs[0].position.longitude
+        console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
+        console.log(DataIn30Secs[0].position.latitude)
+        let LastInData = [], FirstInData = []
+        LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
+        LastInData[1] = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
+        FirstInData[0] = DataIn30Secs[0].position.latitude
+        FirstInData[1] = DataIn30Secs[0].position.longitude
+
+        // console.log(LastInData)
+        // console.log(FirstInData)
         
         let distance = geolib.getPreciseDistance({
-          latitude: lat_LastInDate,
-          longitude: lng_LastInDate},{
-          latitude: lat_FirstInData,
-          longitude: lng_FirstInData})
+          latitude: LastInData[0],
+          longitude: LastInData[1]},{
+          latitude: FirstInData[0],
+          longitude: FirstInData[1]})
         
         console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
         console.log('Distance is : ' + distance)
+
+        this.setState({
+          distance: distance,
+          LastInData: LastInData,
+          FirstInData: FirstInData
+        })
           
 
         /** The Velocity of the Object is similar to Walking, Running, or Driving */
@@ -416,33 +427,23 @@ export default class Fetching extends Component {
         }        
       }
       /** Not Moving ENDS */
-
-      /** Behavior Changes */
-      if (behavior != Last_Behavior) {
-        console.log('******* BEHAVIOR CHANGES *******')
-        console.log(behavior, this.state.behavior)
-        let behavior_CHANGED = true
-        this.toAsync(behavior_CHANGED)
-      }
-
-      this.setState({ behavior });
-
-      /** Record this behavior for next behavior to compare */
-      Last_Behavior = behavior
-
     }
+    /** No Correction ENDS */
 
+    /** Current behavior has been created */
+
+    /** Use 10 Latest Behavior to Determine Final Behavior */
     var top10arr = []
     for (i=2; i<11; i++) {
       if (DataIn30Secs[i]) {
         top10arr.push(DataIn30Secs[i].behavior)
       } else {
-        // console.log(DataIn30Secs[i])
         top10arr.push('default')
       }
     }
+    /** The Newest Behavior created above */
     top10arr.push(behavior)
-    console.log('top10arr')
+
     console.log(top10arr)
 
     const behaviors_count = {
@@ -466,17 +467,32 @@ export default class Fetching extends Component {
     var max = 0, max_b = ''
     for (i=0; i<10; i++) {
       behaviors_count[top10arr[i]] += 1
+      /** Highest Occurrence Behavior Wins*/
       if (behaviors_count[top10arr[i]] > max) {
         max = behaviors_count[top10arr[i]]
         max_b = top10arr[i]
+        console.log(`${max_b} exceeds max value: ${max}`)
+        behavior = max_b
       }
-      if (behaviors_count[top10arr[i]] > 3 && (top10arr[i] == 'phone ' || top10arr[i] == 'walking' || top10arr[i] == 'running' || top10arr[i] == 'driving')) {
+      /** Moving behavior has higher priority */
+      if (behaviors_count[top10arr[i]] >= 3 && (top10arr[i] == 'phone' || top10arr[i] == 'walking' || top10arr[i] == 'running' || top10arr[i] == 'driving')) {
+        console.log('break', top10arr[i])
+        behavior = top10arr[i]
         break;
       }
     }
 
-    console.log(max_b)
-    behavior = max_b
+    /** Behavior Changes */
+    if (behavior != Last_Behavior) {
+      console.log('******* BEHAVIOR CHANGES *******')
+      let behavior_CHANGED = true
+      this.toAsync(behavior_CHANGED)
+    }
+
+    this.setState({ behavior });
+
+    /** Record this behavior for next behavior to compare */
+    Last_Behavior = behavior
     
     /** Determine Final Behavior in Fetching.js, and send it back to ShowMap.js */
     console.log(`DecideBehavior in Fetching: ${behavior} & NoIconText: ${NoIconText}`)
@@ -494,15 +510,22 @@ export default class Fetching extends Component {
 
     if (behavior_CHANGED) {
       console.log('Behavior CHANGES 2')
-      data.behavior_CHANGED = 'CHANGED'
+      data.behavior_CHANGED = `CHANGE from ${lastbehavior} to `
+      data.lastbehavior = lastbehavior
     } else {
       data.behavior_CHANGED = 'NULL'
     }
 
     data.acc = this.state.acc
-    data.gyro = this.state.gyro
-    data.mag = this.state.mag
-    data.baro = this.state.baro
+    // data.gyro = this.state.gyro
+    // data.mag = this.state.mag
+    // data.baro = this.state.baro
+
+    if(this.state.distance && this.state.LastInData && this.state.FirstInData) {
+      data.distance = this.state.distance
+      data.LastInData = this.state.LastInData
+      data.FirstInData = this.state.FirstInData
+    }
 
     /* Record data in device */
     if(this.state.position) {
