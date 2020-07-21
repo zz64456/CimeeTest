@@ -56,6 +56,7 @@ const DataIn30Secs = []
 var CorrectionData = 'none'
 var CorrArr = []
 var Last_Behavior = ''
+var NoIconText = ''
 
 
 export default class Fetching extends Component {
@@ -135,8 +136,9 @@ export default class Fetching extends Component {
 
     this._intervals = [  
     setInterval( () => this.updateGeolocation(), 1000),
-    setInterval( () => this.toAsync(), 1000),
-    setInterval( () => this.AnalyzeBehavior(), 3000),
+    // setInterval( () => this.toAsync(), 1000),
+    setInterval( () => this.AnalyzeBehavior(), 1000),
+    setInterval( () => this.DetermineBehavior(), 3000),
     ]
   }
 
@@ -228,8 +230,6 @@ export default class Fetching extends Component {
 
     let filePath = RNFS.DocumentDirectoryPath + '/Correction.json';
 
-    
-
     if (RNFS.exists(filePath)) {
       // console.log('filepath1', filePath)
       RNFS.readFile(filePath, 'utf8')
@@ -239,21 +239,13 @@ export default class Fetching extends Component {
             let indexOfNext = result.indexOf("}{");
             var item = ''
             
-            // console.log("before while", result)
             while(indexOfNext > 0) {
-
-              
               item = result.slice(indexOfLast,indexOfNext+1)
-              // console.log(item)
-              // console.log(JSON.parse(item))
               CorrArr.push(JSON.parse(item))
-              // console.log("in while", indexOfNext+1)
               indexOfLast = indexOfNext + 1
               indexOfNext = result.indexOf("}{", indexOfNext+1);
-              // console.log(indexOfNext)
             }
             item = result.slice(indexOfLast, result.length)
-            // console.log(JSON.parse(item))
             CorrArr.push(JSON.parse(item))
             
           })
@@ -262,8 +254,6 @@ export default class Fetching extends Component {
             console.log('Correction has not been created yet.')
           });
     }
-    // console.log('there', CorrectionData)
-    // return data
   }
 
   /* Infer behavior */
@@ -277,14 +267,12 @@ export default class Fetching extends Component {
     let behavior = 'default'
 
     let HasCorrection = false
-    let NoIconText = ''
+    
 
     if (CorrArr.length > 0 && this.state.position) {
       console.log('Check Correction data...')
       CorrArr.forEach(
         item => {
-          
-          
 
           var distance = 100
 
@@ -338,7 +326,7 @@ export default class Fetching extends Component {
          * */ 
         console.log('Device is moving...')
 
-        /** Compute the Distance  Unit:meter/30s */
+        /** Compute the Distance  Unit:meter/10s */
         console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
         console.log(DataIn30Secs[0].position.latitude)
         let LastInData = [], FirstInData = []
@@ -370,11 +358,11 @@ export default class Fetching extends Component {
         
         /** Default moving behavior is PHONE */
         behavior = 'phone'
-        if (Math.abs(distance) > 20 && Math.abs(distance) <= 40) {
+        if (Math.abs(distance) > 8 && Math.abs(distance) <= 16) {
           behavior = 'walking'
-        } else if (Math.abs(distance) > 40 && Math.abs(distance) <= 140) {
+        } else if (Math.abs(distance) > 16 && Math.abs(distance) <= 70) {
           behavior = 'running'
-        } else if (Math.abs(distance) > 140) {
+        } else if (Math.abs(distance) > 70) {
           behavior = 'driving'
         } else {
           console.log('User is not moving...')
@@ -429,89 +417,116 @@ export default class Fetching extends Component {
       /** Not Moving ENDS */
     }
     /** No Correction ENDS */
-
     /** Current behavior has been created */
 
-    /** Use 10 Latest Behavior to Determine Final Behavior */
+    console.log('****** New ****** ', behavior)
+
+    this.beforeDetermine(behavior)
+
+  }
+
+  DetermineBehavior() {
+
+    /** Use the 10 Latest Behavior to Determine Final Behavior */
+
     var top10arr = []
-    for (i=2; i<11; i++) {
+    for (i=1; i<=10; i++) {
+      // console.log('DataIn30Secs'+i, DataIn30Secs[i])
       if (DataIn30Secs[i]) {
         top10arr.push(DataIn30Secs[i].behavior)
       } else {
         top10arr.push('default')
       }
     }
-    /** The Newest Behavior created above */
-    top10arr.push(behavior)
 
-    console.log(top10arr)
+    const behaviors_count = [
+      ['bar', 0],
+      ['cafe', 0],
+      ['casino', 0],
+      ['default', 0],
+      ['driving', 0],
+      ['donut', 0],
+      ['hamburger', 0],
+      ['movie', 0],
+      ['pizza', 0],
+      ['phone', 0],
+      ['running', 0],
+      ['sleeping', 0],
+      ['sandwich', 0],
+      ['walking', 0],
+      ['working', 0],
+      ['workout', 0]
+    ]
 
-    const behaviors_count = {
-      bar: 0,
-      cafe:  0,
-      casino: 0,
-      default: 0,
-      driving: 0,
-      donut: 0,
-      hamburger: 0,
-      movie: 0,
-      pizza: 0,
-      phone: 0,
-      running: 0,
-      sleeping: 0,
-      sandwich: 0,
-      walking: 0,
-      working: 0,
-      workout: 0,
-    }
-    var max = 0, max_b = ''
+    // const behaviors_count = {
+    //   bar: 0,
+    //   cafe:  0,
+    //   casino: 0,
+    //   default: 0,
+    //   driving: 0,
+    //   donut: 0,
+    //   hamburger: 0,
+    //   movie: 0,
+    //   pizza: 0,
+    //   phone: 0,
+    //   running: 0,
+    //   sleeping: 0,
+    //   sandwich: 0,
+    //   walking: 0,
+    //   working: 0,
+    //   workout: 0,
+    // }
+
+    var max = 0, behavior = ''
+
     for (i=0; i<10; i++) {
-      behaviors_count[top10arr[i]] += 1
-      /** Highest Occurrence Behavior Wins*/
-      if (behaviors_count[top10arr[i]] > max) {
-        max = behaviors_count[top10arr[i]]
-        max_b = top10arr[i]
-        console.log(`${max_b} exceeds max value: ${max}`)
-        behavior = max_b
+      for (j=0; j<behaviors_count.length; j++) {
+        if (behaviors_count[j][0] == top10arr[i]) {
+          behaviors_count[j][1] += 1
+        }
+        /** Highest Occurrence Will be the Determined Behavior*/
+        if (behaviors_count[j][1] > max) {
+          max = behaviors_count[j][1]
+          behavior = behaviors_count[j][0]
+        }
       }
-      /** Moving behavior has higher priority */
-      if (behaviors_count[top10arr[i]] >= 3 && (top10arr[i] == 'phone' || top10arr[i] == 'walking' || top10arr[i] == 'running' || top10arr[i] == 'driving')) {
-        console.log('break', top10arr[i])
-        behavior = top10arr[i]
-        break;
-      }
+      // console.log(`${behavior} exceeds max value: ${max}`)
     }
 
-    /** Behavior Changes */
-    if (behavior != Last_Behavior) {
-      console.log('******* BEHAVIOR CHANGES *******')
-      let behavior_CHANGED = true
-      this.toAsync(behavior_CHANGED)
+    console.log(behaviors_count)
+
+    /** However, Moving behavior Has Higher Priority */
+    for (i=0; i<behaviors_count.length; i++) {
+      if (behaviors_count[i][0] == 'phone' || behaviors_count[i][0] == 'walking' || behaviors_count[i][0] == 'running' || behaviors_count[i][0] == 'driving') {
+        if (behaviors_count[i][1] >= 3) {
+          behavior = behaviors_count[i][0]
+        }
+      }
     }
 
     this.setState({ behavior });
+    // console.log(`In Analyze, state.behavior: ${this.state.behavior}`)
 
-    /** Record this behavior for next behavior to compare */
-    Last_Behavior = behavior
+    
     
     /** Determine Final Behavior in Fetching.js, and send it back to ShowMap.js */
     console.log(`DecideBehavior in Fetching: ${behavior} & NoIconText: ${NoIconText}`)
     this.props.SendResultToShowmap(behavior, this.state.data, NoIconText)
-
   }
   
 
   /** Log */
 
   /** Put data of SensorView & Geolocation together */
-  toAsync(behavior_CHANGED) {
-    console.log('toAsync..')
+  beforeDetermine(currentbehavior) {
+    console.log('beforeDetermine.......')
     var data = {}
 
-    if (behavior_CHANGED) {
-      console.log('Behavior CHANGES 2')
-      data.behavior_CHANGED = `CHANGE from ${lastbehavior} to `
-      data.lastbehavior = lastbehavior
+    /** Analyzed Behavior Changes */
+    if (currentbehavior != Last_Behavior) {
+      console.log('Behavior CHANGES', Last_Behavior, currentbehavior )
+      data.behavior_CHANGED = `CHANGE from ${Last_Behavior} to `
+      data.Last_Behavior = Last_Behavior
     } else {
       data.behavior_CHANGED = 'NULL'
     }
@@ -530,7 +545,8 @@ export default class Fetching extends Component {
     /* Record data in device */
     if(this.state.position) {
       data.position = this.state.position.coords
-      data.behavior = this.state.behavior
+      console.log(`In beforeDetermine, current behavior: ${currentbehavior}`)
+      data.behavior = currentbehavior
       this.setState({data})
 
       /** Log */
@@ -540,12 +556,13 @@ export default class Fetching extends Component {
       
       if (DataIn30Secs.length == 11) {
         const DataShifted = DataIn30Secs.shift()
-        // console.log('被移除Data',DataShifted)
+        // console.log('Remove Data',DataShifted)
       }
       DataIn30Secs.push(data)
     }
 
-    // this.AnalyzeBehavior()
+    /** Record this behavior for next behavior to compare */
+    Last_Behavior = currentbehavior
 
   }
 
