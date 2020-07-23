@@ -9,7 +9,7 @@ const Login = ( {navigation} ) => {
     // const greeting = 'Hello'
     return (
         <PackageLoginScreen
-            onPressSettings={() => alert("Settings Button is pressed")}
+            onPressSettings={() => alert("Everything already settles down.")}
             // loginText="loginText"
             onPressLogin={() => {
                 navigation.navigate('Map')

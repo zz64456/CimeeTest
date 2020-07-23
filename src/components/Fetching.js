@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import Geolocation from '@react-native-community/geolocation';
-import sensors, * as Sensors from "react-native-sensors";
 import moment from 'moment'
 import Geocoder from 'react-native-geocoding';
+import sensors, * as Sensors from "react-native-sensors";
 import * as geolib from 'geolib';
-import {View, Text, TouchableOpacity} from 'react-native'
 
 
 Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
@@ -34,18 +33,28 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
 const behaviors_URIs = {
   bar: "https://upload.cc/i1/2020/07/02/Ep0aGH.png",
+  book_store: "https://upload.cc/i1/2020/07/23/NcJbQO.png",
+  boxing: "https://upload.cc/i1/2020/07/23/S4dfaW.png",
   cafe:  "https://upload.cc/i1/2020/06/19/LbO8ft.png",
   casino: "https://upload.cc/i1/2020/07/03/mnJH1p.png",
+  dance: "https://upload.cc/i1/2020/07/23/G2BcXz.png",
   default: "https://upload.cc/i1/2020/06/30/OU1LpQ.png",
+  dentist: "https://upload.cc/i1/2020/07/23/M7AviL.png",
   driving: "https://upload.cc/i1/2020/06/30/sxkmeb.png",
   donut: "https://upload.cc/i1/2020/07/02/eqyHTm.png",
+  game: "https://upload.cc/i1/2020/07/23/OD0e2R.png",
+  guitar: "https://upload.cc/i1/2020/07/23/iIkEzH.png",
+  hair_care: "https://upload.cc/i1/2020/07/23/gZt82o.png",
   hamburger: "https://upload.cc/i1/2020/06/30/b7SmGF.png",
   movie: "https://upload.cc/i1/2020/07/02/OJ3FWu.png",
+  piano: "https://upload.cc/i1/2020/07/23/FKbsrH.png",
   pizza: "https://upload.cc/i1/2020/07/02/U83Gth.png",
   phone: "https://upload.cc/i1/2020/07/13/UChrb7.png",
   running: "https://upload.cc/i1/2020/07/02/FtYQX7.png",
   sleeping: "https://upload.cc/i1/2020/07/02/tMJBNb.png",
   sandwich: "https://upload.cc/i1/2020/07/02/asWJzp.png",
+  supermarket: "https://upload.cc/i1/2020/07/23/tFdTLK.png",
+  shopping_mall: "https://upload.cc/i1/2020/07/23/GJ5osq.png",
   walking: "https://upload.cc/i1/2020/07/02/TkveY1.png",
   working: "https://upload.cc/i1/2020/07/02/oYQyCn.png",
   workout: "https://upload.cc/i1/2020/06/17/iXUof9.png",
@@ -53,7 +62,6 @@ const behaviors_URIs = {
 }
 
 const DataIn30Secs = []
-var CorrectionData = 'none'
 var CorrArr = []
 var Last_Behavior = ''
 var NoIconText = ''
@@ -132,11 +140,13 @@ export default class Fetching extends Component {
 
     /* Get candidate locations */
     this.readLocations()
+    this.fetchNearestPlacesFromGoogle()
+
     this.readCorrection()
 
     this._intervals = [  
     setInterval( () => this.updateGeolocation(), 1000),
-    // setInterval( () => this.toAsync(), 1000),
+    setInterval( () => this.fetchNearestPlacesFromGoogle(), 3000),
     setInterval( () => this.AnalyzeBehavior(), 1000),
     setInterval( () => this.DetermineBehavior(), 3000),
     ]
@@ -175,6 +185,7 @@ export default class Fetching extends Component {
     Geolocation.getCurrentPosition(
       position => {
         position.timestamp = moment().unix();
+        this.setState({position});
 
         /*
         ******************************************************************
@@ -185,24 +196,70 @@ export default class Fetching extends Component {
         /* Let randomLocation = this.getRandomLatLng(39.5490077,-119.8239203) */
         // Geocoder.from(randomLocation)
 
-        Geocoder.from(position.coords.latitude, position.coords.longitude)
-            .then(json => {
-              var addressComponent = json.results[0].formatted_address;
-              this.setState({
-                Address: addressComponent
-              })
-            })
+        // Geocoder.from(position.coords.latitude, position.coords.longitude)
+        //     .then(json => {
+        //       var addressComponent = json.results[0].formatted_address;
+        //       this.setState({
+        //         Address: addressComponent
+        //       })
 
-            .catch(error => console.warn(error));
+        //     })
 
-        this.setState({
-          position
-        });
+        //     .catch(error => console.warn(error));
+
+        
 
       },
       error => Alert.alert('Error', JSON.stringify(error)),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000},
     );
+  }
+
+  fetchNearestPlacesFromGoogle = () => {
+
+    // console.log("Fetch Nearest Places...")
+    if (this.state.position) {
+      const latitude = this.state.position.coords.latitude; // you can update it with user's latitude & Longitude
+      const longitude = this.state.position.coords.longitude;
+
+      const url =   'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA&location='+latitude+','+longitude+'&radius=20'
+
+      fetch(url)
+        .then(res => {
+          return res.json()
+        })
+        .then(res => {
+          console.log(res.results)
+          var places = [] // This Array WIll contain locations received from google
+          for(let googlePlace of res.results) {
+            var place = {}
+            var lat = googlePlace.geometry.location.lat;
+            var lng = googlePlace.geometry.location.lng;
+            var coordinate = {
+              latitude: lat,
+              longitude: lng,
+            }
+
+            place['placeTypes'] = googlePlace.types
+            place['coordinate'] = coordinate
+            place['placeId'] = googlePlace.place_id
+            place['placeName'] = googlePlace.name
+
+            places.push(place);
+
+            
+          }
+
+          console.log('placesQQQ', places)
+          // this.setState({ })
+          // Do your work here with places Array
+      
+        })
+      .catch(error => {
+        console.log('e...', error);
+      });
+    }
+    
   }
  
   /* Get downloaded geolocation data for Sensory coffee shop */
@@ -327,13 +384,16 @@ export default class Fetching extends Component {
         console.log('Device is moving...')
 
         /** Compute the Distance  Unit:meter/10s */
-        console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
-        console.log(DataIn30Secs[0].position.latitude)
-        let LastInData = [], FirstInData = []
-        LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
-        LastInData[1] = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
-        FirstInData[0] = DataIn30Secs[0].position.latitude
-        FirstInData[1] = DataIn30Secs[0].position.longitude
+        if ( DataIn30Secs[(DataIn30Secs.length)-1].position ) {
+          // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
+          // console.log(DataIn30Secs[0].position.latitude)
+          let LastInData = [], FirstInData = []
+          LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
+          LastInData[1] = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
+          FirstInData[0] = DataIn30Secs[0].position.latitude
+          irstInData[1] = DataIn30Secs[0].position.longitude
+        }
+        
 
         // console.log(LastInData)
         // console.log(FirstInData)
@@ -383,9 +443,13 @@ export default class Fetching extends Component {
 
         /** Default: Candidate Location[0] */
 
-        if (this.state.candidateLocations.results) {        
-          shop_name = this.state.candidateLocations.results[0].name.toLowerCase()
-          shop_types = this.state.candidateLocations.results[0].types
+        if (this.state.candidateLocations.results) {
+          i = 0     
+          while(this.state.candidateLocations.results[i].types.includes("route")) {
+            i += 1
+          }
+          shop_name = this.state.candidateLocations.results[i].name.toLowerCase()
+          shop_types = this.state.candidateLocations.results[i].types
           console.log('Top 1: ', shop_name, shop_types)
 
           /**
@@ -441,41 +505,32 @@ export default class Fetching extends Component {
 
     const behaviors_count = [
       ['bar', 0],
+      ['book_store', 0],
+      ['boxing', 0],
       ['cafe', 0],
       ['casino', 0],
+      ['dance', 0],
       ['default', 0],
+      ['dentist', 0],
       ['driving', 0],
       ['donut', 0],
+      ['game', 0],
+      ['guitar', 0],
+      ['hair_care', 0],
       ['hamburger', 0],
       ['movie', 0],
+      ['piano', 0],
       ['pizza', 0],
       ['phone', 0],
       ['running', 0],
       ['sleeping', 0],
       ['sandwich', 0],
+      ['supermarket', 0],
+      ['shopping_mall', 0],
       ['walking', 0],
       ['working', 0],
       ['workout', 0]
     ]
-
-    // const behaviors_count = {
-    //   bar: 0,
-    //   cafe:  0,
-    //   casino: 0,
-    //   default: 0,
-    //   driving: 0,
-    //   donut: 0,
-    //   hamburger: 0,
-    //   movie: 0,
-    //   pizza: 0,
-    //   phone: 0,
-    //   running: 0,
-    //   sleeping: 0,
-    //   sandwich: 0,
-    //   walking: 0,
-    //   working: 0,
-    //   workout: 0,
-    // }
 
     var max = 0, behavior = ''
 
@@ -606,7 +661,7 @@ export default class Fetching extends Component {
     }
     return (
       <>
-      <View style={{flexDirection: 'row', marginBottom: 15, marginTop: 30,}}>
+      {/* <View style={{flexDirection: 'row', marginBottom: 15, marginTop: 30,}}>
         <TouchableOpacity style={{height: 30, marginRight: 15, backgroundColor: "#DDDDDD",}}
           // style={styles.button}
           onPress={ () => this.onChangerecordBool()}
@@ -614,7 +669,7 @@ export default class Fetching extends Component {
           <Text style={{fontSize: 20}}>Record {record}</Text>
         </TouchableOpacity>
 
-      </View>
+      </View> */}
       </>
     )
   }
