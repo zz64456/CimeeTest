@@ -139,16 +139,16 @@ export default class Fetching extends Component {
     this.sensorCall()
 
     /* Get candidate locations */
-    this.readLocations()
+    // this.readLocations()
     this.fetchNearestPlacesFromGoogle()
 
     this.readCorrection()
 
     this._intervals = [  
-    setInterval( () => this.updateGeolocation(), 1000),
-    setInterval( () => this.fetchNearestPlacesFromGoogle(), 3000),
-    setInterval( () => this.AnalyzeBehavior(), 1000),
-    setInterval( () => this.DetermineBehavior(), 3000),
+      setInterval( () => this.updateGeolocation(), 1000),
+      setInterval( () => this.fetchNearestPlacesFromGoogle(), 3000),
+      setInterval( () => this.AnalyzeBehavior(), 1000),
+      setInterval( () => this.DetermineBehavior(), 3000),
     ]
   }
 
@@ -229,7 +229,7 @@ export default class Fetching extends Component {
           return res.json()
         })
         .then(res => {
-          console.log(res.results)
+          // console.log(res.results)
           var places = [] // This Array WIll contain locations received from google
           for(let googlePlace of res.results) {
             var place = {}
@@ -240,16 +240,16 @@ export default class Fetching extends Component {
               longitude: lng,
             }
 
-            place['placeTypes'] = googlePlace.types
-            place['coordinate'] = coordinate
-            place['placeId'] = googlePlace.place_id
-            place['placeName'] = googlePlace.name
+            place['types'] = googlePlace.types
+            place['location'] = coordinate
+            place['id'] = googlePlace.place_id
+            place['name'] = googlePlace.name
 
             places.push(place);
 
             
           }
-
+          this.setState({candidateLocations: places})
           console.log('placesQQQ', places)
           // this.setState({ })
           // Do your work here with places Array
@@ -271,7 +271,7 @@ export default class Fetching extends Component {
     if (RNFS.exists(filePath)) {
       RNFS.readFile(filePath, 'utf8')
           .then((result) => {
-              candidateLocations = JSON.parse(result)
+              candidateLocations = JSON.parse(result.results)
               this.setState({candidateLocations})
               // console.log('name type : ', typeof(this.state.candidateLocations.results[0].name))
           })
@@ -318,7 +318,7 @@ export default class Fetching extends Component {
     
     console.log('------------------------------------------------')
     console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
-    console.log('recordBool', this.state.recordBool)
+    // console.log('recordBool', this.state.recordBool)
 
     /** Set Behavior as 'default' */
     let behavior = 'default'
@@ -383,15 +383,17 @@ export default class Fetching extends Component {
          * */ 
         console.log('Device is moving...')
 
+
+        
         /** Compute the Distance  Unit:meter/10s */
+        let LastInData = [], FirstInData = []
         if ( DataIn30Secs[(DataIn30Secs.length)-1].position ) {
           // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
           // console.log(DataIn30Secs[0].position.latitude)
-          let LastInData = [], FirstInData = []
           LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
           LastInData[1] = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
           FirstInData[0] = DataIn30Secs[0].position.latitude
-          irstInData[1] = DataIn30Secs[0].position.longitude
+          FirstInData[1] = DataIn30Secs[0].position.longitude
         }
         
 
@@ -443,13 +445,16 @@ export default class Fetching extends Component {
 
         /** Default: Candidate Location[0] */
 
-        if (this.state.candidateLocations.results) {
-          i = 0     
-          while(this.state.candidateLocations.results[i].types.includes("route")) {
+        if (this.state.candidateLocations) {
+          // console.log('state.candidate', this.state.candidateLocations)
+          i = 0
+          while(this.state.candidateLocations[i].types.includes("route")) {
+            console.log('includes route', this.state.candidateLocations[i])
             i += 1
           }
-          shop_name = this.state.candidateLocations.results[i].name.toLowerCase()
-          shop_types = this.state.candidateLocations.results[i].types
+          console.log('final', this.state.candidateLocations[i])
+          shop_name = this.state.candidateLocations[i].name.toLowerCase()
+          shop_types = this.state.candidateLocations[i].types
           console.log('Top 1: ', shop_name, shop_types)
 
           /**
