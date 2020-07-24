@@ -447,14 +447,17 @@ export default class Fetching extends Component {
 
         if (this.state.candidateLocations) {
           // console.log('state.candidate', this.state.candidateLocations)
+          cand = this.state.candidateLocations
+          // console.log('canddd', cand[0])
           i = 0
-          while(this.state.candidateLocations[i].types.includes("route")) {
-            console.log('includes route', this.state.candidateLocations[i])
+          while((cand[i].types.includes("route") || cand[i].types.includes("locality")) && i<cand.length) {
+            console.log('includes route', cand[i])
             i += 1
           }
-          console.log('final', this.state.candidateLocations[i])
-          shop_name = this.state.candidateLocations[i].name.toLowerCase()
-          shop_types = this.state.candidateLocations[i].types
+          
+          console.log('final', cand[i])
+          shop_name = cand[i].name.toLowerCase()
+          shop_types = cand[i].types
           console.log('Top 1: ', shop_name, shop_types)
 
           /**
