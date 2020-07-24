@@ -139,14 +139,14 @@ export default class Fetching extends Component {
     this.sensorCall()
 
     /* Get candidate locations */
-    // this.readLocations()
-    this.fetchNearestPlacesFromGoogle()
+    this.readLocations()
+    // this.fetchNearestPlacesFromGoogle()
 
     this.readCorrection()
 
     this._intervals = [  
       setInterval( () => this.updateGeolocation(), 1000),
-      setInterval( () => this.fetchNearestPlacesFromGoogle(), 3000),
+      // setInterval( () => this.fetchNearestPlacesFromGoogle(), 3000),
       setInterval( () => this.AnalyzeBehavior(), 1000),
       setInterval( () => this.DetermineBehavior(), 3000),
     ]
@@ -267,18 +267,19 @@ export default class Fetching extends Component {
     console.log('readLocations..')
     var RNFS = require('react-native-fs');
 
-    let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample_rankbydistance.json';
+    let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample2.json';
     if (RNFS.exists(filePath)) {
       RNFS.readFile(filePath, 'utf8')
           .then((result) => {
               candidateLocations = JSON.parse(result.results)
               this.setState({candidateLocations})
-              // console.log('name type : ', typeof(this.state.candidateLocations.results[0].name))
+              
           })
           .catch((err) => {
               console.log(err.message, err.code);
           });
     }
+    console.log('candidateLocations : ', this.state.candidateLocations)
   }
   
   readCorrection() {
@@ -387,7 +388,7 @@ export default class Fetching extends Component {
         
         /** Compute the Distance  Unit:meter/10s */
         let LastInData = [], FirstInData = []
-        if ( DataIn30Secs[(DataIn30Secs.length)-1].position ) {
+        if ( DataIn30Secs[(DataIn30Secs.length)-1].position != 'undefined' ) {
           // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
           // console.log(DataIn30Secs[0].position.latitude)
           LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
@@ -444,13 +445,14 @@ export default class Fetching extends Component {
         var shop_name, shop_types = ''
 
         /** Default: Candidate Location[0] */
-
-        if (this.state.candidateLocations) {
+        console.log(this.state.candidateLocations)
+        cand = this.state.candidateLocations
+        if (cand) {
           // console.log('state.candidate', this.state.candidateLocations)
-          cand = this.state.candidateLocations
-          // console.log('canddd', cand[0])
+
+          console.log('canAAA', cand[0].types)
           i = 0
-          while((cand[i].types.includes("route") || cand[i].types.includes("locality")) && i<cand.length) {
+          while((cand[i].types.includes("route") || cand[i].types.includes("locality")) && i+1<cand.length) {
             console.log('includes route', cand[i])
             i += 1
           }

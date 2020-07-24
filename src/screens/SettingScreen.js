@@ -1,20 +1,58 @@
 import React from 'react'
-import { View, Text, StyleSheet, SafeAreaView, FlatList, ScrollView, Image, Alert } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, FlatList, TouchableHighlight, Image, Alert, Modal, TextInput } from 'react-native'
 // import { Icon } from 'react-native-elements'
 // import { ScrollView } from 'react-native-gesture-handler';
 import { CheckBox, Icon } from 'react-native-elements'
 
 const friends = ['Devin', 'Annie', 'Kabrie', 'Coco', 'Levi', 'Selena', 'Tom', 'Katie', 'Sandy', 'Dominic', 'Jackson', 'James', 'Julie']
+var f_list = [
+    {key: 'Devin', uri: 'https://upload.cc/i1/2020/07/05/3FBeTU.png'},
+    {key: 'Annie', uri: 'https://upload.cc/i1/2020/07/14/5ntWw8.png'},
+    {key: 'Coco', uri: 'https://upload.cc/i1/2020/07/14/3mVZHB.png'},
+    {key: 'Katie', uri: 'https://upload.cc/i1/2020/07/14/DhRvnM.png'},
+    {key: 'Tom', uri: 'https://upload.cc/i1/2020/07/14/TnZEcP.png'},
+    {key: 'Sandy', uri: 'https://upload.cc/i1/2020/07/05/xm7uve.png'},
+    {key: 'Dominic', uri: 'https://upload.cc/i1/2020/07/05/Nhnk4u.png'},
+    {key: 'Jackson', uri: 'https://upload.cc/i1/2020/07/05/e4kV2Y.png'},
+    {key: 'Levi', uri: 'https://upload.cc/i1/2020/07/14/LnPhzw.png'},
+    {key: 'James', uri: 'https://upload.cc/i1/2020/07/05/dlMxzG.png'},
+    // {key: 'Julie', uri: 'https://upload.cc/i1/2020/07/05/jfqGEk.png'},
+    {key: 'Selena', uri: 'https://upload.cc/i1/2020/07/14/21jhlB.png'},
+    {key: 'Kabrie', uri: 'https://upload.cc/i1/2020/07/14/a9JWEy.png'},
+]
 
 export default class Setting extends React.Component{
 
     constructor() {
         super()
         this.state = {
-            ShareBool : true,
+            ShareBool : false,
             LowBattery : false,
             Device : true,
+            modalVisible: false,
         }
+    }
+
+    AddFriend(id) {
+        if(id) {
+            console.log(`${id}, friend added.`)
+            friend = {key:'Sandra', uri: 'https://upload.cc/i1/2020/07/05/jfqGEk.png'}
+            f_list.push(friend)
+        }
+        
+    }
+
+    friendModalVisible = (visible) => {
+        this.setState({ modalVisible: visible })
+        this.AddFriend(this.state.friendsID)
+        // console.log(this.state.friendsID)
+    }
+
+    onAddFriend() {
+        // Alert.alert(JSON.stringify(this.state.data))
+        // Alert.alert('yo')
+        this.friendModalVisible(true);
+        
     }
 
     onShareChange(item) {
@@ -111,26 +149,12 @@ export default class Setting extends React.Component{
                                     name='plus'
                                     type='simple-line-icon'
                                     color='#517fa4'
-                                    onPress={ () => Alert.alert('Add Friends here.')}
+                                    onPress={ () => this.onAddFriend()}
                                 />
                             </View>
                             
                             <FlatList
-                                data={[
-                                    {key: 'Devin', uri: 'https://upload.cc/i1/2020/07/05/3FBeTU.png'},
-                                    {key: 'Annie', uri: 'https://upload.cc/i1/2020/07/14/5ntWw8.png'},
-                                    {key: 'Coco', uri: 'https://upload.cc/i1/2020/07/14/3mVZHB.png'},
-                                    {key: 'Katie', uri: 'https://upload.cc/i1/2020/07/14/DhRvnM.png'},
-                                    {key: 'Tom', uri: 'https://upload.cc/i1/2020/07/14/TnZEcP.png'},
-                                    {key: 'Sandy', uri: 'https://upload.cc/i1/2020/07/05/xm7uve.png'},
-                                    {key: 'Dominic', uri: 'https://upload.cc/i1/2020/07/05/Nhnk4u.png'},
-                                    {key: 'Jackson', uri: 'https://upload.cc/i1/2020/07/05/e4kV2Y.png'},
-                                    {key: 'Levi', uri: 'https://upload.cc/i1/2020/07/14/LnPhzw.png'},
-                                    {key: 'James', uri: 'https://upload.cc/i1/2020/07/05/dlMxzG.png'},
-                                    {key: 'Julie', uri: 'https://upload.cc/i1/2020/07/05/jfqGEk.png'},
-                                    {key: 'Selena', uri: 'https://upload.cc/i1/2020/07/14/21jhlB.png'},
-                                    {key: 'Kabrie', uri: 'https://upload.cc/i1/2020/07/14/a9JWEy.png'},
-                                ]}
+                                data={f_list}
                                 renderItem={({item}) => 
                                 <>
                                 <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
@@ -168,6 +192,39 @@ export default class Setting extends React.Component{
             
             {/* </ScrollView> */}
             </SafeAreaView>
+
+
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={this.state.modalVisible}
+                /** onRequestClose is for android or Apple TV which has physical button */
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                }}
+                >
+                <View style={styles.matchParent}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>Friend's ID:</Text>
+                        
+                        <TextInput
+                            style={{ width:100, marginBottom:10, height: 40, borderColor: 'gray', borderWidth: 1, color: 'black' }}
+                            onChangeText={friendsID => this.setState({friendsID})}
+                            // value={value}
+                        />
+
+                        <TouchableHighlight
+                            style={{ backgroundColor: "#cbd5f0", width:50 }}
+                            onPress={() => {
+                            this.friendModalVisible(!this.state.modalVisible);
+                            }}
+                        >
+                            <Text style={styles.textStyle}>OK</Text>
+                        </TouchableHighlight>
+                    </View>
+                </View>
+            </Modal>
             </>
         );
     }
@@ -230,5 +287,32 @@ const styles = StyleSheet.create({
     avatar: {
         width: 50,
         height: 50,
+    },
+
+    matchParent: {
+        flex: 1,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    },
+    textStyle: {
+        fontSize: 15,
+        alignSelf: 'center'
     }
 })

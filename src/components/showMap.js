@@ -167,19 +167,22 @@ class ShowMap extends React.Component {
 
     onUserLocationUpdate(location) {
         // console.log('userlocationupdate', location)
-        this.setState({
-            l: {
-                Ttimestamp: location.timestamp,
-                Tlatitude: location.coords.latitude,
-                Tlongitude: location.coords.longitude,
-                Taltitude: location.coords.altitude,
-                Theading: location.coords.heading,
-                Taccuracy: location.coords.accuracy,
-                Tspeed: location.coords.speed,
-            }
-          
-        });
-        // console.log('userlocationupdate: ', this.state.l)
+        if (location) {
+            this.setState({
+                l: {
+                    Ttimestamp: location.timestamp,
+                    Tlatitude: location.coords.latitude,
+                    Tlongitude: location.coords.longitude,
+                    Taltitude: location.coords.altitude,
+                    Theading: location.coords.heading,
+                    Taccuracy: location.coords.accuracy,
+                    Tspeed: location.coords.speed,
+                }
+              
+            });
+            // console.log('userlocationupdate: ', this.state.l)
+        }
+        
       }
 
     setModalVisible = (visible) => {
@@ -421,7 +424,7 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 15,
         textAlign: "center"
-      }
+    }
       
 })
 
