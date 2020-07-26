@@ -34,7 +34,7 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 const behaviors_URIs = {
   bar: "https://upload.cc/i1/2020/07/02/Ep0aGH.png",
   book_store: "https://upload.cc/i1/2020/07/23/NcJbQO.png",
-  boxing: "https://upload.cc/i1/2020/07/23/S4dfaW.png",
+  boxing: "https://upload.cc/i1/2020/07/23/S4dfaW.png", 
   cafe:  "https://upload.cc/i1/2020/06/19/LbO8ft.png",
   casino: "https://upload.cc/i1/2020/07/03/mnJH1p.png",
   dance: "https://upload.cc/i1/2020/07/23/G2BcXz.png",
@@ -88,47 +88,56 @@ export default class Fetching extends Component {
     })
   }
   
-  sensorCall() {
-    console.log('sensorCall..')
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
-    Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
+  sensorCall(bool) {
+    var subscription = []
+    if (bool) {
+      console.log('sensorCall..')
+      Sensors.setUpdateIntervalForType(Sensors.SensorTypes.accelerometer, 1000);
+      Sensors.setUpdateIntervalForType(Sensors.SensorTypes.gyroscope, 1000);
+      Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
+      Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 
-    Sensors.accelerometer.subscribe(({ x, y, z }) => {
-      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-      this.setState({
-          acc: {
-            x, y, z, timestamp
-          }
-      })
-      // console.log(this.state.acc.x, this.state.acc.y)
-    })
-    Sensors.gyroscope.subscribe(({ x, y, z }) => {
-      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-      this.setState({
-          gyro: {
-            x, y, z, timestamp
-          }
-      })
-      // console.log(this.state.gyro.x, this.state.gyro.y)
-    })
-    Sensors.magnetometer.subscribe(({ x, y, z }) => {
-      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-      this.setState({
-          mag: {
-            x, y, z, timestamp
-          }
-      })
-    })
-    Sensors.barometer.subscribe(({ pressure }) => {
-      timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
-      this.setState({
-          baro: {
-            pressure, timestamp
-          },
-      })
-    })
+      subscription = [
+        Sensors.accelerometer.subscribe(({ x, y, z }) => {
+          timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+          this.setState({
+              acc: {
+                x, y, z, timestamp
+              }
+          })
+          // console.log(this.state.acc.x, this.state.acc.y)
+        }),
+        Sensors.gyroscope.subscribe(({ x, y, z }) => {
+          timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+          this.setState({
+              gyro: {
+                x, y, z, timestamp
+              }
+          })
+          // console.log(this.state.gyro.x, this.state.gyro.y)
+        }),
+        Sensors.magnetometer.subscribe(({ x, y, z }) => {
+          timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+          this.setState({
+              mag: {
+                x, y, z, timestamp
+              }
+          })
+        }),
+        Sensors.barometer.subscribe(({ pressure }) => {
+          timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
+          this.setState({
+              baro: {
+                pressure, timestamp
+              },
+          })
+        })
+      ]
+    }
+    else {
+      subscription.unsubscribe()
+    }
+    
   }
 
 
@@ -136,17 +145,17 @@ export default class Fetching extends Component {
   componentDidMount() {
     console.log('DidMount..')
     /* Activate sensors fetching */
-    this.sensorCall()
+    this.sensorCall(true)
 
     /* Get candidate locations */
-    this.readLocations()
-    // this.fetchNearestPlacesFromGoogle()
+    // this.readLocations()
+    this.fetchNearestPlacesFromGoogle()
 
     this.readCorrection()
 
     this._intervals = [  
       setInterval( () => this.updateGeolocation(), 1000),
-      // setInterval( () => this.fetchNearestPlacesFromGoogle(), 3000),
+      setInterval( () => this.fetchNearestPlacesFromGoogle(), 3000),
       setInterval( () => this.AnalyzeBehavior(), 1000),
       setInterval( () => this.DetermineBehavior(), 3000),
     ]
@@ -217,7 +226,7 @@ export default class Fetching extends Component {
 
   fetchNearestPlacesFromGoogle = () => {
 
-    // console.log("Fetch Nearest Places...")
+    console.log("Fetch Nearest Places...")
     if (this.state.position) {
       const latitude = this.state.position.coords.latitude; // you can update it with user's latitude & Longitude
       const longitude = this.state.position.coords.longitude;
@@ -250,7 +259,7 @@ export default class Fetching extends Component {
             
           }
           this.setState({candidateLocations: places})
-          console.log('placesQQQ', places)
+          // console.log('placesQQQ', places)
           // this.setState({ })
           // Do your work here with places Array
       
@@ -445,7 +454,7 @@ export default class Fetching extends Component {
         var shop_name, shop_types = ''
 
         /** Default: Candidate Location[0] */
-        console.log(this.state.candidateLocations)
+        console.log('you',this.state.candidateLocations)
         cand = this.state.candidateLocations
         if (cand) {
           // console.log('state.candidate', this.state.candidateLocations)
