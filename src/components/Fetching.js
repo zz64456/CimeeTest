@@ -4,6 +4,8 @@ import moment from 'moment'
 import Geocoder from 'react-native-geocoding';
 import sensors, * as Sensors from "react-native-sensors";
 import * as geolib from 'geolib';
+import {StyleSheet, Modal, View, Text, TextInput, TouchableHighlight, Image} from 'react-native'
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
@@ -33,6 +35,7 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 
 const behaviors_URIs = {
   bar: "https://upload.cc/i1/2020/07/02/Ep0aGH.png",
+  bike: "https://upload.cc/i1/2020/07/27/UIimrc.png",
   book_store: "https://upload.cc/i1/2020/07/23/NcJbQO.png",
   boxing: "https://upload.cc/i1/2020/07/23/S4dfaW.png", 
   cafe:  "https://upload.cc/i1/2020/06/19/LbO8ft.png",
@@ -40,8 +43,10 @@ const behaviors_URIs = {
   dance: "https://upload.cc/i1/2020/07/23/G2BcXz.png",
   default: "https://upload.cc/i1/2020/06/30/OU1LpQ.png",
   dentist: "https://upload.cc/i1/2020/07/23/M7AviL.png",
+  department_store: "https://upload.cc/i1/2020/07/23/GJ5osq.png",
   driving: "https://upload.cc/i1/2020/06/30/sxkmeb.png",
   donut: "https://upload.cc/i1/2020/07/02/eqyHTm.png",
+  food: "https://upload.cc/i1/2020/07/26/fEMtl0.png",
   game: "https://upload.cc/i1/2020/07/23/OD0e2R.png",
   guitar: "https://upload.cc/i1/2020/07/23/iIkEzH.png",
   hair_care: "https://upload.cc/i1/2020/07/23/gZt82o.png",
@@ -74,7 +79,8 @@ export default class Fetching extends Component {
     this.state = {
       // behavior: 'default',
       lastWriteTime: '0',
-      recordBool: false
+      recordBool: false,
+      modalVisible: false
     }
 
     this.AnalyzeBehavior=this.AnalyzeBehavior.bind(this);
@@ -155,7 +161,7 @@ export default class Fetching extends Component {
 
     this._intervals = [  
       setInterval( () => this.updateGeolocation(), 1000),
-      setInterval( () => this.fetchNearestPlacesFromGoogle(), 3000),
+      setInterval( () => this.fetchNearestPlacesFromGoogle(), 5000),
       setInterval( () => this.AnalyzeBehavior(), 1000),
       setInterval( () => this.DetermineBehavior(), 3000),
     ]
@@ -227,48 +233,56 @@ export default class Fetching extends Component {
   fetchNearestPlacesFromGoogle = () => {
 
     console.log("Fetch Nearest Places...")
-    if (this.state.position) {
-      const latitude = this.state.position.coords.latitude; // you can update it with user's latitude & Longitude
-      const longitude = this.state.position.coords.longitude;
+    // if (this.state.position) {
+    //   const latitude = this.state.position.coords.latitude; // you can update it with user's latitude & Longitude
+    //   const longitude = this.state.position.coords.longitude;
 
-      const url =   'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA&location='+latitude+','+longitude+'&radius=20'
+    //   const url =   'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA&location='+latitude+','+longitude+'&radius=20'
 
-      fetch(url)
-        .then(res => {
-          return res.json()
-        })
-        .then(res => {
-          // console.log(res.results)
-          var places = [] // This Array WIll contain locations received from google
-          for(let googlePlace of res.results) {
-            var place = {}
-            var lat = googlePlace.geometry.location.lat;
-            var lng = googlePlace.geometry.location.lng;
-            var coordinate = {
-              latitude: lat,
-              longitude: lng,
-            }
+    //   fetch(url)
+    //     .then(res => {
+    //       return res.json()
+    //     })
+    //     .then(res => {
+    //       // console.log(res.results)
+    //       var places = [] // This Array WIll contain locations received from google
+    //       for(let googlePlace of res.results) {
+    //         var place = {}
+    //         var lat = googlePlace.geometry.location.lat;
+    //         var lng = googlePlace.geometry.location.lng;
+    //         var coordinate = {
+    //           latitude: lat,
+    //           longitude: lng,
+    //         }
 
-            place['types'] = googlePlace.types
-            place['location'] = coordinate
-            place['id'] = googlePlace.place_id
-            place['name'] = googlePlace.name
+    //         place['types'] = googlePlace.types
+    //         place['location'] = coordinate
+    //         place['id'] = googlePlace.place_id
+    //         place['name'] = googlePlace.name
 
-            places.push(place);
+    //         places.push(place);
 
             
-          }
-          this.setState({candidateLocations: places})
-          // console.log('placesQQQ', places)
-          // this.setState({ })
-          // Do your work here with places Array
+    //       }
+    //       this.setState({candidateLocations: places})
+    //       // console.log('placesQQQ', places)
+    //       // this.setState({ })
+    //       // Do your work here with places Array
       
-        })
-      .catch(error => {
-        console.log('e...', error);
-      });
-    }
-    
+    //     })
+    //   .catch(error => {
+    //     console.log('e...', error);
+    //   });
+    // }
+    const sample = [ { types: [ 'colloquial_area', 'locality', 'political' ],
+    location: { latitude: 25.0329694, longitude: 121.5654177 },
+    id: 'ChIJmQrivHKsQjQR4MIK3c41aj8',
+    name: '台北' },
+  { types: [ 'colloquial_area', 'locality', 'political' ],
+    location: { latitude: 25.0622095, longitude: 121.4570447 },
+    id: 'ChIJowet3KQCaDQRN0rk-e5iXV4',
+    name: '新北' } ]
+    this.setState({candidateLocations: sample})
   }
  
   /* Get downloaded geolocation data for Sensory coffee shop */
@@ -276,11 +290,13 @@ export default class Fetching extends Component {
     console.log('readLocations..')
     var RNFS = require('react-native-fs');
 
-    let filePath = RNFS.DocumentDirectoryPath + '/coffeeExample2.json';
+    let filePath = RNFS.DocumentDirectoryPath + '/SM.js';
     if (RNFS.exists(filePath)) {
       RNFS.readFile(filePath, 'utf8')
           .then((result) => {
-              candidateLocations = JSON.parse(result.results)
+            console.log(result)
+              // candidateLocations = JSON.parse(result.results)
+              candidateLocations = result
               this.setState({candidateLocations})
               
           })
@@ -397,7 +413,7 @@ export default class Fetching extends Component {
         
         /** Compute the Distance  Unit:meter/10s */
         let LastInData = [], FirstInData = []
-        if ( DataIn30Secs[(DataIn30Secs.length)-1].position != 'undefined' ) {
+        if ( DataIn30Secs[(DataIn30Secs.length)-1].position ) {
           // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
           // console.log(DataIn30Secs[0].position.latitude)
           LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
@@ -429,14 +445,17 @@ export default class Fetching extends Component {
         /** The Velocity of the Object is similar to Walking, Running, or Driving */
         
         /** Default moving behavior is PHONE */
-        behavior = 'phone'
-        if (Math.abs(distance) > 8 && Math.abs(distance) <= 16) {
-          behavior = 'walking'
-        } else if (Math.abs(distance) > 16 && Math.abs(distance) <= 70) {
-          behavior = 'running'
-        } else if (Math.abs(distance) > 70) {
+        behavior = 'walking'
+        if (Math.abs(distance) > 25 && Math.abs(distance) <= 75) {
+          this.setModalVisible(true);
+        }
+        // else if (Math.abs(distance) > 16 && Math.abs(distance) <= 70) {
+        //   behavior = 'running'
+        // }
+        else if (Math.abs(distance) > 70) {
           behavior = 'driving'
-        } else {
+        }
+        else {
           console.log('User is not moving...')
         }
 
@@ -451,31 +470,47 @@ export default class Fetching extends Component {
         console.log('Not Moving...')
 
 
-        var shop_name, shop_types = ''
+        var shop_name, shop_types = []
 
         /** Default: Candidate Location[0] */
-        console.log('you',this.state.candidateLocations)
-        cand = this.state.candidateLocations
-        if (cand) {
-          // console.log('state.candidate', this.state.candidateLocations)
 
-          console.log('canAAA', cand[0].types)
-          i = 0
-          while((cand[i].types.includes("route") || cand[i].types.includes("locality")) && i+1<cand.length) {
-            console.log('includes route', cand[i])
-            i += 1
-          }
+        cand = this.state.candidateLocations
+        // console.log('yes', cand)
+        if (cand) {
           
-          console.log('final', cand[i])
-          shop_name = cand[i].name.toLowerCase()
-          shop_types = cand[i].types
-          console.log('Top 1: ', shop_name, shop_types)
+          // i = 0
+          // while((cand[i].types.includes("route") || cand[i].types.includes("locality")) && i+1<cand.length) {
+          //   console.log('includes route', cand[i])
+          //   i += 1
+          // }
+          console.log('kuku', cand)
+          // console.log('final', cand[i])
+          
+          shopping_related = 0
+          // console.log('Top 1: ', shop_name, shop_types)
+          
+          for(i=0; i<cand.length; i++) {
+            for(j=0; j<cand[i].types.length; j++) {
+              if(Object.keys(behaviors_URIs).includes(cand[i].types[j])) {
+                behavior = cand[i].types[j]
+                shop_name = cand[i].name.toLowerCase()
+                // shop_types = cand[i].types
+                console.log('deter', shop_name)
+                
+              }
+            }
+          }
+          // console.log('after derer', cand[i])
+          // shop_name = cand[i].name.toLowerCase()
+          console.log('yoyo', shop_name, shop_types)
+          // shop_types = cand[i].types
+          
 
           /**
            * Priority: Food > Bar > Cafe
            * Restaurant || Food
            * */
-          if (shop_types.includes('restaurant')) {
+          if (behavior == 'restaurant') {
             
             if (shop_name.indexOf('sandwich')>0 || shop_name.indexOf('subway')>0) {
               console.log('indexof : ', shop_name.indexOf('sandwich'))
@@ -508,6 +543,7 @@ export default class Fetching extends Component {
 
   }
 
+
   DetermineBehavior() {
 
     /** Use the 10 Latest Behavior to Determine Final Behavior */
@@ -531,8 +567,10 @@ export default class Fetching extends Component {
       ['dance', 0],
       ['default', 0],
       ['dentist', 0],
+      ['department_store', 0],
       ['driving', 0],
       ['donut', 0],
+      ['food', 0],
       ['game', 0],
       ['guitar', 0],
       ['hair_care', 0],
@@ -672,6 +710,10 @@ export default class Fetching extends Component {
     })
   }
 
+  setModalVisible = (visible) => {
+    this.setState({ modalVisible: visible })
+}
+
   render() { 
     // console.log('render..')
     var record = 'OFF'
@@ -689,8 +731,106 @@ export default class Fetching extends Component {
         </TouchableOpacity>
 
       </View> */}
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={this.state.modalVisible}
+        /** onRequestClose is for android or Apple TV which has physical button */
+        onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+        }}
+        >
+        <View style={styles.matchParent}>
+            <View style={styles.modalView}>
+                <Text style={styles.modalText}>YOU ARE DOING:</Text>
+
+                <TouchableOpacity
+                  onPress = { () =>  this.setModalVisible(!this.state.modalVisible) }
+                >
+                  <Text>Cycling</Text>
+                  <Image
+                    style={styles.tinyBehavior}
+                    source={{
+                      uri: 'https://upload.cc/i1/2020/07/27/UIimrc.png',
+                    }}
+                  />
+                </TouchableOpacity>
+
+                <TouchableOpacity>
+                  <Text>Running</Text>
+                  <Image
+                    style={styles.tinyBehavior}
+                    source={{
+                      uri: 'https://upload.cc/i1/2020/07/02/FtYQX7.png',
+                    }}
+                  />
+                </TouchableOpacity>
+                
+                
+                {/* <TextInput
+                    style={{ width:100, marginBottom:10, height: 40, borderColor: 'gray', borderWidth: 1, color: 'black' }}
+                    onChangeText={correctedBehavior => this.setState({correctedBehavior})}
+                    // value={value}
+                /> */}
+
+                {/* <TouchableHighlight
+                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                    onPress={() => {
+                    this.setModalVisible(!this.state.modalVisible);
+                    }}
+                >
+                    <Text style={styles.textStyle}>OK</Text>
+                </TouchableHighlight> */}
+            </View>
+        </View>
+      </Modal>
       </>
     )
   }
 
 }
+
+
+const styles = StyleSheet.create({
+  matchParent: {
+      flex: 1,
+  },
+  
+  modalView: {
+      margin: 20,
+      backgroundColor: "pink",
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5
+  },
+  openButton: {
+      backgroundColor: "#F194FF",
+      borderRadius: 5,
+      padding: 10,
+      elevation: 2
+  },
+  textStyle: {
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center"
+  },
+  modalText: {
+      marginBottom: 15,
+      textAlign: "center",
+      fontSize: 15
+  },
+  tinyBehavior: {
+    width: 100,
+    height: 100,
+  },
+    
+})

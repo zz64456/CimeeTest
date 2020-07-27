@@ -14,6 +14,8 @@ const Login = ( {navigation} ) => {
             onPressLogin={() => {
                 navigation.navigate('Map')
             }}
+            loginButtonBackgroundColor ='#b57272'
+            spinnerColor='red'
         />
     );
 }
