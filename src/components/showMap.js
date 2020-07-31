@@ -102,18 +102,18 @@ const layerStyles = {
 
 
 
-const behaviors_URIs = {
-    bar: "https://upload.cc/i1/2020/07/02/Ep0aGH.png",
-    bike: "https://upload.cc/i1/2020/07/27/UIimrc.png",
-    book_store: "https://upload.cc/i1/2020/07/23/NcJbQO.png",
-    boxing: "https://upload.cc/i1/2020/07/23/S4dfaW.png", 
-    cafe:  "https://upload.cc/i1/2020/06/19/LbO8ft.png",
-    casino: "https://upload.cc/i1/2020/07/03/mnJH1p.png",
-    dance: "https://upload.cc/i1/2020/07/23/G2BcXz.png",
-    default: "https://upload.cc/i1/2020/06/30/OU1LpQ.png",
-    dentist: "https://upload.cc/i1/2020/07/23/M7AviL.png",
-    department_store: "https://upload.cc/i1/2020/07/23/GJ5osq.png",
-    driving: "https://upload.cc/i1/2020/06/30/sxkmeb.png",
+var behaviors_URIs = {
+    bar: 'https://upload.cc/i1/2020/07/02/Ep0aGH.png',
+    bike: 'https://upload.cc/i1/2020/07/27/UIimrc.png',
+    book_store: 'https://upload.cc/i1/2020/07/23/NcJbQO.png',
+    boxing: 'https://upload.cc/i1/2020/07/23/S4dfaW.png', 
+    cafe:  'https://upload.cc/i1/2020/06/19/LbO8ft.png',
+    casino: 'https://upload.cc/i1/2020/07/03/mnJH1p.png',
+    dance: 'https://upload.cc/i1/2020/07/23/G2BcXz.png',
+    default: 'https://upload.cc/i1/2020/06/30/OU1LpQ.png',
+    dentist: 'https://upload.cc/i1/2020/07/23/M7AviL.png',
+    department_store: 'https://upload.cc/i1/2020/07/23/GJ5osq.png',
+    driving: 'https://upload.cc/i1/2020/06/30/sxkmeb.png',
     donut: "https://upload.cc/i1/2020/07/02/eqyHTm.png",
     food: "https://upload.cc/i1/2020/07/26/fEMtl0.png",
     game: "https://upload.cc/i1/2020/07/23/OD0e2R.png",
@@ -177,6 +177,12 @@ class ShowMap extends React.Component {
         this.onUserLocationUpdate = this.onUserLocationUpdate.bind(this);
 
         this.decideBehavior = this.decideBehavior.bind(this)
+    }
+
+    _header = function () {
+        return (
+          <Text style={{fontWeight: 'bold', fontSize: 20}}>Nearby</Text>
+        );
     }
 
     onUserLocationUpdate(location) {
@@ -305,6 +311,7 @@ class ShowMap extends React.Component {
 
     onUserMarkerPress() {
         // Alert.alert(JSON.stringify(this.state.data))
+        console.log('can_be', this.state.candidate_behaviors)
         this.setModalVisible(true);
         
     }
@@ -320,7 +327,51 @@ class ShowMap extends React.Component {
         /** Behavior keeps the same within the range of distance diff: 50m */
         location_when_user_changes_behavior[0] = this.state.data.position.latitude
         location_when_user_changes_behavior[1] = this.state.data.position.longitude
-      }
+    }
+
+    ChooseBehavior_View_Candi(item) {
+        return(
+            <>
+                <View style={{ justifyContent: 'space-around', backgroundColor: 'white' }}>
+                    
+                    <TouchableOpacity
+                        onPress = { () => this.ChooseBehavior({item}) }
+                    >
+                        {/* <Text>{item}</Text> */}
+                        <Image
+                            style={styles.tinyBehavior}
+                            source={{
+                            uri: behaviors_URIs[item],
+                            }}
+                        />
+                    </TouchableOpacity>
+                </View>
+            </>
+        )
+    }
+
+    ChooseBehavior_View_notCandi(item) {
+        // if(this.state.candidate_behaviors && !this.state.candidate_behaviors.includes(item)) {
+            return (
+                <>
+                <View style={{ justifyContent: 'space-around', backgroundColor: 'white' }}>
+                    
+                    <TouchableOpacity
+                        onPress = { () => this.ChooseBehavior({item}) }
+                    >
+                        {/* <Text>{item}</Text> */}
+                        <Image
+                            style={styles.tinyBehavior}
+                            source={{
+                            uri: behaviors_URIs[item],
+                            }}
+                        />
+                    </TouchableOpacity>
+                </View>
+                </>
+            )
+        // }
+    }
 
     render() {
         // console.log(`ShowMap render! ${this.state.behavior}`)
@@ -401,55 +452,26 @@ class ShowMap extends React.Component {
                         Alert.alert("Modal has been closed.");
                     }}
                 >
-                    {/* <View style={styles.matchParent}>
-                        <View style={styles.modalView}>
-                            <Text style={styles.modalText}>Your behavior:</Text>
-                            
-                            <TextInput
-                                style={{ width:100, marginBottom:10, height: 40, borderColor: 'gray', borderWidth: 1, color: 'black' }}
-                                onChangeText={correctedBehavior => this.setState({correctedBehavior})}
-                                // value={value}
-                            />
 
-                            <TouchableHighlight
-                                style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                                onPress={() => {
-                                this.setModalVisible(!this.state.modalVisible);
-                                }}
-                            >
-                                <Text style={styles.textStyle}>OK</Text>
-                            </TouchableHighlight>
-                        </View>
-                    </View> */}
                     <View style={styles.matchParent}>
                         <View style={styles.modalView}>
                             
+                            <FlatList
+                                style={{marginBottom: 5, height: 320}}
+                                ListHeaderComponent={this._header}//header头部组件
+                                data={this.state.candidate_behaviors}
+                                numColumns={3}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({item}) => this.ChooseBehavior_View_Candi(item)}
+                            />
 
                             <FlatList
-                                data={this.state.candidate_behaviors}
-                                renderItem={({item}) => 
-                                <>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-                                    {/* <View style={styles.friend}>
-                                        <Image 
-                                            style={styles.avatar}
-                                            source={{uri: item.uri}} />
-                                        <Text style={styles.friendsText}>{item.key}</Text>
-                                    </View> */}
-                                    <TouchableOpacity
-                                        onPress = { () => this.ChooseBehavior({item}) }
-                                    >
-                                        <Text>{item}</Text>
-                                        {/* <Image
-                                            style={styles.tinyBehavior}
-                                            source={{
-                                            uri: 'https://upload.cc/i1/2020/07/27/UIimrc.png',
-                                            }}
-                                        /> */}
-                                    </TouchableOpacity>
-                                </View>
-                                </>
-                                }
+                                style={{marginBottom: 10, height: 280}}
+                                ListHeaderComponent={()=>{return <Text style={{fontWeight: 'bold', fontSize: 20}}>Others</Text>}}
+                                data={Object.keys(behaviors_URIs)}
+                                numColumns={3}
+                                keyExtractor={(item, index) => index.toString()}
+                                renderItem={({item}) => this.ChooseBehavior_View_notCandi(item)}
                             />
 
 
@@ -484,6 +506,7 @@ const styles = StyleSheet.create({
         marginTop: 22
     },
     modalView: {
+        height: 610,
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,

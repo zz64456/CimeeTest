@@ -480,7 +480,15 @@ export default class Fetching extends Component {
           { types: [ 'supermarket' ],
             location: { latitude: 39.5296329, longitude: -119.8138027 },
             id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-            name: 'SafeWay' }
+            name: 'SafeWay' },
+          { types: [ 'shopping_mall' ],
+          location: { latitude: 39.5296529, longitude: -119.8137027 },
+          id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+          name: 'Legend Outlet' },
+          { types: [ 'dentist' ],
+          location: { latitude: 39.5296345, longitude: -119.8136027 },
+          id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+          name: 'Hugh Family Dentistry' }
         ]
 
         if (cand) {
