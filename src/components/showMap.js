@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import {Alert, View, TextInput, StyleSheet, Modal, TouchableHighlight, Text, Image} from 'react-native';
+import {Alert, FlatList, View, TextInput, StyleSheet, Modal, TouchableHighlight, Text, Image, TouchableOpacity} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import {onSortOptions} from '../utils';
@@ -215,10 +215,10 @@ class ShowMap extends React.Component {
         }
     }
 
-    decideBehavior(behavior, data, NoIconText) {
+    decideBehavior(behavior, data, NoIconText, candidate_behaviors) {
         this.setState({behavior})
-        // be = behavior
         this.setState({data})
+        this.setState({candidate_behaviors})
         console.log(`DecideBehavior in ShowMap: ${behavior}`)
         if (NoIconText) {
             this.setState({NoIconText})
@@ -290,11 +290,18 @@ class ShowMap extends React.Component {
         Alert.alert('Hello~')
     }
 
+    ChooseBehavior(option) {
+        this.setModalVisible(!this.state.modalVisible)
+        console.log('User chooses ', option)
+        this.setState({behavior: option.item})
+        // console.log('force', option.item)
+      }
+
     render() {
         // console.log(`ShowMap render! ${this.state.behavior}`)
         return (
             <>
-                <Fetching SendResultToShowmap={this.decideBehavior}/>
+                <Fetching SendResultToShowmap={this.decideBehavior} />
                 
                 <TabBarPage
                     {...this.props}
@@ -368,8 +375,8 @@ class ShowMap extends React.Component {
                     onRequestClose={() => {
                         Alert.alert("Modal has been closed.");
                     }}
-                    >
-                    <View style={styles.matchParent}>
+                >
+                    {/* <View style={styles.matchParent}>
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>Your behavior:</Text>
                             
@@ -387,6 +394,49 @@ class ShowMap extends React.Component {
                             >
                                 <Text style={styles.textStyle}>OK</Text>
                             </TouchableHighlight>
+                        </View>
+                    </View> */}
+                    <View style={styles.matchParent}>
+                        <View style={styles.modalView}>
+                            
+
+                            <FlatList
+                                data={this.state.candidate_behaviors}
+                                renderItem={({item}) => 
+                                <>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+                                    {/* <View style={styles.friend}>
+                                        <Image 
+                                            style={styles.avatar}
+                                            source={{uri: item.uri}} />
+                                        <Text style={styles.friendsText}>{item.key}</Text>
+                                    </View> */}
+                                    <TouchableOpacity
+                                        onPress = { () => this.ChooseBehavior({item}) }
+                                    >
+                                        <Text>{item}</Text>
+                                        {/* <Image
+                                            style={styles.tinyBehavior}
+                                            source={{
+                                            uri: 'https://upload.cc/i1/2020/07/27/UIimrc.png',
+                                            }}
+                                        /> */}
+                                    </TouchableOpacity>
+                                </View>
+                                </>
+                                }
+                            />
+
+
+                            <TouchableHighlight
+                                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                                    onPress={() => {
+                                    this.setModalVisible(!this.state.modalVisible);
+                                    }}
+                                >
+                                    <Text style={styles.textStyle}>OK</Text>
+                            </TouchableHighlight>
+
                         </View>
                     </View>
                 </Modal>
@@ -437,7 +487,11 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 15,
         textAlign: "center"
-    }
+    },
+    tinyBehavior: {
+        width: 100,
+        height: 100,
+    },
       
 })
 

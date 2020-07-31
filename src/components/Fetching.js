@@ -22,7 +22,7 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 //         console.log(data, details);
 //       }}
 //       query={{
-//         key: 'AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA',
+//         key: 'AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA', 
 //         language: 'en',
 //       }}
 //       currentLocation={true}
@@ -70,6 +70,7 @@ const DataIn30Secs = []
 var CorrArr = []
 var Last_Behavior = ''
 var NoIconText = ''
+var force = ''
 
 
 export default class Fetching extends Component {
@@ -274,15 +275,7 @@ export default class Fetching extends Component {
     //     console.log('e...', error);
     //   });
     // }
-    const sample = [ { types: [ 'colloquial_area', 'locality', 'political' ],
-    location: { latitude: 25.0329694, longitude: 121.5654177 },
-    id: 'ChIJmQrivHKsQjQR4MIK3c41aj8',
-    name: '台北' },
-  { types: [ 'colloquial_area', 'locality', 'political' ],
-    location: { latitude: 25.0622095, longitude: 121.4570447 },
-    id: 'ChIJowet3KQCaDQRN0rk-e5iXV4',
-    name: '新北' } ]
-    this.setState({candidateLocations: sample})
+
   }
  
   /* Get downloaded geolocation data for Sensory coffee shop */
@@ -408,12 +401,10 @@ export default class Fetching extends Component {
          * Need Velocity -> Need Geolocation
          * */ 
         console.log('Device is moving...')
-
-
         
         /** Compute the Distance  Unit:meter/10s */
         let LastInData = [], FirstInData = []
-        if ( DataIn30Secs[(DataIn30Secs.length)-1].position ) {
+        if ( DataIn30Secs.slice(-1) ) {
           // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
           // console.log(DataIn30Secs[0].position.latitude)
           LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
@@ -431,6 +422,8 @@ export default class Fetching extends Component {
           longitude: LastInData[1]},{
           latitude: FirstInData[0],
           longitude: FirstInData[1]})
+
+        distance = 50
         
         console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
         console.log('Distance is : ' + distance)
@@ -440,14 +433,17 @@ export default class Fetching extends Component {
           LastInData: LastInData,
           FirstInData: FirstInData
         })
-          
+        
+
+        
 
         /** The Velocity of the Object is similar to Walking, Running, or Driving */
         
         /** Default moving behavior is PHONE */
         behavior = 'walking'
         if (Math.abs(distance) > 25 && Math.abs(distance) <= 75) {
-          this.setModalVisible(true);
+          // this.setModalVisible(true);
+          behavior = 'running'
         }
         // else if (Math.abs(distance) > 16 && Math.abs(distance) <= 70) {
         //   behavior = 'running'
@@ -470,66 +466,75 @@ export default class Fetching extends Component {
         console.log('Not Moving...')
 
 
-        var shop_name, shop_types = []
+        var First_shop_name = '', First_shop_types = [], candidate_behaviors = []
 
         /** Default: Candidate Location[0] */
 
-        cand = this.state.candidateLocations
-        // console.log('yes', cand)
+        // cand = this.state.candidateLocations
+
+        cand = [
+          { types: [ 'food', 'restaurant', 'cafe' ],
+            location: { latitude: 39.5032737, longitude: -119.8053357 },
+            id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
+            name: "Archie's sandwich" },
+          { types: [ 'supermarket' ],
+            location: { latitude: 39.5296329, longitude: -119.8138027 },
+            id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+            name: 'SafeWay' }
+        ]
+
         if (cand) {
-          
-          // i = 0
-          // while((cand[i].types.includes("route") || cand[i].types.includes("locality")) && i+1<cand.length) {
-          //   console.log('includes route', cand[i])
-          //   i += 1
-          // }
+ 
           console.log('kuku', cand)
-          // console.log('final', cand[i])
           
           shopping_related = 0
-          // console.log('Top 1: ', shop_name, shop_types)
-          
+
+          /** Put every recognized behavior into array */
           for(i=0; i<cand.length; i++) {
             for(j=0; j<cand[i].types.length; j++) {
               if(Object.keys(behaviors_URIs).includes(cand[i].types[j])) {
-                behavior = cand[i].types[j]
-                shop_name = cand[i].name.toLowerCase()
-                // shop_types = cand[i].types
-                console.log('deter', shop_name)
-                
+                candidate_behavior = cand[i].types[j]
+                First_shop_name = cand[i].name.toLowerCase()
+                First_shop_types = cand[i].types
+                // j = cand[i].types.length - 1
+                // i = cand.length - 1
+                candidate_behaviors.push(candidate_behavior)
               }
             }
           }
-          // console.log('after derer', cand[i])
-          // shop_name = cand[i].name.toLowerCase()
-          console.log('yoyo', shop_name, shop_types)
-          // shop_types = cand[i].types
+
+          this.setState({candidate_behaviors})
+
+          /** Use first type of first shop */
+          behavior = candidate_behaviors[0]
+
+          console.log('First', behavior)
           
 
           /**
            * Priority: Food > Bar > Cafe
            * Restaurant || Food
            * */
-          if (behavior == 'restaurant') {
+          if (behavior == 'restaurant' || behavior == 'food') {
             
-            if (shop_name.indexOf('sandwich')>0 || shop_name.indexOf('subway')>0) {
-              console.log('indexof : ', shop_name.indexOf('sandwich'))
+            if (First_shop_name.indexOf('sandwich')>0 || First_shop_name.indexOf('subway')>0) {
+              console.log('indexof : ', First_shop_name.indexOf('sandwich'))
               behavior = 'sandwich'
             }
-            if (shop_name.indexOf('pizza')>0) {
+            if (First_shop_name.indexOf('pizza')>0) {
               behavior = 'pizza'
             }
-            if (shop_name.indexOf('hamburger')>0 || shop_name.indexOf('burger')>0 ||
-              shop_name.indexOf('mcdonald')>0 || shop_name.indexOf('shake shack')>0) {
+            if (First_shop_name.indexOf('hamburger')>0 || First_shop_name.indexOf('burger')>0 ||
+            First_shop_name.indexOf('mcdonald')>0 || First_shop_name.indexOf('shake shack')>0) {
               behavior = 'hamburger'
             }
           }
-          else if (shop_types.includes('bar')) {
-            behavior = 'bar'
-          }
-          else if (shop_types.includes('cafe')){
-            behavior = 'cafe'
-          }
+          // else if (First_shop_types.includes('bar')) {
+          //   behavior = 'bar'
+          // }
+          // else if (First_shop_types.includes('cafe')){
+          //   behavior = 'cafe'
+          // }
         }        
       }
       /** Not Moving ENDS */
@@ -560,6 +565,7 @@ export default class Fetching extends Component {
 
     const behaviors_count = [
       ['bar', 0],
+      ['bike', 0],
       ['book_store', 0],
       ['boxing', 0],
       ['cafe', 0],
@@ -620,10 +626,12 @@ export default class Fetching extends Component {
     // console.log(`In Analyze, state.behavior: ${this.state.behavior}`)
 
     
+
+    
     
     /** Determine Final Behavior in Fetching.js, and send it back to ShowMap.js */
     console.log(`DecideBehavior in Fetching: ${behavior} & NoIconText: ${NoIconText}`)
-    this.props.SendResultToShowmap(behavior, this.state.data, NoIconText)
+    this.props.SendResultToShowmap(behavior, this.state.data, NoIconText, this.state.candidate_behaviors)
   }
   
 
@@ -659,6 +667,13 @@ export default class Fetching extends Component {
       data.position = this.state.position.coords
       console.log(`In beforeDetermine, current behavior: ${currentbehavior}`)
       data.behavior = currentbehavior
+
+      /** When Users Actively Change/Choose Behavior */
+      // console.log('bef_force', force)
+      if(force == 'bike' || force == 'running') {
+        data.behavior  = force
+      }
+
       this.setState({data})
 
       /** Log */
@@ -712,7 +727,20 @@ export default class Fetching extends Component {
 
   setModalVisible = (visible) => {
     this.setState({ modalVisible: visible })
-}
+  }
+
+  // ChooseBehavior(option) {
+  //   this.setModalVisible(!this.state.modalVisible)
+  //   console.log('User chooses ', option)
+  //   if( option == 'bike') {
+  //     force = 'bike'
+  //   }
+  //   if( option == 'running') {
+  //     force = 'running'
+  //   }
+    
+  // }
+  
 
   render() { 
     // console.log('render..')
@@ -732,11 +760,11 @@ export default class Fetching extends Component {
 
       </View> */}
 
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={this.state.modalVisible}
-        /** onRequestClose is for android or Apple TV which has physical button */
+        //onRequestClose is for android or Apple TV which has physical button
         onRequestClose={() => {
             Alert.alert("Modal has been closed.");
         }}
@@ -746,7 +774,7 @@ export default class Fetching extends Component {
                 <Text style={styles.modalText}>YOU ARE DOING:</Text>
 
                 <TouchableOpacity
-                  onPress = { () =>  this.setModalVisible(!this.state.modalVisible) }
+                  onPress = { () => this.ChooseBehavior('bike') }
                 >
                   <Text>Cycling</Text>
                   <Image
@@ -757,7 +785,9 @@ export default class Fetching extends Component {
                   />
                 </TouchableOpacity>
 
-                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress = { () => this.ChooseBehavior('running') }
+                >
                   <Text>Running</Text>
                   <Image
                     style={styles.tinyBehavior}
@@ -766,25 +796,10 @@ export default class Fetching extends Component {
                     }}
                   />
                 </TouchableOpacity>
-                
-                
-                {/* <TextInput
-                    style={{ width:100, marginBottom:10, height: 40, borderColor: 'gray', borderWidth: 1, color: 'black' }}
-                    onChangeText={correctedBehavior => this.setState({correctedBehavior})}
-                    // value={value}
-                /> */}
-
-                {/* <TouchableHighlight
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                    onPress={() => {
-                    this.setModalVisible(!this.state.modalVisible);
-                    }}
-                >
-                    <Text style={styles.textStyle}>OK</Text>
-                </TouchableHighlight> */}
+              
             </View>
         </View>
-      </Modal>
+      </Modal> */}
       </>
     )
   }

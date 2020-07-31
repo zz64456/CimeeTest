@@ -16,6 +16,7 @@ const Login = ( {navigation} ) => {
             }}
             loginButtonBackgroundColor ='#b57272'
             spinnerColor='red'
+            disableSettings='true'
         />
     );
 }
