@@ -142,7 +142,7 @@ export default class Setting extends React.Component{
                     </View>
                     <View style={styles.friendblock}>
                         {/* <View style={styles.friendlist}> */}
-                            <View style={{ margin: 10, alignItems:'flex-end'}}>
+                            <View style={{ margin: 5, alignItems:'flex-end'}}>
                                 <Icon 
                                     style={{ marginRight: 10}}
                                     size={30}
@@ -255,7 +255,8 @@ const styles = StyleSheet.create({
     optionblock: {
         // flex: 1,
         // backgroundColor: 'lightgreen',
-        margin: 20,
+        marginTop: 20,
+        marginLeft: 20,
         height: 180,
     },
     // optionlist: {

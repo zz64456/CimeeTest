@@ -423,7 +423,7 @@ export default class Fetching extends Component {
           latitude: FirstInData[0],
           longitude: FirstInData[1]})
 
-        distance = 50
+        distance = 51
         
         console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
         console.log('Distance is : ' + distance)
@@ -441,14 +441,14 @@ export default class Fetching extends Component {
         
         /** Default moving behavior is PHONE */
         behavior = 'walking'
-        if (Math.abs(distance) > 25 && Math.abs(distance) <= 75) {
+        if (Math.abs(distance) > 25 && Math.abs(distance) <= 50) {
           // this.setModalVisible(true);
           behavior = 'running'
         }
-        // else if (Math.abs(distance) > 16 && Math.abs(distance) <= 70) {
-        //   behavior = 'running'
-        // }
-        else if (Math.abs(distance) > 70) {
+        else if (Math.abs(distance) > 50 && Math.abs(distance) <= 75) {
+          behavior = 'bike'
+        }
+        else if (Math.abs(distance) > 75) {
           behavior = 'driving'
         }
         else {
@@ -508,7 +508,7 @@ export default class Fetching extends Component {
           /** Use first type of first shop */
           behavior = candidate_behaviors[0]
 
-          console.log('First', behavior)
+          // console.log('First', behavior)
           
 
           /**

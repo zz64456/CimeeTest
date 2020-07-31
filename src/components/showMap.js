@@ -7,6 +7,7 @@ import {onSortOptions} from '../utils';
 import BaseExamplePropTypes from '../common/BaseExamplePropTypes';
 import TabBarPage from '../common/TabBarPage';
 import Fetching from './Fetching';
+import * as geolib from 'geolib';
 
 
 const friends = {
@@ -134,7 +135,7 @@ const behaviors_URIs = {
     
   }
 
-// var be = ''
+var location_when_user_changes_behavior = []
 
 class ShowMap extends React.Component {
 
@@ -216,8 +217,30 @@ class ShowMap extends React.Component {
     }
 
     decideBehavior(behavior, data, NoIconText, candidate_behaviors) {
-        this.setState({behavior})
+        /** If user has changed behavior before,
+         *  behavior won't be updated within radius of 40m
+         */
+        if(location_when_user_changes_behavior[0]) {
+            
+            let distance = geolib.getPreciseDistance({
+                latitude: location_when_user_changes_behavior[0],
+                longitude: location_when_user_changes_behavior[1]},{
+                latitude: data.position.latitude,
+                longitude: data.position.longitude
+                // latitude: 39.499055,
+                // longitude: -119.808349
+            })
+            
+            if ( distance > 20 ) {
+                this.setState({behavior})
+            }
+        } else {
+            this.setState({behavior})
+        }
+        
+        
         this.setState({data})
+        // console.log('data', data)
         this.setState({candidate_behaviors})
         console.log(`DecideBehavior in ShowMap: ${behavior}`)
         if (NoIconText) {
@@ -294,7 +317,9 @@ class ShowMap extends React.Component {
         this.setModalVisible(!this.state.modalVisible)
         console.log('User chooses ', option)
         this.setState({behavior: option.item})
-        // console.log('force', option.item)
+        /** Behavior keeps the same within the range of distance diff: 50m */
+        location_when_user_changes_behavior[0] = this.state.data.position.latitude
+        location_when_user_changes_behavior[1] = this.state.data.position.longitude
       }
 
     render() {
