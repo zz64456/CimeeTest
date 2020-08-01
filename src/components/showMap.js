@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import {Alert, FlatList, View, TextInput, StyleSheet, Modal, TouchableHighlight, Text, Image, TouchableOpacity} from 'react-native';
+import {Alert, FlatList, View, TextInput, StyleSheet, Modal, KeyboardAvoidingView, TouchableHighlight, Text, Image, TouchableOpacity} from 'react-native';
 import MapboxGL from '@react-native-mapbox-gl/maps';
 
 import {onSortOptions} from '../utils';
@@ -268,11 +268,12 @@ class ShowMap extends React.Component {
     writeCorrectionFile(behavior) {
         var RNFS = require('react-native-fs');
         var path = RNFS.DocumentDirectoryPath + '/Correction.json';
-        let lng = this.state.data.position.longitude
+
         const correctedData = {
             SensorData: this.state.data,
             /** Here CANNOT Use state Because state is being updated  */
-            CorrectionBehavior: behavior
+            CorrectionBehavior: behavior,
+            Covered: false,
         }
         console.log('Start Writing Correction File...')
 
@@ -297,7 +298,11 @@ class ShowMap extends React.Component {
           .catch((err) => {
             console.log(err.message);
         })
-    
+        
+        /** Read updated Correction file */
+        return (
+            <Fetching SendResultToShowmap={this.decideBehavior} />
+        )
     }
 
     componentWillUnmount() {
@@ -329,6 +334,26 @@ class ShowMap extends React.Component {
         location_when_user_changes_behavior[1] = this.state.data.position.longitude
     }
 
+    /** Update Correction file When Users Change the Behavior */
+    updateCorrection() {
+
+        console.log('update_Correction', CorrArr)
+
+
+
+        if(!RNFS.exists(path)) {
+
+            /** Write the file */
+            RNFS.writeFile(path, JSON.stringify(correctedData, null, 2), 'utf8')
+            .then((success) => {
+                console.log('correctedData is created')
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        }
+    }
+
     ChooseBehavior_View_Candi(item) {
         return(
             <>
@@ -351,143 +376,148 @@ class ShowMap extends React.Component {
     }
 
     ChooseBehavior_View_notCandi(item) {
-        // if(this.state.candidate_behaviors && !this.state.candidate_behaviors.includes(item)) {
-            return (
-                <>
-                <View style={{ justifyContent: 'space-around', backgroundColor: 'white' }}>
-                    
-                    <TouchableOpacity
-                        onPress = { () => this.ChooseBehavior({item}) }
-                    >
-                        {/* <Text>{item}</Text> */}
-                        <Image
-                            style={styles.tinyBehavior}
-                            source={{
-                            uri: behaviors_URIs[item],
-                            }}
-                        />
-                    </TouchableOpacity>
-                </View>
-                </>
-            )
-        // }
+        return (
+            <>
+            <View style={{ justifyContent: 'space-around', backgroundColor: 'white' }}>
+                
+                <TouchableOpacity
+                    onPress = { () => this.ChooseBehavior({item}) }
+                >
+                    {/* <Text>{item}</Text> */}
+                    <Image
+                        style={styles.tinyBehavior}
+                        source={{
+                        uri: behaviors_URIs[item],
+                        }}
+                    />
+                </TouchableOpacity>
+            </View>
+            </>
+        )
     }
 
     render() {
         // console.log(`ShowMap render! ${this.state.behavior}`)
         return (
-            <>
-                <Fetching SendResultToShowmap={this.decideBehavior} />
+        <>
+        <Fetching SendResultToShowmap={this.decideBehavior} />
+
+        <TabBarPage
+            {...this.props}
+            scrollable
+            options={this._mapOptions}
+            onOptionPress={this.onMapChange}>
+
+            
+            
+            <MapboxGL.MapView
+                styleURL={this.state.styleURL}
+                style={styles.matchParent}>
+                <MapboxGL.Camera followZoomLevel={9} followUserLocation />
+        
+
+                <MapboxGL.ShapeSource
+                    id='Selena'
+                    onPress={this.onPressMarker}
+                    shape={friends['Selena']}>
+                    <MapboxGL.SymbolLayer
+                        id='Selena'
+                        minZoomLevel={9}
+                        style={layerStyles['Selena']}
+                    />
+                </MapboxGL.ShapeSource>
+                <MapboxGL.ShapeSource
+                    id='Coco'
+                    onPress={this.onPressMarker}
+                    shape={friends.Coco}>
+                    <MapboxGL.SymbolLayer
+                        id='Coco'
+                        minZoomLevel={9}
+                        style={layerStyles['Coco']}
+                    />
+                </MapboxGL.ShapeSource>
+                <MapboxGL.ShapeSource
+                    id='Katie'
+                    onPress={this.onPressMarker}
+                    shape={friends['Katie']}>
+                    <MapboxGL.SymbolLayer
+                        id='Katie'
+                        minZoomLevel={9}
+                        style={layerStyles['Katie']}
+                    />
+                </MapboxGL.ShapeSource>
+                <MapboxGL.ShapeSource
+                    id='Tom'
+                    onPress={this.onPressMarker}
+                    shape={friends['Tom']}>
+                    <MapboxGL.SymbolLayer
+                        id='Tom'
+                        minZoomLevel={9}
+                        style={layerStyles['Tom']}
+                    />
+                </MapboxGL.ShapeSource>
                 
-                <TabBarPage
-                    {...this.props}
-                    scrollable
-                    options={this._mapOptions}
-                    onOptionPress={this.onMapChange}>
 
+                <MapboxGL.UserLocation
+                    onPress={this.onUserMarkerPress} 
+                    Behavior={this.state.behavior}
+                    NoIconText={this.state.NoIconText}
+                    onUpdate={this.onUserLocationUpdate} />
+            </MapboxGL.MapView>
+        </TabBarPage>
+
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            /** onRequestClose is for android or Apple TV which has physical button */
+            onRequestClose={() => {
+                Alert.alert("Modal has been closed.");
+            }}
+        >
+
+            <View style={styles.matchParent}>
+                {/* <View style={styles.modalView}> */}
+                <KeyboardAvoidingView style={styles.modalView} behavior="padding">
                     
-                    
-                    <MapboxGL.MapView
-                        styleURL={this.state.styleURL}
-                        style={styles.matchParent}>
-                        <MapboxGL.Camera followZoomLevel={9} followUserLocation />
-                
+                    <FlatList
+                        style={{marginBottom: 5, height: 320}}
+                        ListHeaderComponent={this._header}//header头部组件
+                        data={this.state.candidate_behaviors}
+                        numColumns={3}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({item}) => this.ChooseBehavior_View_Candi(item)}
+                    />
 
-                        <MapboxGL.ShapeSource
-                            id='Selena'
-                            onPress={this.onPressMarker}
-                            shape={friends['Selena']}>
-                            <MapboxGL.SymbolLayer
-                                id='Selena'
-                                minZoomLevel={9}
-                                style={layerStyles['Selena']}
-                            />
-                        </MapboxGL.ShapeSource>
-                        <MapboxGL.ShapeSource
-                            id='Coco'
-                            onPress={this.onPressMarker}
-                            shape={friends.Coco}>
-                            <MapboxGL.SymbolLayer
-                                id='Coco'
-                                minZoomLevel={9}
-                                style={layerStyles['Coco']}
-                            />
-                        </MapboxGL.ShapeSource>
-                        <MapboxGL.ShapeSource
-                            id='Katie'
-                            onPress={this.onPressMarker}
-                            shape={friends['Katie']}>
-                            <MapboxGL.SymbolLayer
-                                id='Katie'
-                                minZoomLevel={9}
-                                style={layerStyles['Katie']}
-                            />
-                        </MapboxGL.ShapeSource>
-                        <MapboxGL.ShapeSource
-                            id='Tom'
-                            onPress={this.onPressMarker}
-                            shape={friends['Tom']}>
-                            <MapboxGL.SymbolLayer
-                                id='Tom'
-                                minZoomLevel={9}
-                                style={layerStyles['Tom']}
-                            />
-                        </MapboxGL.ShapeSource>
-                        
+                    <FlatList
+                        style={{marginBottom: 10, height: 280}}
+                        ListHeaderComponent={()=>{return <Text style={{fontWeight: 'bold', fontSize: 20}}>Others</Text>}}
+                        data={Object.keys(behaviors_URIs)}
+                        numColumns={3}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={({item}) => this.ChooseBehavior_View_notCandi(item)}
+                    />
 
-                        <MapboxGL.UserLocation
-                            onPress={this.onUserMarkerPress} 
-                            Behavior={this.state.behavior}
-                            NoIconText={this.state.NoIconText}
-                            onUpdate={this.onUserLocationUpdate} />
-                    </MapboxGL.MapView>
-                </TabBarPage>
-
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={this.state.modalVisible}
-                    /** onRequestClose is for android or Apple TV which has physical button */
-                    onRequestClose={() => {
-                        Alert.alert("Modal has been closed.");
-                    }}
-                >
-
-                    <View style={styles.matchParent}>
-                        <View style={styles.modalView}>
-                            
-                            <FlatList
-                                style={{marginBottom: 5, height: 320}}
-                                ListHeaderComponent={this._header}//header头部组件
-                                data={this.state.candidate_behaviors}
-                                numColumns={3}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={({item}) => this.ChooseBehavior_View_Candi(item)}
-                            />
-
-                            <FlatList
-                                style={{marginBottom: 10, height: 280}}
-                                ListHeaderComponent={()=>{return <Text style={{fontWeight: 'bold', fontSize: 20}}>Others</Text>}}
-                                data={Object.keys(behaviors_URIs)}
-                                numColumns={3}
-                                keyExtractor={(item, index) => index.toString()}
-                                renderItem={({item}) => this.ChooseBehavior_View_notCandi(item)}
-                            />
+                    <TextInput
+                        style={{ width:100, marginBottom:10, height: 40, borderColor: 'gray', borderWidth: 1, color: 'black' }}
+                        onChangeText={correctedBehavior => this.setState({correctedBehavior})}
+                        // value={value}
+                    />
 
 
-                            <TouchableHighlight
-                                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                                    onPress={() => {
-                                    this.setModalVisible(!this.state.modalVisible);
-                                    }}
-                                >
-                                    <Text style={styles.textStyle}>OK</Text>
-                            </TouchableHighlight>
-
-                        </View>
-                    </View>
-                </Modal>
-            </>
+                    <TouchableHighlight
+                            style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                            onPress={() => {
+                            this.setModalVisible(!this.state.modalVisible);
+                            }}
+                        >
+                            <Text style={styles.textStyle}>OK</Text>
+                    </TouchableHighlight>
+                </KeyboardAvoidingView>
+                {/* </View> */}
+            </View>
+        </Modal>
+        </>
         );
     }
 }

@@ -75,8 +75,8 @@ var force = ''
 
 export default class Fetching extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       // behavior: 'default',
       lastWriteTime: '0',
@@ -344,43 +344,48 @@ export default class Fetching extends Component {
 
     let HasCorrection = false
     
-
+    /** Get user-chosen behavior in history data */
     if (CorrArr.length > 0 && this.state.position) {
       console.log('Check Correction data...')
       CorrArr.forEach(
         item => {
 
-          var distance = 100
+          console.log('corr_item', item)
 
-          if (item && DataIn30Secs.length > 0) {
-            distance = geolib.getPreciseDistance(
-              {
-                latitude: item.SensorData.position.latitude,
-                longitude: item.SensorData.position.longitude
-              },
-              {
-                latitude: DataIn30Secs[(DataIn30Secs.length)-1].position.latitude,
-                longitude: DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
-              }
-            )
-          }
-          
-          if (distance < 60) {
+          if(item.Covered == false) {
+
+            var distance = 100
+
+            if (item && DataIn30Secs.length > 0) {
+              distance = geolib.getPreciseDistance(
+                {
+                  latitude: item.SensorData.position.latitude,
+                  longitude: item.SensorData.position.longitude
+                },
+                {
+                  latitude: DataIn30Secs[(DataIn30Secs.length)-1].position.latitude,
+                  longitude: DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
+                }
+              )
+            }
             
-            console.log(item.CorrectionBehavior)
-            if (behaviors_URIs[item.CorrectionBehavior]) {
-              console.log('Icon found', item.CorrectionBehavior)
-              behavior = item.CorrectionBehavior;
-              NoIconText = ''
-            }
-            else {
-              NoIconText = item.CorrectionBehavior
+            if (distance < 60) {
+              
+              console.log(item.CorrectionBehavior)
+              if (behaviors_URIs[item.CorrectionBehavior]) {
+                console.log('Icon found', item.CorrectionBehavior)
+                behavior = item.CorrectionBehavior;
+                NoIconText = ''
+              }
+              else {
+                NoIconText = item.CorrectionBehavior
+                behavior = 'default'
+                console.log('No icon found', item.CorrectionBehavior)
+              }
 
-              console.log('No icon found', item.CorrectionBehavior)
+              /** Correction Data Match Current Location */
+              HasCorrection = true
             }
-
-            /** Correction Data Match Current Location */
-            HasCorrection = true
           }
         }
       )
@@ -737,77 +742,16 @@ export default class Fetching extends Component {
     this.setState({ modalVisible: visible })
   }
 
-  // ChooseBehavior(option) {
-  //   this.setModalVisible(!this.state.modalVisible)
-  //   console.log('User chooses ', option)
-  //   if( option == 'bike') {
-  //     force = 'bike'
-  //   }
-  //   if( option == 'running') {
-  //     force = 'running'
-  //   }
-    
-  // }
   
 
   render() { 
-    // console.log('render..')
     var record = 'OFF'
     if (this.state.recordBool) {
       record = 'On'
     }
     return (
       <>
-      {/* <View style={{flexDirection: 'row', marginBottom: 15, marginTop: 30,}}>
-        <TouchableOpacity style={{height: 30, marginRight: 15, backgroundColor: "#DDDDDD",}}
-          // style={styles.button}
-          onPress={ () => this.onChangerecordBool()}
-        >
-          <Text style={{fontSize: 20}}>Record {record}</Text>
-        </TouchableOpacity>
 
-      </View> */}
-
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={this.state.modalVisible}
-        //onRequestClose is for android or Apple TV which has physical button
-        onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-        }}
-        >
-        <View style={styles.matchParent}>
-            <View style={styles.modalView}>
-                <Text style={styles.modalText}>YOU ARE DOING:</Text>
-
-                <TouchableOpacity
-                  onPress = { () => this.ChooseBehavior('bike') }
-                >
-                  <Text>Cycling</Text>
-                  <Image
-                    style={styles.tinyBehavior}
-                    source={{
-                      uri: 'https://upload.cc/i1/2020/07/27/UIimrc.png',
-                    }}
-                  />
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress = { () => this.ChooseBehavior('running') }
-                >
-                  <Text>Running</Text>
-                  <Image
-                    style={styles.tinyBehavior}
-                    source={{
-                      uri: 'https://upload.cc/i1/2020/07/02/FtYQX7.png',
-                    }}
-                  />
-                </TouchableOpacity>
-              
-            </View>
-        </View>
-      </Modal> */}
       </>
     )
   }
