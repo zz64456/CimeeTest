@@ -369,18 +369,14 @@ export default class Fetching extends Component {
       /** Compute the Distance  Unit:meter/10s */
       let LastInData = [], FirstInData = []
       var distance = 0
-      console.log('1')
+
       if ( DataIn30Secs.length > 0 ) {
         // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
-        console.log(DataIn30Secs)
+        // console.log(DataIn30Secs)
         LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
         LastInData[1] = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
         FirstInData[0] = DataIn30Secs[0].position.latitude
         FirstInData[1] = DataIn30Secs[0].position.longitude
-      
-      console.log('2')
-
-      console.log(LastInData, FirstInData)
 
       
       distance = geolib.getPreciseDistance({
@@ -390,9 +386,10 @@ export default class Fetching extends Component {
         longitude: FirstInData[1]})
       }
 
-      console.log('3')
+      console.log('ddd', distance)
+
     
-      if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) || distance > 5 ) {
+      if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) || distance > 6 ) {
     
         /**
          * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
@@ -451,10 +448,10 @@ export default class Fetching extends Component {
         // cand = this.state.candidateLocations
 
         cand = [
-          { types: [ 'department_store' ],
+          { types: [ 'food' ],
             location: { latitude: 39.5032737, longitude: -119.8053357 },
             id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
-            name: "UNR" },
+            name: "Uji Pizza" },
           { types: [ 'food', 'restaurant', 'cafe' ],
             location: { latitude: 39.5032737, longitude: -119.8053357 },
             id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
@@ -484,7 +481,10 @@ export default class Fetching extends Component {
             for(j=0; j<cand[i].types.length; j++) {
               if(Object.keys(behaviors_URIs).includes(cand[i].types[j])) {
                 candidate_behavior = cand[i].types[j]
-                First_shop_name = cand[i].name.toLowerCase()
+                if(!First_shop_name) {
+                  First_shop_name = cand[i].name.toLowerCase()
+                }
+                
                 First_shop_types = cand[i].types
                 // j = cand[i].types.length - 1
                 // i = cand.length - 1
@@ -501,7 +501,7 @@ export default class Fetching extends Component {
           }
           
 
-          // console.log('First', behavior)
+          console.log('First', candidate_behaviors)
           
 
           /**
@@ -521,6 +521,15 @@ export default class Fetching extends Component {
             First_shop_name.indexOf('mcdonald')>0 || First_shop_name.indexOf('shake shack')>0) {
               behavior = 'hamburger'
             }
+            if (First_shop_name.indexOf('ramen')>0) {
+              behavior = 'ramen'
+            }
+            if (First_shop_name.indexOf('ice cream')>0) {
+              behavior = 'ice_cream'
+            }
+            if (First_shop_name.indexOf('taco')>0) {
+              behavior = 'taco'
+            }
           }
           // else if (First_shop_types.includes('bar')) {
           //   behavior = 'bar'
@@ -535,7 +544,7 @@ export default class Fetching extends Component {
     /** No Correction ENDS */
     /** Current behavior has been created */
 
-    console.log('****** New ****** ', behavior)
+    console.log('****** New ****** ', behavior, First_shop_name)
 
     this.beforeDetermine(behavior)
 
@@ -575,6 +584,7 @@ export default class Fetching extends Component {
       ['guitar', 0],
       ['hair_care', 0],
       ['hamburger', 0],
+      ['ice_cream', 0],
       ['library', 0],
       ['laundry', 0],
       ['movie', 0],
@@ -583,6 +593,7 @@ export default class Fetching extends Component {
       ['pizza', 0],
       ['phone', 0],
       ['primary_school', 0],
+      ['ramen', 0],
       ['running', 0],
       ['school', 0],
       ['shit', 0],
@@ -593,6 +604,7 @@ export default class Fetching extends Component {
       ['sandwich', 0],
       ['supermarket', 0],
       ['shopping_mall', 0],
+      ['taco', 0],
       ['walking', 0],
       ['wine', 0],
       ['working', 0],
