@@ -366,9 +366,33 @@ export default class Fetching extends Component {
     if (!HasCorrection && this.state.position) {
       console.log('No Correction Data works')
 
-      // console.log('Start Inferring...', moment().format('HH:mm:ss.SSSS'))
+      /** Compute the Distance  Unit:meter/10s */
+      let LastInData = [], FirstInData = []
+      var distance = 0
+      console.log('1')
+      if ( DataIn30Secs.length > 0 ) {
+        // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
+        console.log(DataIn30Secs)
+        LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
+        LastInData[1] = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
+        FirstInData[0] = DataIn30Secs[0].position.latitude
+        FirstInData[1] = DataIn30Secs[0].position.longitude
+      
+      console.log('2')
+
+      console.log(LastInData, FirstInData)
+
+      
+      distance = geolib.getPreciseDistance({
+        latitude: LastInData[0],
+        longitude: LastInData[1]},{
+        latitude: FirstInData[0],
+        longitude: FirstInData[1]})
+      }
+
+      console.log('3')
     
-      if ( Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) {
+      if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) || distance > 5 ) {
     
         /**
          * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
@@ -376,28 +400,8 @@ export default class Fetching extends Component {
          * */ 
         console.log('Device is moving...')
         
-        /** Compute the Distance  Unit:meter/10s */
-        let LastInData = [], FirstInData = []
-        if ( DataIn30Secs.length > 0 ) {
-          // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
-          console.log(DataIn30Secs)
-          LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
-          LastInData[1] = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
-          FirstInData[0] = DataIn30Secs[0].position.latitude
-          FirstInData[1] = DataIn30Secs[0].position.longitude
-        }
         
 
-        // console.log(LastInData)
-        // console.log(FirstInData)
-        
-        let distance = geolib.getPreciseDistance({
-          latitude: LastInData[0],
-          longitude: LastInData[1]},{
-          latitude: FirstInData[0],
-          longitude: FirstInData[1]})
-
-        // distance = 51
         
         console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
         console.log('Distance is : ' + distance)
