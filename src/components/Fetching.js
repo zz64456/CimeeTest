@@ -139,6 +139,7 @@ export default class Fetching extends Component {
   componentWillUnmount() {
     this.watchID != null && Geolocation.clearWatch(this.watchID);
     this._intervals.forEach(i => clearInterval(i))
+    // this.sensorCall(false)
   }
 
   /*
@@ -446,6 +447,10 @@ export default class Fetching extends Component {
         // cand = this.state.candidateLocations
 
         cand = [
+          { types: [ 'department_store' ],
+            location: { latitude: 39.5032737, longitude: -119.8053357 },
+            id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
+            name: "UNR" },
           { types: [ 'food', 'restaurant', 'cafe' ],
             location: { latitude: 39.5032737, longitude: -119.8053357 },
             id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
@@ -561,20 +566,31 @@ export default class Fetching extends Component {
       ['driving', 0],
       ['donut', 0],
       ['food', 0],
+      ['fishing', 0]
       ['game', 0],
       ['guitar', 0],
       ['hair_care', 0],
       ['hamburger', 0],
+      ['library', 0],
+      ['laundry', 0],
       ['movie', 0],
+      ['park', 0],
       ['piano', 0],
       ['pizza', 0],
       ['phone', 0],
+      ['primary_school', 0],
       ['running', 0],
+      ['school', 0],
+      ['shit', 0],
+      ['shitting', 0],
+      ['soccer', 0],
+      ['secondary_school', 0],
       ['sleeping', 0],
       ['sandwich', 0],
       ['supermarket', 0],
       ['shopping_mall', 0],
       ['walking', 0],
+      ['wine', 0],
       ['working', 0],
       ['workout', 0]
     ]

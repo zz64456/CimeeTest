@@ -377,7 +377,7 @@ class ShowMap extends React.Component {
             <MapboxGL.MapView
                 styleURL={this.state.styleURL}
                 style={styles.matchParent}>
-                <MapboxGL.Camera followZoomLevel={9} followUserLocation />
+                <MapboxGL.Camera followZoomLevel={15} followUserLocation />
         
 
                 <MapboxGL.ShapeSource
