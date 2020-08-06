@@ -6,6 +6,7 @@ import sensors, * as Sensors from "react-native-sensors";
 import * as geolib from 'geolib';
 import {StyleSheet, Modal, View, Text, TextInput, TouchableHighlight, Image} from 'react-native'
 import { TouchableOpacity } from "react-native-gesture-handler";
+import {behaviors_URIs} from '../bitmoji/bitmoji'
 
 
 Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
@@ -32,39 +33,6 @@ Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
 // };
 
 // export default GooglePlacesInput;
-
-const behaviors_URIs = {
-  bar: "https://upload.cc/i1/2020/07/02/Ep0aGH.png",
-  bike: "https://upload.cc/i1/2020/07/27/UIimrc.png",
-  book_store: "https://upload.cc/i1/2020/07/23/NcJbQO.png",
-  boxing: "https://upload.cc/i1/2020/07/23/S4dfaW.png", 
-  cafe:  "https://upload.cc/i1/2020/06/19/LbO8ft.png",
-  casino: "https://upload.cc/i1/2020/07/03/mnJH1p.png",
-  dance: "https://upload.cc/i1/2020/07/23/G2BcXz.png",
-  default: "https://upload.cc/i1/2020/06/30/OU1LpQ.png",
-  dentist: "https://upload.cc/i1/2020/07/23/M7AviL.png",
-  department_store: "https://upload.cc/i1/2020/07/23/GJ5osq.png",
-  driving: "https://upload.cc/i1/2020/06/30/sxkmeb.png",
-  donut: "https://upload.cc/i1/2020/07/02/eqyHTm.png",
-  food: "https://upload.cc/i1/2020/07/26/fEMtl0.png",
-  game: "https://upload.cc/i1/2020/07/23/OD0e2R.png",
-  guitar: "https://upload.cc/i1/2020/07/23/iIkEzH.png",
-  hair_care: "https://upload.cc/i1/2020/07/23/gZt82o.png",
-  hamburger: "https://upload.cc/i1/2020/06/30/b7SmGF.png",
-  movie: "https://upload.cc/i1/2020/07/02/OJ3FWu.png",
-  piano: "https://upload.cc/i1/2020/07/23/FKbsrH.png",
-  pizza: "https://upload.cc/i1/2020/07/02/U83Gth.png",
-  phone: "https://upload.cc/i1/2020/07/13/UChrb7.png",
-  running: "https://upload.cc/i1/2020/07/02/FtYQX7.png",
-  sleeping: "https://upload.cc/i1/2020/07/02/tMJBNb.png",
-  sandwich: "https://upload.cc/i1/2020/07/02/asWJzp.png",
-  supermarket: "https://upload.cc/i1/2020/07/23/tFdTLK.png",
-  shopping_mall: "https://upload.cc/i1/2020/07/23/GJ5osq.png",
-  walking: "https://upload.cc/i1/2020/07/02/TkveY1.png",
-  working: "https://upload.cc/i1/2020/07/02/oYQyCn.png",
-  workout: "https://upload.cc/i1/2020/06/17/iXUof9.png",
-  
-}
 
 const DataIn30Secs = []
 var CorrArr = []
@@ -409,9 +377,9 @@ export default class Fetching extends Component {
         
         /** Compute the Distance  Unit:meter/10s */
         let LastInData = [], FirstInData = []
-        if ( DataIn30Secs.slice(-1) ) {
+        if ( DataIn30Secs.length > 0 ) {
           // console.log(DataIn30Secs[(DataIn30Secs.length)-1].position.latitude)
-          // console.log(DataIn30Secs[0].position.latitude)
+          console.log(DataIn30Secs)
           LastInData[0] = DataIn30Secs[(DataIn30Secs.length)-1].position.latitude
           LastInData[1] = DataIn30Secs[(DataIn30Secs.length)-1].position.longitude
           FirstInData[0] = DataIn30Secs[0].position.latitude
@@ -428,7 +396,7 @@ export default class Fetching extends Component {
           latitude: FirstInData[0],
           longitude: FirstInData[1]})
 
-        distance = 51
+        // distance = 51
         
         console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
         console.log('Distance is : ' + distance)
@@ -519,7 +487,10 @@ export default class Fetching extends Component {
           this.setState({candidate_behaviors})
 
           /** Use first type of first shop */
-          behavior = candidate_behaviors[0]
+          if (candidate_behaviors.length > 0) {
+            behavior = candidate_behaviors[0]
+          }
+          
 
           // console.log('First', behavior)
           
