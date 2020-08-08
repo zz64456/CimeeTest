@@ -16,12 +16,9 @@ const friends = {
         features: [{
             geometry: {
                 type: "Point",
-                coordinates: [121.577434, 25.164285],
+                coordinates: [-119.816872, 39.522980],
         },
-        type: "Feature",
-        properties: {
-            label: 'free',
-        }
+        type: "Feature"
         }]
     },
     'Coco': {
@@ -29,12 +26,9 @@ const friends = {
         features: [{
             geometry: {
                 type: "Point",
-                coordinates: [121.567004, 25.037930],
+                coordinates: [-120.025525, 39.236034],
         },
-        type: "Feature",
-        properties: {
-            label: 'free',
-        }
+        type: "Feature"
         }]
     },
     'Katie': {
@@ -42,12 +36,9 @@ const friends = {
         features: [{
             geometry: {
                 type: "Point",
-                coordinates: [121.467231, 25.014033],
+                coordinates: [-119.752530, 39.466248],
         },
-        type: "Feature",
-        properties: {
-            label: 'free',
-        }
+        type: "Feature"
         }]
     },
     'Tom': {
@@ -55,12 +46,9 @@ const friends = {
         features: [{
             geometry: {
                 type: "Point",
-                coordinates: [121.499426, 25.004712],
+                coordinates: [-119.805455, 39.551477],
         },
-        type: "Feature",
-        properties: {
-            label: 'free',
-        }
+        type: "Feature"
         }]
     },
 };
@@ -68,23 +56,20 @@ const friends = {
 
 const layerStyles = {
     'Selena': {
-        iconImage: 'https://upload.cc/i1/2020/07/14/08qenf.png',
+        iconImage: 'https://upload.cc/i1/2020/07/14/aJGBTy.png',
         iconSize: 0.3,
-        // iconAllowOverlap: true,
         iconIgnorePlacement: true,
         symbolSpacing: 300
     },
     'Coco': {
-        iconImage: 'https://upload.cc/i1/2020/07/14/OoulZv.png',
+        iconImage: 'https://upload.cc/i1/2020/07/14/zJAvf7.png',
         iconSize: 0.3,
-        // iconAllowOverlap: true,
         iconIgnorePlacement: true,
         symbolSpacing: 300
     },
     'Katie': {
-        iconImage: 'https://upload.cc/i1/2020/07/14/BeTCAa.png',
+        iconImage: 'https://upload.cc/i1/2020/07/14/08qenf.png',
         iconSize: 0.3,
-        // iconAllowOverlap: true,
         iconIgnorePlacement: true,
         symbolSpacing: 100,
         iconAllowOverlap: true
@@ -92,7 +77,6 @@ const layerStyles = {
     'Tom': {
         iconImage: 'https://upload.cc/i1/2020/07/14/5CHtUu.png',
         iconSize: 0.3,
-        // iconAllowOverlap: true,
         iconIgnorePlacement: true,
         symbolSpacing: 100,
         iconAllowOverlap: true
@@ -377,7 +361,7 @@ class ShowMap extends React.Component {
             <MapboxGL.MapView
                 styleURL={this.state.styleURL}
                 style={styles.matchParent}>
-                <MapboxGL.Camera followZoomLevel={15} followUserLocation />
+                <MapboxGL.Camera followZoomLevel={15} followUserLocation={true} followUserMode='normal' />
         
 
                 <MapboxGL.ShapeSource

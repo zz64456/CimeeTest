@@ -400,7 +400,7 @@ export default class Fetching extends Component {
         
 
         
-        console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
+        // console.log(DataIn30Secs[0].acc.timestamp, DataIn30Secs[(DataIn30Secs.length)-1].acc.timestamp)
         console.log('Distance is : ' + distance)
 
         this.setState({
@@ -416,14 +416,14 @@ export default class Fetching extends Component {
         
         /** Default moving behavior is PHONE */
         behavior = 'walking'
-        if (Math.abs(distance) > 25 && Math.abs(distance) <= 50) {
+        if (Math.abs(distance) > 15 && Math.abs(distance) <= 30) {
           // this.setModalVisible(true);
           behavior = 'running'
         }
-        else if (Math.abs(distance) > 50 && Math.abs(distance) <= 75) {
+        else if (Math.abs(distance) > 30 && Math.abs(distance) <= 45) {
           behavior = 'bike'
         }
-        else if (Math.abs(distance) > 75) {
+        else if (Math.abs(distance) > 45) {
           behavior = 'driving'
         }
         else {
@@ -448,26 +448,26 @@ export default class Fetching extends Component {
         // cand = this.state.candidateLocations
 
         cand = [
-          { types: [ 'food' ],
+          // { types: [ 'movie' ],
+          //   location: { latitude: 39.5032737, longitude: -119.8053357 },
+          //   id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
+          //   name: "Ramen 4 Real" },
+          { types: [ 'food', 'restaurant', 'bar', 'cafe' ],
             location: { latitude: 39.5032737, longitude: -119.8053357 },
             id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
-            name: "Uji Pizza" },
-          { types: [ 'food', 'restaurant', 'cafe' ],
-            location: { latitude: 39.5032737, longitude: -119.8053357 },
-            id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
-            name: "Archie's sandwich" },
-          { types: [ 'supermarket' ],
-            location: { latitude: 39.5296329, longitude: -119.8138027 },
-            id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-            name: 'SafeWay' },
-          { types: [ 'shopping_mall' ],
-          location: { latitude: 39.5296529, longitude: -119.8137027 },
-          id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-          name: 'Legend Outlet' },
-          { types: [ 'dentist' ],
-          location: { latitude: 39.5296345, longitude: -119.8136027 },
-          id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-          name: 'Hugh Family Dentistry' }
+            name: "wild river grille" },
+          // { types: [ 'supermarket' ],
+          //   location: { latitude: 39.5296329, longitude: -119.8138027 },
+          //   id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+          //   name: 'SafeWay' },
+          // { types: [ 'shopping_mall' ],
+          // location: { latitude: 39.5296529, longitude: -119.8137027 },
+          // id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+          // name: 'Legend Outlet' },
+          // { types: [ 'dentist' ],
+          // location: { latitude: 39.5296345, longitude: -119.8136027 },
+          // id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+          // name: 'Hugh Family Dentistry' }
         ]
 
         if (cand) {
@@ -509,25 +509,26 @@ export default class Fetching extends Component {
            * Restaurant || Food
            * */
           if (behavior == 'restaurant' || behavior == 'food') {
-            
-            if (First_shop_name.indexOf('sandwich')>0 || First_shop_name.indexOf('subway')>0) {
+            console.log('innnn')
+            if (First_shop_name.indexOf('sandwich') > -1 || First_shop_name.indexOf('subway') > -1) {
               console.log('indexof : ', First_shop_name.indexOf('sandwich'))
               behavior = 'sandwich'
             }
-            if (First_shop_name.indexOf('pizza')>0) {
+            if (First_shop_name.indexOf('pizza') > -1) {
               behavior = 'pizza'
             }
-            if (First_shop_name.indexOf('hamburger')>0 || First_shop_name.indexOf('burger')>0 ||
-            First_shop_name.indexOf('mcdonald')>0 || First_shop_name.indexOf('shake shack')>0) {
+            if (First_shop_name.indexOf('hamburger') > -1 || First_shop_name.indexOf('burger') > -1 ||
+            First_shop_name.indexOf('mcdonald') > -1 || First_shop_name.indexOf('shake shack') > -1) {
               behavior = 'hamburger'
             }
-            if (First_shop_name.indexOf('ramen')>0) {
+            if (First_shop_name.indexOf('ramen') > -1) {
+              console.log('qwer')
               behavior = 'ramen'
             }
-            if (First_shop_name.indexOf('ice cream')>0) {
+            if (First_shop_name.indexOf('ice cream') > -1) {
               behavior = 'ice_cream'
             }
-            if (First_shop_name.indexOf('taco')>0) {
+            if (First_shop_name.indexOf('taco') > -1) {
               behavior = 'taco'
             }
           }
@@ -582,12 +583,13 @@ export default class Fetching extends Component {
       ['fishing', 0]
       ['game', 0],
       ['guitar', 0],
+      ['gym', 0],
       ['hair_care', 0],
       ['hamburger', 0],
       ['ice_cream', 0],
       ['library', 0],
       ['laundry', 0],
-      ['movie', 0],
+      ['movie_theater', 0],
       ['park', 0],
       ['piano', 0],
       ['pizza', 0],

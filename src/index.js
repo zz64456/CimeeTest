@@ -12,6 +12,8 @@ import SettingScreen from "./screens/SettingScreen";
 
 const Stack = createStackNavigator();
 
+console.disableYellowBox = true;
+
 export default class App extends Component {
 
   render() {
