@@ -392,7 +392,7 @@ export default class Fetching extends Component {
       console.log('ddd', distance)
 
     
-      if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) || distance > 10 ) {
+      if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) && distance > 10 ) {
     
         /**
          * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car

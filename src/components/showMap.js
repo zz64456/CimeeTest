@@ -361,7 +361,7 @@ class ShowMap extends React.Component {
             <MapboxGL.MapView
                 styleURL={this.state.styleURL}
                 style={styles.matchParent}>
-                <MapboxGL.Camera followZoomLevel={15} followUserLocation={true} followUserMode='normal' />
+                <MapboxGL.Camera zoomLevel={10} followZoomLevel={14} followUserLocation={true} followUserMode='normal' />
         
 
                 <MapboxGL.ShapeSource
@@ -370,7 +370,7 @@ class ShowMap extends React.Component {
                     shape={friends['Selena']}>
                     <MapboxGL.SymbolLayer
                         id='Selena'
-                        minZoomLevel={9}
+                        minZoomLevel={6}
                         style={layerStyles['Selena']}
                     />
                 </MapboxGL.ShapeSource>
@@ -380,7 +380,7 @@ class ShowMap extends React.Component {
                     shape={friends.Coco}>
                     <MapboxGL.SymbolLayer
                         id='Coco'
-                        minZoomLevel={9}
+                        minZoomLevel={6}
                         style={layerStyles['Coco']}
                     />
                 </MapboxGL.ShapeSource>
@@ -390,7 +390,7 @@ class ShowMap extends React.Component {
                     shape={friends['Katie']}>
                     <MapboxGL.SymbolLayer
                         id='Katie'
-                        minZoomLevel={9}
+                        minZoomLevel={6}
                         style={layerStyles['Katie']}
                     />
                 </MapboxGL.ShapeSource>
@@ -400,7 +400,7 @@ class ShowMap extends React.Component {
                     shape={friends['Tom']}>
                     <MapboxGL.SymbolLayer
                         id='Tom'
-                        minZoomLevel={9}
+                        minZoomLevel={6}
                         style={layerStyles['Tom']}
                     />
                 </MapboxGL.ShapeSource>
