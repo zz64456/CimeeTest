@@ -72,8 +72,8 @@ export default class Fetching extends Component {
       Sensors.setUpdateIntervalForType(Sensors.SensorTypes.magnetometer, 1000);
       Sensors.setUpdateIntervalForType(Sensors.SensorTypes.barometer, 1000);
 
-      subscription = [
-        Sensors.accelerometer.subscribe(({ x, y, z }) => {
+    subscription = [
+        acc_sub = Sensors.accelerometer.subscribe(({ x, y, z }) => {
           timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
           this.setState({
               acc: {
@@ -82,7 +82,7 @@ export default class Fetching extends Component {
           })
           // console.log(this.state.acc.x, this.state.acc.y)
         }),
-        Sensors.gyroscope.subscribe(({ x, y, z }) => {
+        gyro_sub = Sensors.gyroscope.subscribe(({ x, y, z }) => {
           timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
           this.setState({
               gyro: {
@@ -91,7 +91,7 @@ export default class Fetching extends Component {
           })
           // console.log(this.state.gyro.x, this.state.gyro.y)
         }),
-        Sensors.magnetometer.subscribe(({ x, y, z }) => {
+        mag_sub = Sensors.magnetometer.subscribe(({ x, y, z }) => {
           timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
           this.setState({
               mag: {
@@ -99,7 +99,7 @@ export default class Fetching extends Component {
               }
           })
         }),
-        Sensors.barometer.subscribe(({ pressure }) => {
+        baro_sub = Sensors.barometer.subscribe(({ pressure }) => {
           timestamp = moment().format('YYYY-MM-DD HH:mm:ss.SSSS')
           this.setState({
               baro: {
@@ -110,7 +110,10 @@ export default class Fetching extends Component {
       ]
     }
     else {
-      subscription.unsubscribe()
+      acc_sub.unsubscribe();
+      gyro_sub.unsubscribe();
+      mag_sub.unsubscribe();
+      baro_sub.unsubscribe();
     }
     
   }
@@ -139,7 +142,7 @@ export default class Fetching extends Component {
   componentWillUnmount() {
     this.watchID != null && Geolocation.clearWatch(this.watchID);
     this._intervals.forEach(i => clearInterval(i))
-    // this.sensorCall(false)
+    this.sensorCall(false)
   }
 
   /*
@@ -389,7 +392,7 @@ export default class Fetching extends Component {
       console.log('ddd', distance)
 
     
-      if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) || distance > 6 ) {
+      if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) || distance > 10 ) {
     
         /**
          * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
