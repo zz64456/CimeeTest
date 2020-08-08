@@ -18,7 +18,7 @@ class Page extends React.Component {
     return (
       <View style={sheet.matchParent}>
         <MapHeader
-          backgroundColor={colors.secondary.purpleLight}
+          backgroundColor={colors.secondary.brown}
           statusBarColor={colors.primary.pinkDark}
           statusBarTextTheme={'light-content'}
           label={this.props.label}

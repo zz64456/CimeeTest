@@ -39,6 +39,8 @@ const colors = {
       red: '#f74e4e',
       redLight: '#f6b7b7',
       redFaint: '#fbe5e5',
+
+      brown: '#d4bd7d',
   
       white: '#ffffff',
       black: '#000000',

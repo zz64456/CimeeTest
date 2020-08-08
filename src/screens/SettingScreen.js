@@ -6,19 +6,23 @@ import { CheckBox, Icon } from 'react-native-elements'
 
 const friends = ['Devin', 'Annie', 'Kabrie', 'Coco', 'Levi', 'Selena', 'Tom', 'Katie', 'Sandy', 'Dominic', 'Jackson', 'James', 'Julie']
 var f_list = [
-    {key: 'Devin', uri: 'https://upload.cc/i1/2020/07/05/3FBeTU.png'},
     {key: 'Annie', uri: 'https://upload.cc/i1/2020/07/14/5ntWw8.png'},
     {key: 'Coco', uri: 'https://upload.cc/i1/2020/07/14/3mVZHB.png'},
-    {key: 'Katie', uri: 'https://upload.cc/i1/2020/07/14/DhRvnM.png'},
-    {key: 'Tom', uri: 'https://upload.cc/i1/2020/07/14/TnZEcP.png'},
-    {key: 'Sandy', uri: 'https://upload.cc/i1/2020/07/05/xm7uve.png'},
+    {key: 'Devin', uri: 'https://upload.cc/i1/2020/07/05/3FBeTU.png'},
     {key: 'Dominic', uri: 'https://upload.cc/i1/2020/07/05/Nhnk4u.png'},
     {key: 'Jackson', uri: 'https://upload.cc/i1/2020/07/05/e4kV2Y.png'},
-    {key: 'Levi', uri: 'https://upload.cc/i1/2020/07/14/LnPhzw.png'},
     {key: 'James', uri: 'https://upload.cc/i1/2020/07/05/dlMxzG.png'},
-    // {key: 'Julie', uri: 'https://upload.cc/i1/2020/07/05/jfqGEk.png'},
-    {key: 'Selena', uri: 'https://upload.cc/i1/2020/07/14/21jhlB.png'},
     {key: 'Kabrie', uri: 'https://upload.cc/i1/2020/07/14/a9JWEy.png'},
+    {key: 'Katie', uri: 'https://upload.cc/i1/2020/07/14/DhRvnM.png'},
+    {key: 'Levi', uri: 'https://upload.cc/i1/2020/07/14/LnPhzw.png'},  
+    {key: 'Sandy', uri: 'https://upload.cc/i1/2020/07/05/xm7uve.png'},
+    {key: 'Selena', uri: 'https://upload.cc/i1/2020/07/14/21jhlB.png'},
+    {key: 'Tom', uri: 'https://upload.cc/i1/2020/07/14/TnZEcP.png'},
+]
+
+var f_waitinglist = [
+    {id:'magic', key:'Sandra', uri: 'https://upload.cc/i1/2020/07/05/jfqGEk.png'},
+    {id:'renobatman', key:'Alex', uri: 'https://upload.cc/i1/2020/08/09/VciMxb.png'}
 ]
 
 export default class Setting extends React.Component{
@@ -26,18 +30,34 @@ export default class Setting extends React.Component{
     constructor() {
         super()
         this.state = {
-            ShareBool : false,
+            ShareBool : true,
             LowBattery : false,
             Device : true,
             modalVisible: false,
+            Annie: true,
+            Coco: true,
+            Devin: true,
+            Dominic: true,
+            Jackson: true,
+            James: true,
+            Kabrie: true,
+            Katie: true,
+            Levi: true,
+            Sandy: true,
+            Selena: true,
+            Tom: true,
         }
     }
 
     AddFriend(id) {
         if(id) {
             console.log(`${id}, friend added.`)
-            friend = {key:'Sandra', uri: 'https://upload.cc/i1/2020/07/05/jfqGEk.png'}
-            f_list.push(friend)
+            let friend = f_waitinglist.find(e => e.id === id.toLowerCase());
+            console.log('qwer', id, friend)
+            // f_list.push(friend)
+            if(friend) {
+                f_list.splice(9, 0, friend)
+            }
         }
         
     }
@@ -45,12 +65,9 @@ export default class Setting extends React.Component{
     friendModalVisible = (visible) => {
         this.setState({ modalVisible: visible })
         this.AddFriend(this.state.friendsID)
-        // console.log(this.state.friendsID)
     }
 
     onAddFriend() {
-        // Alert.alert(JSON.stringify(this.state.data))
-        // Alert.alert('yo')
         this.friendModalVisible(true);
         
     }
