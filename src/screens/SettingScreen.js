@@ -250,7 +250,7 @@ export default class Setting extends React.Component{
 const styles = StyleSheet.create({
     whole: {
         flex: 1,
-        backgroundColor: '#E4F2F9',
+        backgroundColor: '#e6f5ff',
     },
     main: {
         flex: 1,
@@ -263,7 +263,7 @@ const styles = StyleSheet.create({
         height: 40,
         paddingTop: 10,
         flexDirection: 'row',
-        backgroundColor: '#D3F5F4',
+        backgroundColor: '#e6f5ff',
     },
     backText: {
         marginLeft: 10,

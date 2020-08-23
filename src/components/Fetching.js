@@ -9,7 +9,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {behaviors_URIs} from '../bitmoji/bitmoji'
 
 
-Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
+// Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
+Geocoder.init("AIzaSyAVhJOCkONDBi9zxwtVaiXAQajZu-B0GxU");
 
 /** real-world implementation */
 // import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -39,6 +40,7 @@ var CorrArr = []
 var Last_Behavior = ''
 var NoIconText = ''
 var force = ''
+var resting_sec = -1
 
 
 export default class Fetching extends Component {
@@ -130,6 +132,8 @@ export default class Fetching extends Component {
     this.fetchNearestPlacesFromGoogle()
 
     this.readCorrection()
+
+
 
     this._intervals = [  
       setInterval( () => this.updateGeolocation(), 1000),
@@ -314,6 +318,8 @@ export default class Fetching extends Component {
     /** Set Behavior as 'default' */
     let behavior = 'default'
 
+    
+
     let HasCorrection = false
     
     /** Get user-chosen behavior in history data */
@@ -365,6 +371,7 @@ export default class Fetching extends Component {
       
     }
 
+    
     /** No Correction Data Is Nearby Current Location */
     if (!HasCorrection && this.state.position) {
       console.log('No Correction Data works')
@@ -392,10 +399,11 @@ export default class Fetching extends Component {
       console.log('ddd', distance)
 
     
-      if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) && distance > 10 ) {
+      // if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) && distance > 10 ) {
+      if ( distance > 10 ) {
     
         /**
-         * It's probably moving -> Decide which way:  1.Walk  2.Bike  3.Car
+         * It's probably moving -> Decide which way:  1.Walk 2.Run 3.Cycling 3.Car
          * Need Velocity -> Need Geolocation
          * */ 
         console.log('Device is moving...')
@@ -451,26 +459,26 @@ export default class Fetching extends Component {
         // cand = this.state.candidateLocations
 
         cand = [
-          // { types: [ 'movie' ],
-          //   location: { latitude: 39.5032737, longitude: -119.8053357 },
-          //   id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
-          //   name: "Ramen 4 Real" },
+          { types: [ 'movie_theater' ],
+            location: { latitude: 39.5032737, longitude: -119.8053357 },
+            id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
+            name: "I movie" },
           { types: [ 'food', 'restaurant', 'bar', 'cafe' ],
             location: { latitude: 39.5032737, longitude: -119.8053357 },
             id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
             name: "wild river grille" },
-          // { types: [ 'supermarket' ],
-          //   location: { latitude: 39.5296329, longitude: -119.8138027 },
-          //   id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-          //   name: 'SafeWay' },
-          // { types: [ 'shopping_mall' ],
-          // location: { latitude: 39.5296529, longitude: -119.8137027 },
-          // id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-          // name: 'Legend Outlet' },
-          // { types: [ 'dentist' ],
-          // location: { latitude: 39.5296345, longitude: -119.8136027 },
-          // id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-          // name: 'Hugh Family Dentistry' }
+          { types: [ 'supermarket' ],
+            location: { latitude: 39.5296329, longitude: -119.8138027 },
+            id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+            name: 'SafeWay' },
+          { types: [ 'shopping_mall' ],
+          location: { latitude: 39.5296529, longitude: -119.8137027 },
+          id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+          name: 'Legend Outlet' },
+          { types: [ 'dentist' ],
+          location: { latitude: 39.5296345, longitude: -119.8136027 },
+          id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+          name: 'Hugh Family Dentistry' }
         ]
 
         if (cand) {
@@ -525,7 +533,6 @@ export default class Fetching extends Component {
               behavior = 'hamburger'
             }
             if (First_shop_name.indexOf('ramen') > -1) {
-              console.log('qwer')
               behavior = 'ramen'
             }
             if (First_shop_name.indexOf('ice cream') > -1) {
@@ -547,6 +554,30 @@ export default class Fetching extends Component {
     }
     /** No Correction ENDS */
     /** Current behavior has been created */
+    console.log(resting_sec)
+
+    if(Last_Behavior != behavior){
+      if(Last_Behavior=='walking'||Last_Behavior=='running'||Last_Behavior=='bike') {
+        var resting_counts = setInterval( () => {
+          resting_sec += 1
+        }, 100)
+      }
+      else if(Last_Behavior=='driving') {
+        var resting_counts = setInterval( () => {
+          resting_sec += 1
+        }, 1000)
+      }
+    }
+
+    if(resting_sec != -1) {
+      if(resting_sec <= 300) {
+        behavior = Last_Behavior
+      }
+      else{
+        clearInterval(resting_counts)
+      }
+    }
+
 
     console.log('****** New ****** ', behavior, First_shop_name)
 
@@ -636,7 +667,7 @@ export default class Fetching extends Component {
 
     /** However, Moving behavior Has Higher Priority */
     for (i=0; i<behaviors_count.length; i++) {
-      if (behaviors_count[i][0] == 'phone' || behaviors_count[i][0] == 'walking' || behaviors_count[i][0] == 'running' || behaviors_count[i][0] == 'driving') {
+      if (behaviors_count[i][0] == 'phone' || behaviors_count[i][0] == 'walking' || behaviors_count[i][0] == 'running' || behaviors_count[i][0] == 'bike' || behaviors_count[i][0] == 'driving') {
         if (behaviors_count[i][1] >= 3) {
           behavior = behaviors_count[i][0]
         }
@@ -670,6 +701,7 @@ export default class Fetching extends Component {
       data.Last_Behavior = Last_Behavior
     } else {
       data.behavior_CHANGED = 'NULL'
+      resting_sec = -1
     }
 
     data.acc = this.state.acc

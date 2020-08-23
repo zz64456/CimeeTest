@@ -1,0 +1,208 @@
+{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": 0.05804443359375,
+      "y": -0.679168701171875,
+      "z": -0.6567230224609375,
+      "timestamp": "2020-08-08 15:54:16.9480"
+    },
+    "position": {
+      "speed": 0.1960335671901703,
+      "longitude": -119.8145685677805,
+      "latitude": 39.54664116939881,
+      "accuracy": 6.000906205260658,
+      "heading": 0.9496041885146356,
+      "altitude": 1397.2340670652038,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "baseball",
+  "Covered": false
+}{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": -0.036346435546875,
+      "y": -0.739227294921875,
+      "z": -0.711822509765625,
+      "timestamp": "2020-08-08 15:54:19.9380"
+    },
+    "position": {
+      "speed": 0.00862311664968729,
+      "longitude": -119.81457198432958,
+      "latitude": 39.54664249302538,
+      "accuracy": 6.000906205260658,
+      "heading": 2.7325403343120755,
+      "altitude": 1397.2412288218566,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "baseball",
+  "Covered": false
+}{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": -0.051788330078125,
+      "y": -0.7551727294921875,
+      "z": -0.685516357421875,
+      "timestamp": "2020-08-08 15:54:22.9570"
+    },
+    "position": {
+      "speed": 0.01704837568104267,
+      "longitude": -119.81457210021361,
+      "latitude": 39.54664411187377,
+      "accuracy": 6.000906205260658,
+      "heading": 357.16020860631846,
+      "altitude": 1397.2271998508008,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "baseball",
+  "Covered": false
+}{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": -0.0807952880859375,
+      "y": -0.780181884765625,
+      "z": -0.6458282470703125,
+      "timestamp": "2020-08-08 15:54:31.9180"
+    },
+    "position": {
+      "speed": 0.01784304529428482,
+      "longitude": -119.81457293280504,
+      "latitude": 39.546646966426906,
+      "accuracy": 6.000906205260658,
+      "heading": 22.861128095463773,
+      "altitude": 1397.2177739288918,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "baseball",
+  "Covered": false
+}{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": -0.0779571533203125,
+      "y": -0.7629241943359375,
+      "z": -0.65667724609375,
+      "timestamp": "2020-08-08 15:54:34.8900"
+    },
+    "position": {
+      "speed": 0.0030182432383298874,
+      "longitude": -119.81457246016649,
+      "latitude": 39.54664710983506,
+      "accuracy": 6.000906205260658,
+      "heading": 23.43783853312838,
+      "altitude": 1397.213949170258,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "baseball",
+  "Covered": false
+}{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": -0.0779571533203125,
+      "y": -0.7629241943359375,
+      "z": -0.65667724609375,
+      "timestamp": "2020-08-08 15:54:34.8900"
+    },
+    "position": {
+      "speed": 0.0030182432383298874,
+      "longitude": -119.81457246016649,
+      "latitude": 39.54664710983506,
+      "accuracy": 6.000906205260658,
+      "heading": 23.43783853312838,
+      "altitude": 1397.213949170258,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "baseball",
+  "Covered": false
+}{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": -0.0123443603515625,
+      "y": -0.671966552734375,
+      "z": -0.7568359375,
+      "timestamp": "2020-08-08 15:54:40.8950"
+    },
+    "position": {
+      "speed": 0.019091809168457985,
+      "longitude": -119.8145741122489,
+      "latitude": 39.54664650072667,
+      "accuracy": 6.000906205260658,
+      "heading": 18.159292465171397,
+      "altitude": 1397.2175154213373,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "baseball",
+  "Covered": false
+}{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": 0.1359710693359375,
+      "y": -0.8178558349609375,
+      "z": -0.589385986328125,
+      "timestamp": "2020-08-08 17:07:52.1730"
+    },
+    "distance": 37,
+    "LastInData": [
+      39.56204584843062,
+      -119.81690675218037
+    ],
+    "FirstInData": [
+      39.56182511991605,
+      -119.81658472394352
+    ],
+    "position": {
+      "speed": 0.228414848446846,
+      "longitude": -119.81694534069692,
+      "latitude": 39.562003692338166,
+      "accuracy": 16.912284669614703,
+      "heading": 262.6446792490856,
+      "altitude": 1499.8841506902893,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "baseball",
+  "Covered": false
+}{
+  "SensorData": {
+    "behavior_CHANGED": "NULL",
+    "acc": {
+      "x": 0.041595458984375,
+      "y": -0.3342437744140625,
+      "z": -0.9708404541015625,
+      "timestamp": "2020-08-14 11:47:49.0110"
+    },
+    "position": {
+      "speed": 0.1591567099094391,
+      "longitude": -119.80503278721248,
+      "latitude": 39.50324313358994,
+      "accuracy": 12.001812410521316,
+      "heading": -1,
+      "altitude": 1362.813930500385,
+      "altitudeAccuracy": 3
+    },
+    "behavior": "movie_theater"
+  },
+  "CorrectionBehavior": "bathing",
+  "Covered": false
+}
