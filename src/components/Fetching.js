@@ -210,47 +210,38 @@ export default class Fetching extends Component {
   fetchNearestPlacesFromGoogle = () => {
 
     console.log("Fetch Nearest Places...")
-    // if (this.state.position) {
-    //   const latitude = this.state.position.coords.latitude; // you can update it with user's latitude & Longitude
-    //   const longitude = this.state.position.coords.longitude;
-
-    //   const url =   'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA&location='+latitude+','+longitude+'&radius=20'
-
-    //   fetch(url)
-    //     .then(res => {
-    //       return res.json()
-    //     })
-    //     .then(res => {
-    //       // console.log(res.results)
-    //       var places = [] // This Array WIll contain locations received from google
-    //       for(let googlePlace of res.results) {
-    //         var place = {}
-    //         var lat = googlePlace.geometry.location.lat;
-    //         var lng = googlePlace.geometry.location.lng;
-    //         var coordinate = {
-    //           latitude: lat,
-    //           longitude: lng,
-    //         }
-
-    //         place['types'] = googlePlace.types
-    //         place['location'] = coordinate
-    //         place['id'] = googlePlace.place_id
-    //         place['name'] = googlePlace.name
-
-    //         places.push(place);
-
-            
-    //       }
-    //       this.setState({candidateLocations: places})
-    //       // console.log('placesQQQ', places)
-    //       // this.setState({ })
-    //       // Do your work here with places Array
+    if (this.state.position) {
+      const latitude = this.state.position.coords.latitude; // you can update it with user's latitude & Longitude
+      const longitude = this.state.position.coords.longitude;
+      const url =   'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA&location='+latitude+','+longitude+'&radius=20'
+      fetch(url)
+        .then(res => {
+          return res.json()
+        })
+        .then(res => {
+          // console.log(res.results)
+          var places = [] // This Array WIll contain locations received from google
+          for(let googlePlace of res.results) {
+            var place = {}
+            var lat = googlePlace.geometry.location.lat;
+            var lng = googlePlace.geometry.location.lng;
+            var coordinate = {
+              latitude: lat,
+              longitude: lng,
+            }
+            place['types'] = googlePlace.types
+            place['location'] = coordinate
+            place['id'] = googlePlace.place_id
+            place['name'] = googlePlace.name
+            places.push(place);
+          }
+          this.setState({candidateLocations: places})
       
-    //     })
-    //   .catch(error => {
-    //     console.log('e...', error);
-    //   });
-    // }
+        })
+      .catch(error => {
+        console.log('e...', error);
+      });
+    }
 
   }
  
@@ -400,7 +391,7 @@ export default class Fetching extends Component {
 
     
       // if ( (Math.abs(this.state.acc.x) > 0.1 && Math.abs(this.state.acc.y) > 0.1) && distance > 10 ) {
-      if ( distance > 10 ) {
+      if ( distance > 5 ) {
     
         /**
          * It's probably moving -> Decide which way:  1.Walk 2.Run 3.Cycling 3.Car
@@ -440,7 +431,7 @@ export default class Fetching extends Component {
         else {
           console.log('User is not moving...')
         }
-
+        behavior = 'driving'
       }
       /** Moving ENDS */
       
@@ -456,30 +447,30 @@ export default class Fetching extends Component {
 
         /** Default: Candidate Location[0] */
 
-        // cand = this.state.candidateLocations
+        cand = this.state.candidateLocations
 
-        cand = [
-          { types: [ 'movie_theater' ],
-            location: { latitude: 39.5032737, longitude: -119.8053357 },
-            id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
-            name: "I movie" },
-          { types: [ 'food', 'restaurant', 'bar', 'cafe' ],
-            location: { latitude: 39.5032737, longitude: -119.8053357 },
-            id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
-            name: "wild river grille" },
-          { types: [ 'supermarket' ],
-            location: { latitude: 39.5296329, longitude: -119.8138027 },
-            id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-            name: 'SafeWay' },
-          { types: [ 'shopping_mall' ],
-          location: { latitude: 39.5296529, longitude: -119.8137027 },
-          id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-          name: 'Legend Outlet' },
-          { types: [ 'dentist' ],
-          location: { latitude: 39.5296345, longitude: -119.8136027 },
-          id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
-          name: 'Hugh Family Dentistry' }
-        ]
+        // cand = [
+        //   { types: [ 'movie_theater' ],
+        //     location: { latitude: 39.5032737, longitude: -119.8053357 },
+        //     id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
+        //     name: "Riverside century theater" },
+        //   { types: [ 'food', 'restaurant', 'bar', 'cafe' ],
+        //     location: { latitude: 39.5032737, longitude: -119.8053357 },
+        //     id: 'ChIJdwIWcZFAmYARYUeZeDZ32zY',
+        //     name: "wild river grille" },
+        //   { types: [ 'supermarket' ],
+        //     location: { latitude: 39.5296329, longitude: -119.8138027 },
+        //     id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+        //     name: 'SafeWay' },
+        //   { types: [ 'shopping_mall' ],
+        //   location: { latitude: 39.5296529, longitude: -119.8137027 },
+        //   id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+        //   name: 'Legend Outlet' },
+        //   { types: [ 'dentist' ],
+        //   location: { latitude: 39.5296345, longitude: -119.8136027 },
+        //   id: 'ChIJnaCSkq5AmYARh_c4dM7FxUA',
+        //   name: 'Hugh Family Dentistry' }
+        // ]
 
         if (cand) {
  
@@ -556,27 +547,28 @@ export default class Fetching extends Component {
     /** Current behavior has been created */
     console.log(resting_sec)
 
-    if(Last_Behavior != behavior){
-      if(Last_Behavior=='walking'||Last_Behavior=='running'||Last_Behavior=='bike') {
-        var resting_counts = setInterval( () => {
-          resting_sec += 1
-        }, 100)
-      }
-      else if(Last_Behavior=='driving') {
-        var resting_counts = setInterval( () => {
-          resting_sec += 1
-        }, 1000)
-      }
-    }
+    // if(Last_Behavior != behavior){
+    //   if(Last_Behavior=='walking'||Last_Behavior=='running'||Last_Behavior=='bike') {
+    //     var resting_counts = setInterval( () => {
+    //       resting_sec += 1
+    //     }, 100)
+    //   }
+    //   else if(Last_Behavior=='driving') {
+    //     console.log('DRIVING!!!')
+    //     var resting_counts = setInterval( () => {
+    //       resting_sec += 1
+    //     }, 1000)
+    //   }
+    // }
 
-    if(resting_sec != -1) {
-      if(resting_sec <= 300) {
-        behavior = Last_Behavior
-      }
-      else{
-        clearInterval(resting_counts)
-      }
-    }
+    // if(resting_sec != -1) {
+    //   if(resting_sec <= 300) {
+    //     behavior = Last_Behavior
+    //   }
+    //   else{
+    //     clearInterval(resting_counts)
+    //   }
+    // }
 
 
     console.log('****** New ****** ', behavior, First_shop_name)
