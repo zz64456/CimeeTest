@@ -1,6 +1,6 @@
 # CimeeTest
 
-** Master's Thesis **
+**Master's Thesis**
 
 # Behavior Sharing Social Networking Application
 CimeeTest is developed by me, Neil Chuang for thesis usage only.
@@ -13,4 +13,4 @@ Pictures from Bitmoji are utilized here for example displays.
     <img src="https://upload.cc/i1/2020/09/08/UzvHIX.png" width="180" height="330" alt="使用者選擇行為"/>
 </div>
 
-** More details can be found in the presentation slides: https://docs.google.com/presentation/d/19LLZ9J4SgB2yL9Nzq5DTVwg5DFoD9h7wqKlVR7LfQ_s/edit?usp=sharing **
+**More details can be found in the presentation slides: https://docs.google.com/presentation/d/19LLZ9J4SgB2yL9Nzq5DTVwg5DFoD9h7wqKlVR7LfQ_s/edit?usp=sharing**
