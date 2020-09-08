@@ -9,8 +9,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import {behaviors_URIs} from '../bitmoji/bitmoji'
 
 
-// Geocoder.init("AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA");
-Geocoder.init("AIzaSyAVhJOCkONDBi9zxwtVaiXAQajZu-B0GxU");
 
 /** real-world implementation */
 // import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -213,7 +211,7 @@ export default class Fetching extends Component {
     if (this.state.position) {
       const latitude = this.state.position.coords.latitude; // you can update it with user's latitude & Longitude
       const longitude = this.state.position.coords.longitude;
-      const url =   'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=AIzaSyBNKl2oWD9Euz0-Nd8NrCcx-yONA9r5qSA&location='+latitude+','+longitude+'&radius=20'
+      const url =   'yourAPIkey'+latitude+','+longitude+'&radius=20'
       fetch(url)
         .then(res => {
           return res.json()
